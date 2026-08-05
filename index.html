@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#05070a" />
+  <meta name="description" content="B.L.A.C.K.O.U.T. is a single-player tactical FPS blending 1970s Cold War aesthetics, science fiction, and survival horror." />
+  <title>B.L.A.C.K.O.U.T. — Tactical Realism Horror</title>
+  <style>
+    :root{
+      --bg:#05070a;--panel:#0b0f14;--panel2:#10161d;--text:#eef2f5;--muted:#9ba8b4;
+      --line:rgba(255,255,255,.12);--accent:#c7d3dc;--danger:#b03a3a;--max:1180px;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;line-height:1.6;overflow-x:hidden}
+    a{color:inherit;text-decoration:none} img{display:block;max-width:100%}
+    .noise{position:fixed;inset:0;pointer-events:none;opacity:.07;z-index:10;background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.2) 0,rgba(255,255,255,.2) 1px,transparent 1px,transparent 3px)}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:20;background:linear-gradient(180deg,rgba(5,7,10,.95),rgba(5,7,10,.62),transparent);backdrop-filter:blur(10px)}
+    .nav-inner{max-width:var(--max);margin:auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{font-weight:900;letter-spacing:.28em;font-size:.98rem}.brand span{color:#8996a3}
+    .links{display:flex;gap:22px;color:var(--muted);font-size:.82rem;text-transform:uppercase;letter-spacing:.12em}.links a:hover{color:white}
+    .hero{min-height:100vh;display:grid;align-items:end;position:relative;background:
+      linear-gradient(90deg,rgba(2,3,5,.96) 0%,rgba(2,3,5,.7) 43%,rgba(2,3,5,.22) 75%,rgba(2,3,5,.65) 100%),
+      linear-gradient(0deg,var(--bg) 0%,transparent 38%),url('assets/anomaly-01.png') center/cover no-repeat}
+    .hero:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 46%,transparent 0 17%,rgba(0,0,0,.42) 62%,rgba(0,0,0,.82) 100%)}
+    .hero-content{position:relative;z-index:2;max-width:var(--max);width:100%;margin:auto;padding:150px 24px 92px}
+    .eyebrow{font-size:.75rem;letter-spacing:.34em;text-transform:uppercase;color:#aeb8c1;margin-bottom:20px}
+    h1{font-size:clamp(3.2rem,10vw,8.4rem);line-height:.88;margin:0;letter-spacing:-.05em;font-weight:950;text-transform:uppercase}
+    .tagline{margin-top:20px;font-size:clamp(.9rem,2vw,1.3rem);letter-spacing:.45em;text-transform:uppercase;color:#d5dde3}
+    .lead{max-width:760px;margin:30px 0 0;color:#c3cbd2;font-size:clamp(1rem,1.8vw,1.25rem)}
+    .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 18px;border:1px solid var(--line);background:rgba(255,255,255,.05);font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.75rem}
+    .btn.primary{background:#e8edf1;color:#0a0c0f;border-color:#e8edf1}.btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
+    section{padding:92px 24px}.wrap{max-width:var(--max);margin:auto}
+    .section-head{display:grid;grid-template-columns:.9fr 1.4fr;gap:48px;align-items:start;margin-bottom:44px}
+    .kicker{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:#8e9aa5}
+    h2{font-size:clamp(2rem,5vw,4.4rem);line-height:1.02;margin:.5rem 0 0;text-transform:uppercase;letter-spacing:-.03em}
+    .section-copy{color:#b4bec7;font-size:1.06rem;margin:0}
+    .grid{display:grid;gap:16px}.features{grid-template-columns:repeat(4,1fr)}
+    .card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);padding:24px;min-height:190px}
+    .card .num{font-size:.72rem;letter-spacing:.2em;color:#7f8b96}.card h3{margin:28px 0 10px;text-transform:uppercase;letter-spacing:.06em;font-size:1rem}.card p{margin:0;color:#96a2ad;font-size:.93rem}
+    .story{background:linear-gradient(180deg,#090c10,#05070a)}
+    .story-panel{display:grid;grid-template-columns:1.1fr .9fr;border:1px solid var(--line);background:#090d12}
+    .story-text{padding:42px}.story-text p{color:#aeb8c1}.story-image{min-height:460px;background:url('assets/anomaly-05.png') center/cover no-repeat;position:relative}.story-image:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#090d12,transparent 45%)}
+    .pillars{grid-template-columns:repeat(3,1fr)}
+    .pillar{padding:24px 0;border-top:1px solid var(--line);font-size:1.1rem;text-transform:uppercase;letter-spacing:.08em}
+    .gallery{grid-template-columns:repeat(2,1fr)}.gallery figure{margin:0;position:relative;overflow:hidden;border:1px solid var(--line);background:#05070a}.gallery img{width:100%;aspect-ratio:3/2;object-fit:cover;filter:saturate(.75) contrast(1.08);transition:.35s transform,.35s filter}.gallery figure:hover img{transform:scale(1.02);filter:saturate(1) contrast(1.1)}.gallery figcaption{position:absolute;left:18px;bottom:14px;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:#d5dde3;text-shadow:0 2px 8px #000}
+    .status{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.status-box{border:1px solid var(--line);padding:28px;background:#0a0e13}.status-box strong{display:block;font-size:1.6rem;margin-top:8px}.status-box span{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#8996a3}
+    footer{border-top:1px solid var(--line);padding:38px 24px;color:#7f8b96}.footer-inner{max-width:var(--max);margin:auto;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}.legal{max-width:760px;font-size:.82rem}
+    @media(max-width:900px){.features{grid-template-columns:repeat(2,1fr)}.section-head,.story-panel{grid-template-columns:1fr}.story-image{min-height:340px;order:-1}.story-image:after{background:linear-gradient(0deg,#090d12,transparent 45%)}.pillars{grid-template-columns:repeat(2,1fr)}.status{grid-template-columns:1fr}.links{display:none}}
+    @media(max-width:600px){section{padding:68px 18px}.hero-content{padding:130px 18px 64px}.features,.gallery,.pillars{grid-template-columns:1fr}.tagline{letter-spacing:.22em}.brand{letter-spacing:.18em}.card{min-height:auto}.story-text{padding:26px}}
+  </style>
+</head>
+<body id="top">
+  <div class="noise"></div>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top">B.L.A.C.K.<span>O.U.T.</span></a>
+      <nav class="links" aria-label="Primary navigation">
+        <a href="#about">About</a><a href="#features">Features</a><a href="#story">Story</a><a href="#gallery">Gallery</a><a href="#status">Status</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">Single-player tactical first-person shooter</div>
+        <h1>B.L.A.C.K.<br>O.U.T.</h1>
+        <div class="tagline">Tactical · Realism · Horror</div>
+        <p class="lead">A grounded tactical FPS where 1970s Cold War paranoia collides with retro-futuristic science fiction and survival horror.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="#about">Enter the operation</a>
+          <a class="btn" href="#status">Development status</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="kicker">01 / Overview</div><h2>Contain the outbreak</h2></div>
+          <p class="section-copy">Following the discovery of an ancient underwater civilization, the Morticaius infection escapes containment. Players command the B.L.A.C.K.O.U.T. Unit alongside AI squad companions to rescue survivors, recover classified research, and prevent humanity's extinction.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="wrap">
+        <div class="section-head"><div><div class="kicker">02 / Core Features</div><h2>Built around pressure</h2></div><p class="section-copy">Preparation, positioning, teamwork, and resource discipline matter more than constant action.</p></div>
+        <div class="grid features">
+          <article class="card"><div class="num">01</div><h3>Tactical combat</h3><p>Methodical first-person gunplay focused on realism, planning, and controlled engagements.</p></article>
+          <article class="card"><div class="num">02</div><h3>AI squad companions</h3><p>Story-driven allies support containment operations, rescue missions, and coordinated assaults.</p></article>
+          <article class="card"><div class="num">03</div><h3>Cold War science fiction</h3><p>Authentic 1970s military influence fused with experimental retro-futuristic technology.</p></article>
+          <article class="card"><div class="num">04</div><h3>Adaptive horror</h3><p>Morticaius creates evolving biological threats that demand more than traditional zombie tactics.</p></article>
+          <article class="card"><div class="num">05</div><h3>Mission progression</h3><p>Explore facilities, recover research, and uncover the truth through environmental storytelling.</p></article>
+          <article class="card"><div class="num">06</div><h3>Funding and equipment</h3><p>Successful operations unlock weapons, facilities, equipment, and experimental technology.</p></article>
+          <article class="card"><div class="num">07</div><h3>Resource management</h3><p>Balance ammunition, supplies, squad readiness, and operational risk before every deployment.</p></article>
+          <article class="card"><div class="num">08</div><h3>Biological enemy design</h3><p>Unique regeneration and mutation rules create tactical weak points and shifting combat priorities.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="story" id="story">
+      <div class="wrap">
+        <div class="story-panel">
+          <div class="story-text"><div class="kicker">03 / Story</div><h2>The enemy remembers every cell</h2><p>During the height of the Cold War, an expedition discovers the remains of an ancient underwater civilization surrounding an unidentified lifeform. After recovery, the specimen mutates under the influence of Morticaius and rapidly escapes containment.</p><p>As facilities collapse across the country, the newly formed B.L.A.C.K.O.U.T. Unit is deployed against an organism capable of consuming, replacing, and rebuilding living hosts from only a handful of surviving cells.</p></div>
+          <div class="story-image" role="img" aria-label="Abstract biological anomaly"></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head"><div><div class="kicker">04 / Gameplay Pillars</div><h2>Every decision has weight</h2></div><p class="section-copy">The project combines tactical combat, squad coordination, survival horror, exploration, resource management, and environmental narrative.</p></div>
+        <div class="grid pillars"><div class="pillar">Tactical Combat</div><div class="pillar">Squad Coordination</div><div class="pillar">Survival Horror</div><div class="pillar">Exploration</div><div class="pillar">Resource Management</div><div class="pillar">Mission Progression</div></div>
+      </div>
+    </section>
+
+    <section id="gallery">
+      <div class="wrap">
+        <div class="section-head"><div><div class="kicker">05 / Visual Archive</div><h2>Anomaly studies</h2></div><p class="section-copy">Experimental visual material representing unstable biological and signal phenomena within the B.L.A.C.K.O.U.T. universe.</p></div>
+        <div class="grid gallery">
+          <figure><img src="assets/anomaly-02.png" alt="Blue-green vertical anomaly pattern"><figcaption>Signal Variant 02</figcaption></figure>
+          <figure><img src="assets/anomaly-03.png" alt="Pale cyan vertical anomaly pattern"><figcaption>Signal Variant 03</figcaption></figure>
+          <figure><img src="assets/anomaly-04.png" alt="Dark multicolor vertical anomaly pattern"><figcaption>Signal Variant 04</figcaption></figure>
+          <figure><img src="assets/anomaly-05.png" alt="Magenta and green diagonal anomaly pattern"><figcaption>Signal Variant 05</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section id="status">
+      <div class="wrap">
+        <div class="section-head"><div><div class="kicker">06 / Development</div><h2>Pre-production</h2></div><p class="section-copy">Current work focuses on story and worldbuilding, core mechanics, enemy AI, tactical squad systems, mission framework, environment production, and development tooling.</p></div>
+        <div class="status"><div class="status-box"><span>Engine</span><strong>Unity 6.5</strong></div><div class="status-box"><span>Format</span><strong>Single Player</strong></div><div class="status-box"><span>Genre</span><strong>Tactical Horror FPS</strong></div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="footer-inner"><div class="brand">B.L.A.C.K.O.U.T.</div><div class="legal">This project is under active development. All assets, source code, artwork, designs, and documentation are the intellectual property of the development team unless otherwise specified. Redistribution or commercial use without permission is prohibited.</div></div></footer>
+</body>
+</html>
