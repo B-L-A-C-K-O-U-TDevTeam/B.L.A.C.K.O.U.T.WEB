@@ -889,6 +889,2388 @@
       }
     }
 
+
+    /* =========================================================
+       PLAYABLE B.L.A.C.K.O.U.T. TERMINAL MINI-GAME
+       Retains the original procedural-camera visual language.
+       ========================================================= */
+    .playable-terminal{min-width:0}
+    .sim-window-actions{display:flex;align-items:center;gap:9px}
+    .sim-icon-button{
+      width:27px;height:27px;display:grid;place-items:center;padding:0;
+      border:1px solid rgba(183,194,161,.25);background:rgba(183,194,161,.04);
+      color:rgba(225,233,219,.78);font:700 .85rem/1 "Courier New",monospace;
+      cursor:pointer;transition:.22s ease;
+    }
+    .sim-icon-button:hover,.sim-icon-button:focus-visible{
+      color:#fff;border-color:rgba(183,194,161,.55);
+      background:rgba(183,194,161,.11);outline:none;
+      box-shadow:0 0 16px rgba(183,194,161,.09);
+    }
+
+    .playable-screen{cursor:crosshair;user-select:none;touch-action:none;min-height:300px}
+    .playable-screen:focus{outline:1px solid rgba(183,194,161,.35);outline-offset:3px}
+    .playable-screen.pointer-locked{cursor:none}
+    .sim-hud{transition:opacity .2s ease}
+    .sim-hud.is-hidden{opacity:0}
+
+    .sim-health{
+      position:absolute;left:15px;top:42px;
+      display:grid;grid-template-columns:auto 105px auto;align-items:center;gap:8px;
+      color:rgba(222,234,215,.72);font-size:.52rem;
+    }
+    .sim-health-track{
+      width:105px;height:6px;border:1px solid rgba(183,194,161,.27);
+      background:rgba(0,0,0,.48);overflow:hidden;
+    }
+    .sim-health-track i{
+      display:block;width:100%;height:100%;
+      background:linear-gradient(90deg,#708a65,#c0d0b5);
+      box-shadow:0 0 9px rgba(183,194,161,.24);transition:width .16s linear;
+    }
+    .sim-score{
+      position:absolute;right:15px;top:42px;text-align:right;
+      color:rgba(222,234,215,.72);font-size:.52rem;
+    }
+    .sim-score span,.sim-score b{display:block}
+    .sim-score b{font-size:1rem;letter-spacing:.12em}
+    .sim-hud .hud-ammo small{display:block}
+    .sim-hud .hud-status{max-width:62%}
+
+    .sim-crosshair{
+      position:absolute;z-index:8;left:50%;top:50%;width:42px;height:42px;
+      transform:translate(-50%,-50%);pointer-events:none;
+      filter:drop-shadow(0 1px 2px #000);
+    }
+    .sim-crosshair i{position:absolute;background:rgba(211,226,202,.72)}
+    .sim-crosshair i:nth-child(1){left:0;top:20px;width:10px;height:1px}
+    .sim-crosshair i:nth-child(2){right:0;top:20px;width:10px;height:1px}
+    .sim-crosshair i:nth-child(3){left:20px;top:0;width:1px;height:10px}
+    .sim-crosshair i:nth-child(4){left:20px;bottom:0;width:1px;height:10px}
+    .sim-crosshair b{
+      position:absolute;left:19px;top:19px;width:3px;height:3px;
+      background:rgba(211,226,202,.82);border-radius:50%;
+    }
+    .playable-screen.is-firing .sim-crosshair{transform:translate(-50%,-50%) scale(1.18)}
+    .playable-screen.is-damaged{animation:sim-damage .19s steps(2,end)}
+
+    .sim-menu{
+      position:absolute;z-index:12;inset:0;display:flex;flex-direction:column;
+      align-items:center;justify-content:center;gap:14px;padding:28px;text-align:center;
+      color:#e5eadf;
+      background:
+        linear-gradient(rgba(3,5,3,.72),rgba(3,5,3,.93)),
+        repeating-linear-gradient(0deg,transparent 0 4px,rgba(183,194,161,.04) 4px 5px);
+      backdrop-filter:blur(5px);
+    }
+    .sim-menu[hidden]{display:none}
+    .sim-menu:before{
+      content:"";position:absolute;inset:0;pointer-events:none;opacity:.3;
+      background:linear-gradient(108deg,transparent 0 42%,rgba(183,194,161,.10) 49%,transparent 57%);
+      background-size:270% 100%;animation:sim-menu-scan 6.5s linear infinite;
+    }
+    .sim-menu > *{position:relative;z-index:1}
+    .sim-menu h3{
+      margin:0;font-size:clamp(1.45rem,3vw,2.55rem);line-height:1;
+      text-transform:uppercase;letter-spacing:.04em;
+    }
+    .sim-menu p{max-width:560px;margin:0;color:#aeb8c1;font-size:.88rem}
+    .sim-menu-stamp{
+      color:rgba(214,170,98,.82);font:700 .59rem/1.4 "Courier New",monospace;
+      letter-spacing:.22em;text-transform:uppercase;
+    }
+    .sim-menu-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:4px}
+    .sim-control-panel{
+      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:7px 12px;max-width:570px;width:100%;
+      color:rgba(199,211,220,.76);font:700 .56rem/1.45 "Courier New",monospace;
+      text-transform:uppercase;letter-spacing:.05em;
+    }
+    .sim-control-panel[hidden]{display:none}
+    .sim-control-panel span{
+      border:1px solid rgba(183,194,161,.14);
+      background:rgba(183,194,161,.025);padding:7px 9px;
+    }
+    .sim-control-panel b{color:#eef2e9}
+    .sim-menu-footer{
+      margin-top:4px;color:rgba(183,194,161,.38);
+      font:700 .48rem/1.45 "Courier New",monospace;
+      letter-spacing:.12em;text-transform:uppercase;
+    }
+
+    .sim-touch-controls{
+      display:none;position:absolute;z-index:10;left:9px;right:9px;bottom:9px;
+      justify-content:space-between;align-items:end;pointer-events:none;
+    }
+    .sim-touch-move{
+      display:grid;grid-template-columns:repeat(3,46px);
+      grid-template-rows:repeat(2,44px);gap:4px;pointer-events:none;
+    }
+    .sim-touch-move button,.sim-touch-fire{
+      border:1px solid rgba(183,194,161,.28);background:rgba(3,5,3,.62);
+      color:rgba(231,238,225,.85);font:700 .7rem/1 "Courier New",monospace;
+      pointer-events:auto;touch-action:none;
+    }
+    .sim-touch-move button[data-sim-key="w"]{grid-column:2;grid-row:1}
+    .sim-touch-move button[data-sim-key="a"]{grid-column:1;grid-row:2}
+    .sim-touch-move button[data-sim-key="s"]{grid-column:2;grid-row:2}
+    .sim-touch-move button[data-sim-key="d"]{grid-column:3;grid-row:2}
+    .sim-touch-fire{
+      width:68px;height:68px;border-radius:50%;color:rgba(241,204,143,.92);
+      border-color:rgba(214,170,98,.5);
+    }
+
+    .playable-terminal.is-fullscreen{
+      position:fixed!important;inset:0!important;z-index:10000!important;
+      width:100vw!important;height:100vh!important;max-width:none!important;
+      padding:14px!important;background:#020302;clip-path:none!important;
+    }
+    .playable-terminal.is-fullscreen .combat-screen{
+      height:calc(100vh - 70px);aspect-ratio:auto;margin-top:9px;
+    }
+    .playable-terminal.is-fullscreen .combat-caption{display:none}
+
+    @keyframes sim-menu-scan{to{background-position:-270% 0}}
+    @keyframes sim-damage{
+      0%{box-shadow:inset 0 0 0 999px rgba(139,35,28,.34)}
+      100%{box-shadow:inset 0 0 0 999px rgba(139,35,28,0)}
+    }
+
+    @media(max-width:760px),(pointer:coarse){
+      .sim-touch-controls{display:flex}
+      .sim-control-panel{grid-template-columns:1fr}
+      .sim-health{grid-template-columns:auto 70px auto}
+      .sim-health-track{width:70px}
+      .sim-menu{padding:18px}
+      .sim-menu p{font-size:.76rem}
+      .playable-screen{min-height:370px}
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      .sim-menu:before,.playable-screen.is-damaged{animation:none!important}
+    }
+
+  </style>
+</head>
+<body id="top">
+  <div class="page-transition" aria-hidden="true"><div class="transition-mark" data-text="B.L.A.C.K.O.U.T.">B.L.A.C.K.O.U.T.</div></div>
+  <div class="noise"></div>
+  <div class="film-dust" aria-hidden="true"></div>
+  <div class="crt-vignette" aria-hidden="true"></div>
+  <div class="radar-sweep" aria-hidden="true"></div>
+  <div class="signal-ticker" aria-hidden="true">
+    <span>SECURE CHANNEL // CLASSIFIED SIGNAL // OPERATION ACTIVE // SECURE CHANNEL // CLASSIFIED SIGNAL // OPERATION ACTIVE //</span>
+  </div>
+  <button class="sound-toggle" type="button" aria-pressed="false" aria-label="Enable interface sound">
+    <span class="sound-dot" aria-hidden="true"></span>
+    <span class="sound-label">Sound: Off</span>
+  </button>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top">B.L.A.C.K.<span>O.U.T.</span></a>
+      <nav class="links" aria-label="Primary navigation">
+        <a href="#about">About</a><a href="#features">Features</a><a href="#story">Story</a><a href="#gallery">Gallery</a><a href="#release">Release</a><a href="#status">Status</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">Single-player tactical first-person shooter</div>
+        <h1 class="hero-title" aria-label="B.L.A.C.K.O.U.T."><span class="glitch" data-text="B.L.A.C.K.">B.L.A.C.K.</span><span class="glitch" data-text="O.U.T.">O.U.T.</span></h1>
+        <div class="tagline">Tactical · Realism · Horror</div>
+        <p class="lead">A grounded tactical FPS where 1970s Cold War paranoia collides with retro-futuristic science fiction and survival horror.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="#about">Enter the operation</a>
+          <a class="btn" href="#status">Development status</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="kicker">01 / Overview</div><h2>Contain the outbreak</h2></div>
+          <p class="section-copy">Following the discovery of an ancient underwater civilization, the Morticaius infection escapes containment. Players command the B.L.A.C.K.O.U.T. Unit alongside AI squad companions to rescue survivors, recover classified research, and prevent humanity's extinction.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="wrap">
+        <div class="section-head"><div><div class="kicker">02 / Core Features</div><h2>Built around pressure</h2></div><p class="section-copy">Preparation, positioning, teamwork, and resource discipline matter more than constant action.</p></div>
+        <div class="grid features">
+          <article class="card feature-card">
+            <div class="num">01</div>
+            <h3>Tactical combat</h3>
+            <details class="feature-dropdown">
+              <summary><span>Open field briefing</span><span class="detail-icon" aria-hidden="true"></span></summary>
+              <div class="feature-detail"><p>Methodical first-person gunplay focused on realism, planning, and controlled engagements.</p></div>
+            </details>
+          </article>
+          <article class="card feature-card">
+            <div class="num">02</div>
+            <h3>AI squad companions</h3>
+            <details class="feature-dropdown">
+              <summary><span>Open field briefing</span><span class="detail-icon" aria-hidden="true"></span></summary>
+              <div class="feature-detail"><p>Story-driven allies support containment operations, rescue missions, and coordinated assaults.</p></div>
+            </details>
+          </article>
+          <article class="card feature-card">
+            <div class="num">03</div>
+            <h3>Cold War science fiction</h3>
+            <details class="feature-dropdown">
+              <summary><span>Open field briefing</span><span class="detail-icon" aria-hidden="true"></span></summary>
+              <div class="feature-detail"><p>Authentic 1970s military influence fused with experimental retro-futuristic technology.</p></div>
+            </details>
+          </article>
+          <article class="card feature-card">
+            <div class="num">04</div>
+            <h3>Adaptive horror</h3>
+            <details class="feature-dropdown">
+              <summary><span>Open field briefing</span><span class="detail-icon" aria-hidden="true"></span></summary>
+              <div class="feature-detail"><p>Morticaius creates evolving biological threats that demand more than traditional zombie tactics.</p></div>
+            </details>
+          </article>
+          <article class="card feature-card">
+            <div class="num">05</div>
+            <h3>Mission progression</h3>
+            <details class="feature-dropdown">
+              <summary><span>Open field briefing</span><span class="detail-icon" aria-hidden="true"></span></summary>
+              <div class="feature-detail"><p>Explore facilities, recover research, and uncover the truth through environmental storytelling.</p></div>
+            </details>
+          </article>
+          <article class="card feature-card">
+            <div class="num">06</div>
+            <h3>Funding and equipment</h3>
+            <details class="feature-dropdown">
+              <summary><span>Open field briefing</span><span class="detail-icon" aria-hidden="true"></span></summary>
+              <div class="feature-detail"><p>Successful operations unlock weapons, facilities, equipment, and experimental technology.</p></div>
+            </details>
+          </article>
+          <article class="card feature-card">
+            <div class="num">07</div>
+            <h3>Resource management</h3>
+            <details class="feature-dropdown">
+              <summary><span>Open field briefing</span><span class="detail-icon" aria-hidden="true"></span></summary>
+              <div class="feature-detail"><p>Balance ammunition, supplies, squad readiness, and operational risk before every deployment.</p></div>
+            </details>
+          </article>
+          <article class="card feature-card">
+            <div class="num">08</div>
+            <h3>Biological enemy design</h3>
+            <details class="feature-dropdown">
+              <summary><span>Open field briefing</span><span class="detail-icon" aria-hidden="true"></span></summary>
+              <div class="feature-detail"><p>Unique regeneration and mutation rules create tactical weak points and shifting combat priorities.</p></div>
+            </details>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="story" id="story">
+      <div class="wrap">
+        <div class="story-panel">
+          <div class="story-text"><div class="kicker">03 / Story</div><h2>The enemy remembers every cell</h2><p>During the height of the Cold War, an expedition discovers the remains of an ancient underwater civilization surrounding an unidentified lifeform. After recovery, the specimen mutates under the influence of Morticaius and rapidly escapes containment.</p><p>As facilities collapse across the country, the newly formed B.L.A.C.K.O.U.T. Unit is deployed against an organism capable of consuming, replacing, and rebuilding living hosts from only a handful of surviving cells.</p></div>
+          <div class="story-image" role="img" aria-label="Abstract biological anomaly"></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head"><div><div class="kicker">04 / Gameplay Pillars</div><h2>Every decision has weight</h2></div><p class="section-copy">The project combines tactical combat, squad coordination, survival horror, exploration, resource management, and environmental narrative.</p></div>
+        <div class="grid pillars"><div class="pillar">Tactical Combat</div><div class="pillar">Squad Coordination</div><div class="pillar">Survival Horror</div><div class="pillar">Exploration</div><div class="pillar">Resource Management</div><div class="pillar">Mission Progression</div></div>
+      </div>
+    </section>
+
+    <section id="gallery">
+      <div class="wrap">
+        <div class="section-head"><div><div class="kicker">05 / Visual Archive</div><h2>Anomaly studies</h2></div><p class="section-copy">Experimental visual material representing unstable biological and signal phenomena within the B.L.A.C.K.O.U.T. universe.</p></div>
+        <div class="grid gallery">
+          <figure><img src="assets/anomaly-02.png" alt="Blue-green vertical anomaly pattern"><figcaption>Signal Variant 02</figcaption></figure>
+          <figure><img src="assets/anomaly-03.png" alt="Pale cyan vertical anomaly pattern"><figcaption>Signal Variant 03</figcaption></figure>
+          <figure><img src="assets/anomaly-04.png" alt="Dark multicolor vertical anomaly pattern"><figcaption>Signal Variant 04</figcaption></figure>
+          <figure><img src="assets/anomaly-05.png" alt="Magenta and green diagonal anomaly pattern"><figcaption>Signal Variant 05</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="release" class="release-section">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="kicker">06 / Estimated Deployment</div>
+            <h2>Late 2028 target window</h2>
+          </div>
+          <p class="section-copy">The current internal release estimate targets late 2028. This countdown is an evolving development target and may change as production advances.</p>
+        </div>
+
+        <div class="release-grid">
+          <div class="countdown-console" aria-label="Estimated game release countdown">
+            <div class="console-topline">
+              <span>PROJECTED DEPLOYMENT CLOCK</span>
+              <span class="live-indicator"><i aria-hidden="true"></i> LIVE</span>
+            </div>
+
+            <div class="countdown" data-release-date="2028-12-15T00:00:00Z">
+              <div class="time-unit"><strong id="countdown-days">000</strong><span>Days</span></div>
+              <div class="time-divider" aria-hidden="true">:</div>
+              <div class="time-unit"><strong id="countdown-hours">00</strong><span>Hours</span></div>
+              <div class="time-divider" aria-hidden="true">:</div>
+              <div class="time-unit"><strong id="countdown-minutes">00</strong><span>Minutes</span></div>
+              <div class="time-divider" aria-hidden="true">:</div>
+              <div class="time-unit"><strong id="countdown-seconds">00</strong><span>Seconds</span></div>
+            </div>
+
+            <div class="release-meta">
+              <span>ESTIMATE: DECEMBER 15, 2028</span>
+              <span>STATUS: SUBJECT TO CHANGE</span>
+            </div>
+          </div>
+
+          <div class="combat-terminal playable-terminal" id="playable-terminal">
+            <div class="combat-header">
+              <span>TACTICAL CAMERA // INTERACTIVE SIMULATION</span>
+              <div class="sim-window-actions">
+                <span class="combat-code">SIM-07</span>
+                <button class="sim-icon-button" id="sim-fullscreen-button" type="button" aria-label="Toggle simulation fullscreen" title="Fullscreen">⛶</button>
+              </div>
+            </div>
+
+            <div class="combat-screen playable-screen" id="sim-screen" tabindex="0" aria-label="Playable B.L.A.C.K.O.U.T. tactical FPS mini-game">
+              <canvas id="combat-feed" width="960" height="540"></canvas>
+
+              <div class="combat-overlay sim-hud" aria-hidden="true">
+                <span class="feed-rec">● LIVE</span>
+                <span class="feed-time" id="sim-timecode">00:00</span>
+                <span class="feed-classified">CLASSIFIED</span>
+
+                <div class="sim-health">
+                  <span>VITALS</span>
+                  <div class="sim-health-track"><i id="sim-health-bar"></i></div>
+                  <b id="sim-health">100</b>
+                </div>
+
+                <div class="sim-score">
+                  <span>SCORE</span>
+                  <b id="sim-score">0000</b>
+                </div>
+
+                <div class="hud-ammo">
+                  <b id="hud-ammo">30</b><small>/ <span id="sim-reserve">120</span></small>
+                </div>
+
+                <div class="hud-status" id="sim-status">SIMULATION STANDBY</div>
+              </div>
+
+              <div class="sim-crosshair" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b></div>
+
+              <div class="sim-menu sim-main-menu" id="sim-main-menu">
+                <div class="sim-menu-stamp">B.L.A.C.K.O.U.T. UNIT // TRAINING PROGRAM</div>
+                <h3>Containment Simulator</h3>
+                <p>Enter a classified bunker exercise and eliminate unstable Morticaius test subjects.</p>
+
+                <div class="sim-menu-actions">
+                  <button class="btn primary" id="sim-start-button" type="button">Begin operation</button>
+                  <button class="btn" id="sim-controls-button" type="button">View controls</button>
+                </div>
+
+                <div class="sim-control-panel" id="sim-control-panel" hidden>
+                  <span><b>WASD</b> Move</span>
+                  <span><b>MOUSE</b> Look around</span>
+                  <span><b>CLICK / SPACE</b> Fire</span>
+                  <span><b>R</b> Reload</span>
+                  <span><b>SHIFT</b> Sprint</span>
+                  <span><b>ESC</b> Pause / unlock mouse</span>
+                </div>
+
+                <div class="sim-menu-footer">Browser-built tactical demonstration // For entertainment while development continues</div>
+              </div>
+
+              <div class="sim-menu sim-pause-menu" id="sim-pause-menu" hidden>
+                <div class="sim-menu-stamp">SIMULATION INTERRUPTED</div>
+                <h3>Operation Paused</h3>
+                <div class="sim-menu-actions">
+                  <button class="btn primary" id="sim-resume-button" type="button">Resume operation</button>
+                  <button class="btn" id="sim-restart-button" type="button">Restart</button>
+                  <button class="btn" id="sim-exit-button" type="button">Main menu</button>
+                </div>
+              </div>
+
+              <div class="sim-menu sim-gameover-menu" id="sim-gameover-menu" hidden>
+                <div class="sim-menu-stamp">OPERATION REPORT</div>
+                <h3 id="sim-gameover-title">Containment Failed</h3>
+                <p id="sim-final-report">Score: 0</p>
+                <div class="sim-menu-actions">
+                  <button class="btn primary" id="sim-retry-button" type="button">Try again</button>
+                  <button class="btn" id="sim-gameover-exit-button" type="button">Main menu</button>
+                </div>
+              </div>
+
+              <div class="sim-touch-controls" aria-label="Touch controls">
+                <div class="sim-touch-move">
+                  <button type="button" data-sim-key="a" aria-label="Move left">◀</button>
+                  <button type="button" data-sim-key="w" aria-label="Move forward">▲</button>
+                  <button type="button" data-sim-key="s" aria-label="Move backward">▼</button>
+                  <button type="button" data-sim-key="d" aria-label="Move right">▶</button>
+                </div>
+                <button class="sim-touch-fire" id="sim-touch-fire" type="button">FIRE</button>
+              </div>
+            </div>
+
+            <div class="combat-caption">Playable classified training simulation — move, look, shoot, reload, pause, restart, and use fullscreen directly in the browser.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="status">
+      <div class="wrap">
+        <div class="section-head"><div><div class="kicker">07 / Development</div><h2>Pre-production</h2></div><p class="section-copy">Current work focuses on story and worldbuilding, core mechanics, enemy AI, tactical squad systems, mission framework, environment production, and development tooling.</p></div>
+        <div class="status"><div class="status-box"><span>Engine</span><strong>Unity 6.5</strong></div><div class="status-box"><span>Format</span><strong>Single Player</strong></div><div class="status-box"><span>Genre</span><strong>Tactical Horror FPS</strong></div></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="footer-inner"><div class="brand">B.L.A.C.K.O.U.T.</div><div class="legal">This project is under active development. All assets, source code, artwork, designs, and documentation are the intellectual property of the development team unless otherwise specified. Redistribution or commercial use without permission is prohibited.</div></div></footer>
+
+  <script>
+    (() => {
+      const body = document.body;
+      const nav = document.querySelector('.nav');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const openPage = () => requestAnimationFrame(() => requestAnimationFrame(() => body.classList.add('is-ready')));
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', openPage, { once: true });
+      } else {
+        openPage();
+      }
+      window.addEventListener('pageshow', () => {
+        body.classList.remove('is-leaving');
+        body.classList.add('is-ready');
+      });
+
+      const revealTargets = [
+        ...document.querySelectorAll('section .section-head, .story-panel, .card, .pillar, .gallery figure, .status-box, footer .footer-inner')
+      ];
+      revealTargets.forEach((element, index) => {
+        element.classList.add('reveal', `reveal-delay-${(index % 3) + 1}`);
+      });
+
+      if (!reducedMotion && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries, instance) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              instance.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
+        revealTargets.forEach(element => observer.observe(element));
+      } else {
+        revealTargets.forEach(element => element.classList.add('is-visible'));
+      }
+
+      const updateNav = () => nav.classList.toggle('scrolled', window.scrollY > 24);
+      updateNav();
+      window.addEventListener('scroll', updateNav, { passive: true });
+
+
+
+      // Keep feature briefings easy to scan: opening one closes the others.
+      const featureDetails = [...document.querySelectorAll('.feature-dropdown')];
+      featureDetails.forEach(detail => {
+        detail.addEventListener('toggle', () => {
+          if (!detail.open) return;
+          featureDetails.forEach(other => {
+            if (other !== detail) other.removeAttribute('open');
+          });
+        });
+      });
+
+      // Occasional lightweight analog signal interference; repeats indefinitely.
+      if (!reducedMotion) {
+        const scheduleSignalHit = () => {
+          const delay = 3800 + Math.random() * 5200;
+          window.setTimeout(() => {
+            if (!document.hidden) {
+              body.classList.add('signal-hit');
+              window.setTimeout(() => body.classList.remove('signal-hit'), 190);
+            }
+            scheduleSignalHit();
+          }, delay);
+        };
+        scheduleSignalHit();
+      }
+
+
+
+      // Real-time estimated release countdown.
+      const countdown = document.querySelector('.countdown');
+      const countdownParts = {
+        days: document.getElementById('countdown-days'),
+        hours: document.getElementById('countdown-hours'),
+        minutes: document.getElementById('countdown-minutes'),
+        seconds: document.getElementById('countdown-seconds')
+      };
+
+      const updateCountdown = () => {
+        if (!countdown) return;
+        const target = new Date(countdown.dataset.releaseDate).getTime();
+        const remaining = Math.max(0, target - Date.now());
+        const totalSeconds = Math.floor(remaining / 1000);
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        countdownParts.days.textContent = String(days).padStart(3, '0');
+        countdownParts.hours.textContent = String(hours).padStart(2, '0');
+        countdownParts.minutes.textContent = String(minutes).padStart(2, '0');
+        countdownParts.seconds.textContent = String(seconds).padStart(2, '0');
+      };
+      updateCountdown();
+      window.setInterval(updateCountdown, 1000);
+
+      // Synthesized interface and combat audio; no external sound files are required.
+      const soundToggle = document.querySelector('.sound-toggle');
+      const soundLabel = soundToggle?.querySelector('.sound-label');
+      let audioEnabled = false;
+      let audioContext = null;
+      let noiseBuffer = null;
+
+      const getAudio = () => {
+        if (!audioContext) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (!AudioContextClass) return null;
+          audioContext = new AudioContextClass();
+
+          noiseBuffer = audioContext.createBuffer(1, audioContext.sampleRate * .25, audioContext.sampleRate);
+          const data = noiseBuffer.getChannelData(0);
+          for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+        }
+        if (audioContext.state === 'suspended') audioContext.resume();
+        return audioContext;
+      };
+
+      const playTone = (frequency = 480, duration = .045, volume = .025, type = 'square') => {
+        if (!audioEnabled) return;
+        const ctx = getAudio();
+        if (!ctx) return;
+        const oscillator = ctx.createOscillator();
+        const gain = ctx.createGain();
+        oscillator.type = type;
+        oscillator.frequency.setValueAtTime(frequency, ctx.currentTime);
+        gain.gain.setValueAtTime(volume, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(.0001, ctx.currentTime + duration);
+        oscillator.connect(gain).connect(ctx.destination);
+        oscillator.start();
+        oscillator.stop(ctx.currentTime + duration);
+      };
+
+      const playClickSound = () => {
+        playTone(620, .035, .022, 'square');
+        window.setTimeout(() => playTone(390, .028, .012, 'square'), 22);
+      };
+
+      const playDropdownSound = (isOpen) => {
+        playTone(isOpen ? 330 : 255, .055, .018, 'sawtooth');
+        window.setTimeout(() => playTone(isOpen ? 520 : 380, .045, .012, 'square'), 38);
+      };
+
+      const playShotSound = () => {
+        if (!audioEnabled) return;
+        const ctx = getAudio();
+        if (!ctx || !noiseBuffer) return;
+
+        const noise = ctx.createBufferSource();
+        const filter = ctx.createBiquadFilter();
+        const gain = ctx.createGain();
+        noise.buffer = noiseBuffer;
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(1300, ctx.currentTime);
+        filter.frequency.exponentialRampToValueAtTime(180, ctx.currentTime + .14);
+        gain.gain.setValueAtTime(.055, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(.0001, ctx.currentTime + .18);
+        noise.connect(filter).connect(gain).connect(ctx.destination);
+        noise.start();
+        noise.stop(ctx.currentTime + .18);
+
+        const thump = ctx.createOscillator();
+        const thumpGain = ctx.createGain();
+        thump.type = 'triangle';
+        thump.frequency.setValueAtTime(110, ctx.currentTime);
+        thump.frequency.exponentialRampToValueAtTime(48, ctx.currentTime + .11);
+        thumpGain.gain.setValueAtTime(.035, ctx.currentTime);
+        thumpGain.gain.exponentialRampToValueAtTime(.0001, ctx.currentTime + .12);
+        thump.connect(thumpGain).connect(ctx.destination);
+        thump.start();
+        thump.stop(ctx.currentTime + .13);
+      };
+
+      soundToggle?.addEventListener('click', () => {
+        audioEnabled = !audioEnabled;
+        soundToggle.setAttribute('aria-pressed', String(audioEnabled));
+        soundToggle.setAttribute('aria-label', audioEnabled ? 'Disable interface sound' : 'Enable interface sound');
+        soundLabel.textContent = audioEnabled ? 'Sound: On' : 'Sound: Off';
+        if (audioEnabled) {
+          getAudio();
+          playTone(440, .07, .02, 'square');
+          window.setTimeout(() => playTone(660, .08, .018, 'square'), 85);
+        }
+      });
+
+      document.addEventListener('click', event => {
+        if (event.target.closest('.sound-toggle')) return;
+        if (event.target.closest('a,button,.feature-dropdown summary')) playClickSound();
+      }, true);
+
+      document.querySelectorAll('.feature-dropdown').forEach(detail => {
+        detail.addEventListener('toggle', () => playDropdownSound(detail.open));
+      });
+
+      // Playable Cold War FPS mini-game using a lightweight canvas raycaster.
+      const combatCanvas = document.getElementById('combat-feed');
+      const combatCtx = combatCanvas?.getContext('2d', { alpha: false });
+      const gameScreen = document.getElementById('sim-screen');
+      const gameTerminal = document.getElementById('playable-terminal');
+      const mainMenu = document.getElementById('sim-main-menu');
+      const pauseMenu = document.getElementById('sim-pause-menu');
+      const gameoverMenu = document.getElementById('sim-gameover-menu');
+      const startButton = document.getElementById('sim-start-button');
+      const controlsButton = document.getElementById('sim-controls-button');
+      const controlPanel = document.getElementById('sim-control-panel');
+      const resumeButton = document.getElementById('sim-resume-button');
+      const restartButton = document.getElementById('sim-restart-button');
+      const exitButton = document.getElementById('sim-exit-button');
+      const retryButton = document.getElementById('sim-retry-button');
+      const gameoverExitButton = document.getElementById('sim-gameover-exit-button');
+      const fullscreenButton = document.getElementById('sim-fullscreen-button');
+      const touchFireButton = document.getElementById('sim-touch-fire');
+
+      const ammoDisplay = document.getElementById('hud-ammo');
+      const reserveDisplay = document.getElementById('sim-reserve');
+      const healthDisplay = document.getElementById('sim-health');
+      const healthBar = document.getElementById('sim-health-bar');
+      const scoreDisplay = document.getElementById('sim-score');
+      const statusDisplay = document.getElementById('sim-status');
+      const timeDisplay = document.getElementById('sim-timecode');
+      const gameoverTitle = document.getElementById('sim-gameover-title');
+      const finalReport = document.getElementById('sim-final-report');
+
+      const SIM_MAP = [
+        "1111111111111111",
+        "1000000000000001",
+        "1011110011110101",
+        "1000010000010101",
+        "1110010111010101",
+        "1000010001000001",
+        "1011110101011101",
+        "1000000101000101",
+        "1011100101110101",
+        "1000100000010001",
+        "1100101111011101",
+        "1000001000000001",
+        "1011101011110101",
+        "1000000000000001",
+        "1000111111000001",
+        "1111111111111111"
+      ];
+
+      const game = {
+        running: false,
+        paused: false,
+        over: false,
+        startedAt: 0,
+        lastFrame: performance.now(),
+        player: { x: 2.5, y: 2.5, angle: 0, pitch: 0 },
+        velocity: { x: 0, y: 0 },
+        keys: new Set(),
+        ammo: 30,
+        reserve: 120,
+        health: 100,
+        score: 0,
+        kills: 0,
+        wave: 1,
+        enemies: [],
+        nextSpawn: 0,
+        muzzle: 0,
+        recoil: 0,
+        reloadUntil: 0,
+        reloading: false,
+        walkCycle: 0,
+        casing: null,
+        damageFlash: 0,
+        touchLook: false,
+        touchX: 0,
+        touchY: 0
+      };
+
+      const internalCanvas = document.createElement('canvas');
+      internalCanvas.width = 480;
+      internalCanvas.height = 270;
+      const internalCtx = internalCanvas.getContext('2d', { alpha: false });
+      let zBuffer = new Float32Array(internalCanvas.width);
+
+      const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+      const normalizeAngle = angle => {
+        while (angle > Math.PI) angle -= Math.PI * 2;
+        while (angle < -Math.PI) angle += Math.PI * 2;
+        return angle;
+      };
+      const mapCell = (x, y) => {
+        const row = SIM_MAP[Math.floor(y)];
+        return !row || row[Math.floor(x)] !== '0';
+      };
+      const canOccupy = (x, y) => {
+        const radius = .18;
+        return !mapCell(x - radius, y - radius) &&
+               !mapCell(x + radius, y - radius) &&
+               !mapCell(x - radius, y + radius) &&
+               !mapCell(x + radius, y + radius);
+      };
+      const lineOfSight = (x1, y1, x2, y2) => {
+        const distance = Math.hypot(x2 - x1, y2 - y1);
+        const steps = Math.ceil(distance / .08);
+        for (let i = 1; i < steps; i++) {
+          const ratio = i / steps;
+          if (mapCell(x1 + (x2 - x1) * ratio, y1 + (y2 - y1) * ratio)) return false;
+        }
+        return true;
+      };
+
+      const resizeCombatCanvas = () => {
+        if (!combatCanvas || !gameScreen) return;
+        const rect = gameScreen.getBoundingClientRect();
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        combatCanvas.width = Math.max(640, Math.round(rect.width * ratio));
+        combatCanvas.height = Math.max(360, Math.round(rect.height * ratio));
+      };
+
+      const updateHud = () => {
+        if (ammoDisplay) ammoDisplay.textContent = String(game.ammo).padStart(2, '0');
+        if (reserveDisplay) reserveDisplay.textContent = String(game.reserve).padStart(3, '0');
+        if (healthDisplay) healthDisplay.textContent = String(Math.max(0, Math.ceil(game.health)));
+        if (healthBar) healthBar.style.width = `${Math.max(0, game.health)}%`;
+        if (scoreDisplay) scoreDisplay.textContent = String(game.score).padStart(4, '0');
+      };
+
+      const resetSimulation = () => {
+        game.running = false;
+        game.paused = false;
+        game.over = false;
+        game.startedAt = performance.now();
+        game.lastFrame = performance.now();
+        game.player.x = 2.5;
+        game.player.y = 2.5;
+        game.player.angle = 0;
+        game.player.pitch = 0;
+        game.velocity.x = 0;
+        game.velocity.y = 0;
+        game.keys.clear();
+        game.ammo = 30;
+        game.reserve = 120;
+        game.health = 100;
+        game.score = 0;
+        game.kills = 0;
+        game.wave = 1;
+        game.enemies = [];
+        game.nextSpawn = performance.now() + 850;
+        game.muzzle = 0;
+        game.recoil = 0;
+        game.reloading = false;
+        game.reloadUntil = 0;
+        game.walkCycle = 0;
+        game.casing = null;
+        game.damageFlash = 0;
+        if (statusDisplay) statusDisplay.textContent = 'SIMULATION STANDBY';
+        if (timeDisplay) timeDisplay.textContent = '00:00';
+        updateHud();
+      };
+
+      const requestGamePointerLock = () => {
+        if (gameScreen?.requestPointerLock && !('ontouchstart' in window)) {
+          gameScreen.requestPointerLock();
+        }
+      };
+
+      const beginSimulation = () => {
+        if (game.over) resetSimulation();
+        game.running = true;
+        game.paused = false;
+        game.startedAt = performance.now();
+        game.lastFrame = performance.now();
+        mainMenu.hidden = true;
+        pauseMenu.hidden = true;
+        gameoverMenu.hidden = true;
+        if (statusDisplay) statusDisplay.textContent = 'CONTAINMENT ACTIVE';
+        gameScreen.focus();
+        requestGamePointerLock();
+        if (audioEnabled) {
+          playTone(230, .07, .02, 'square');
+          window.setTimeout(() => playTone(390, .07, .017, 'square'), 80);
+          window.setTimeout(() => playTone(560, .08, .014, 'square'), 160);
+        }
+      };
+
+      const pauseSimulation = force => {
+        if (!game.running || game.over) return;
+        game.paused = typeof force === 'boolean' ? force : !game.paused;
+        pauseMenu.hidden = !game.paused;
+        if (statusDisplay) statusDisplay.textContent = game.paused ? 'SIMULATION PAUSED' : 'CONTAINMENT ACTIVE';
+        if (game.paused && document.pointerLockElement === gameScreen) document.exitPointerLock?.();
+      };
+
+      const returnToMainMenu = () => {
+        if (document.pointerLockElement === gameScreen) document.exitPointerLock?.();
+        resetSimulation();
+        mainMenu.hidden = false;
+        pauseMenu.hidden = true;
+        gameoverMenu.hidden = true;
+      };
+
+      const finishSimulation = victory => {
+        game.running = false;
+        game.over = true;
+        game.paused = false;
+        pauseMenu.hidden = true;
+        gameoverMenu.hidden = false;
+        if (document.pointerLockElement === gameScreen) document.exitPointerLock?.();
+        if (gameoverTitle) gameoverTitle.textContent = victory ? 'Containment Stable' : 'Containment Failed';
+        if (finalReport) finalReport.textContent = `Score: ${game.score} // Eliminations: ${game.kills} // Wave: ${game.wave}`;
+        if (statusDisplay) statusDisplay.textContent = victory ? 'OPERATION COMPLETE' : 'BIO-SIGNAL LOST';
+        if (audioEnabled) {
+          playTone(victory ? 520 : 105, .2, .023, victory ? 'square' : 'sawtooth');
+          window.setTimeout(() => playTone(victory ? 720 : 68, .25, .018, victory ? 'square' : 'sawtooth'), 150);
+        }
+      };
+
+      const findSpawnPoint = () => {
+        for (let attempt = 0; attempt < 80; attempt++) {
+          const x = 1.5 + Math.random() * 13;
+          const y = 1.5 + Math.random() * 13;
+          const distance = Math.hypot(x - game.player.x, y - game.player.y);
+          if (!mapCell(x, y) && distance > 4.5 && lineOfSight(x, y, game.player.x, game.player.y)) return { x, y };
+        }
+        return { x: 13.5, y: 13.5 };
+      };
+
+      const spawnEnemy = now => {
+        const point = findSpawnPoint();
+        const roll = Math.random();
+        const type = roll > .82 ? 'brute' : roll > .55 ? 'crawler' : 'stalker';
+        const health = type === 'brute' ? 4 : type === 'crawler' ? 1 : 2;
+        game.enemies.push({
+          x: point.x,
+          y: point.y,
+          type,
+          health,
+          maxHealth: health,
+          speed: type === 'brute' ? .48 : type === 'crawler' ? .82 : .62,
+          hit: 0,
+          phase: Math.random() * Math.PI * 2,
+          attackAt: 0
+        });
+        game.nextSpawn = now + Math.max(560, 1350 - game.wave * 70) + Math.random() * 520;
+      };
+
+      const reloadWeapon = now => {
+        if (!game.running || game.paused || game.reloading || game.ammo >= 30 || game.reserve <= 0) return;
+        game.reloading = true;
+        game.reloadUntil = now + 1050;
+        if (statusDisplay) statusDisplay.textContent = 'RELOADING';
+        if (audioEnabled) {
+          playTone(150, .05, .012, 'square');
+          window.setTimeout(() => playTone(230, .05, .011, 'square'), 360);
+          window.setTimeout(() => playTone(305, .055, .01, 'square'), 790);
+        }
+      };
+
+      const completeReload = () => {
+        const needed = 30 - game.ammo;
+        const loaded = Math.min(needed, game.reserve);
+        game.ammo += loaded;
+        game.reserve -= loaded;
+        game.reloading = false;
+        if (statusDisplay) statusDisplay.textContent = 'CONTAINMENT ACTIVE';
+        updateHud();
+      };
+
+      const fireWeapon = () => {
+        if (!game.running || game.paused || game.over || game.reloading) return;
+        if (game.ammo <= 0) {
+          if (statusDisplay) statusDisplay.textContent = 'EMPTY // PRESS R';
+          playTone(120, .045, .018, 'square');
+          return;
+        }
+
+        game.ammo -= 1;
+        game.muzzle = 1;
+        game.recoil = 1;
+        gameScreen.classList.remove('is-firing');
+        void gameScreen.offsetWidth;
+        gameScreen.classList.add('is-firing');
+        playShotSound();
+
+        let bestEnemy = null;
+        let bestDistance = Infinity;
+        let bestHeadshot = false;
+
+        for (const enemy of game.enemies) {
+          if (!lineOfSight(game.player.x, game.player.y, enemy.x, enemy.y)) continue;
+          const dx = enemy.x - game.player.x;
+          const dy = enemy.y - game.player.y;
+          const distance = Math.hypot(dx, dy);
+          const enemyAngle = Math.atan2(dy, dx);
+          const difference = Math.abs(normalizeAngle(enemyAngle - game.player.angle));
+          const hitCone = enemy.type === 'brute' ? .075 : .055;
+          if (difference < hitCone && distance < bestDistance) {
+            bestEnemy = enemy;
+            bestDistance = distance;
+            bestHeadshot = Math.abs(game.player.pitch) < .10 && difference < hitCone * .43;
+          }
+        }
+
+        if (bestEnemy) {
+          const damage = bestHeadshot ? 2 : 1;
+          bestEnemy.health -= damage;
+          bestEnemy.hit = 1;
+          game.score += bestEnemy.health <= 0
+            ? (bestEnemy.type === 'brute' ? 360 : bestEnemy.type === 'crawler' ? 145 : 210) + (bestHeadshot ? 60 : 0)
+            : (bestHeadshot ? 55 : 25);
+
+          if (bestHeadshot && statusDisplay) statusDisplay.textContent = 'CELLULAR CRITICAL HIT';
+
+          if (bestEnemy.health <= 0) {
+            game.kills += 1;
+            game.enemies = game.enemies.filter(enemy => enemy !== bestEnemy);
+            if (game.kills % 7 === 0) {
+              game.wave += 1;
+              game.reserve = Math.min(180, game.reserve + 30);
+              if (statusDisplay) statusDisplay.textContent = `WAVE ${game.wave} // SUPPLIES +30`;
+            }
+          }
+        }
+
+        game.casing = { x: .70, y: .74, vx: .006, vy: -.010, rotation: 0 };
+        updateHud();
+      };
+
+      const updateSimulation = (now, deltaTime) => {
+        if (!game.running || game.paused || game.over) return;
+
+        const forwardInput = (game.keys.has('w') || game.keys.has('arrowup') ? 1 : 0) -
+                             (game.keys.has('s') || game.keys.has('arrowdown') ? 1 : 0);
+        const strafeInput = (game.keys.has('d') ? 1 : 0) -
+                            (game.keys.has('a') ? 1 : 0);
+        const inputLength = Math.hypot(forwardInput, strafeInput) || 1;
+        const sprinting = game.keys.has('shift') && forwardInput > 0;
+        const speed = sprinting ? 3.15 : 2.05;
+
+        const desiredX =
+          (Math.cos(game.player.angle) * forwardInput / inputLength +
+           Math.cos(game.player.angle + Math.PI / 2) * strafeInput / inputLength) * speed;
+        const desiredY =
+          (Math.sin(game.player.angle) * forwardInput / inputLength +
+           Math.sin(game.player.angle + Math.PI / 2) * strafeInput / inputLength) * speed;
+
+        const response = 1 - Math.exp(-deltaTime * 13);
+        game.velocity.x += (desiredX - game.velocity.x) * response;
+        game.velocity.y += (desiredY - game.velocity.y) * response;
+
+        if (!forwardInput && !strafeInput) {
+          const friction = Math.exp(-deltaTime * 9);
+          game.velocity.x *= friction;
+          game.velocity.y *= friction;
+        }
+
+        const nextX = game.player.x + game.velocity.x * deltaTime;
+        const nextY = game.player.y + game.velocity.y * deltaTime;
+        if (canOccupy(nextX, game.player.y)) game.player.x = nextX;
+        else game.velocity.x = 0;
+        if (canOccupy(game.player.x, nextY)) game.player.y = nextY;
+        else game.velocity.y = 0;
+
+        const movementSpeed = Math.hypot(game.velocity.x, game.velocity.y);
+        game.walkCycle += movementSpeed * deltaTime * 5.2;
+
+        if (game.keys.has('arrowleft')) game.player.angle -= 1.65 * deltaTime;
+        if (game.keys.has('arrowright')) game.player.angle += 1.65 * deltaTime;
+
+        if (now >= game.nextSpawn && game.enemies.length < 10) spawnEnemy(now);
+        if (game.reloading && now >= game.reloadUntil) completeReload();
+
+        for (const enemy of game.enemies) {
+          const dx = game.player.x - enemy.x;
+          const dy = game.player.y - enemy.y;
+          const distance = Math.hypot(dx, dy) || 1;
+          enemy.hit = Math.max(0, enemy.hit - deltaTime * 6);
+
+          if (distance > .68) {
+            const move = enemy.speed * (1 + game.wave * .045) * deltaTime;
+            const enemyNextX = enemy.x + dx / distance * move;
+            const enemyNextY = enemy.y + dy / distance * move;
+            if (!mapCell(enemyNextX, enemy.y)) enemy.x = enemyNextX;
+            if (!mapCell(enemy.x, enemyNextY)) enemy.y = enemyNextY;
+          } else if (now >= enemy.attackAt) {
+            const damage = enemy.type === 'brute' ? 22 : enemy.type === 'crawler' ? 10 : 14;
+            game.health -= damage;
+            enemy.attackAt = now + 850;
+            game.damageFlash = 1;
+            gameScreen.classList.remove('is-damaged');
+            void gameScreen.offsetWidth;
+            gameScreen.classList.add('is-damaged');
+            if (statusDisplay) statusDisplay.textContent = 'MORTICAIUS CONTACT';
+            playTone(70, .11, .022, 'sawtooth');
+            if (game.health <= 0) finishSimulation(false);
+          }
+        }
+
+        game.muzzle = Math.max(0, game.muzzle - deltaTime * 11);
+        game.recoil = Math.max(0, game.recoil - deltaTime * 8);
+        game.damageFlash = Math.max(0, game.damageFlash - deltaTime * 4);
+
+        const elapsed = Math.floor((now - game.startedAt) / 1000);
+        if (timeDisplay) {
+          timeDisplay.textContent = `${String(Math.floor(elapsed / 60)).padStart(2, '0')}:${String(elapsed % 60).padStart(2, '0')}`;
+        }
+        if (elapsed >= 120) finishSimulation(true);
+
+        updateHud();
+      };
+
+      const castWalls = (ctx, width, height, horizon) => {
+        const fieldOfView = Math.PI / 3;
+        const columns = width;
+        if (zBuffer.length !== columns) zBuffer = new Float32Array(columns);
+
+        for (let column = 0; column < columns; column++) {
+          const cameraX = column / columns - .5;
+          const rayAngle = game.player.angle + cameraX * fieldOfView;
+          const rayX = Math.cos(rayAngle);
+          const rayY = Math.sin(rayAngle);
+
+          let distance = .02;
+          let hit = false;
+          let sampleX = 0;
+          let side = 0;
+
+          while (!hit && distance < 22) {
+            distance += .025;
+            const testX = game.player.x + rayX * distance;
+            const testY = game.player.y + rayY * distance;
+            if (mapCell(testX, testY)) {
+              hit = true;
+              const fractionalX = testX - Math.floor(testX);
+              const fractionalY = testY - Math.floor(testY);
+              side = Math.min(fractionalX, 1 - fractionalX) < Math.min(fractionalY, 1 - fractionalY) ? 1 : 0;
+              sampleX = side ? fractionalY : fractionalX;
+            }
+          }
+
+          const corrected = distance * Math.cos(rayAngle - game.player.angle);
+          zBuffer[column] = corrected;
+          const wallHeight = Math.min(height * 2.2, height / Math.max(.01, corrected));
+          const top = horizon - wallHeight / 2;
+          const fog = clamp(corrected / 18, 0, .78);
+          const panel = Math.floor(sampleX * 8) % 2;
+          const base = side ? 46 : 58;
+          const textureShade = panel ? 7 : 0;
+          const red = Math.round((base + textureShade) * (1 - fog) + 18 * fog);
+          const green = Math.round((base + 13 + textureShade) * (1 - fog) + 25 * fog);
+          const blue = Math.round((base + 8 + textureShade) * (1 - fog) + 22 * fog);
+
+          ctx.fillStyle = `rgb(${red},${green},${blue})`;
+          ctx.fillRect(column, top, 1, wallHeight);
+
+          if (column % 24 === 0) {
+            ctx.fillStyle = `rgba(183,194,161,${.08 * (1 - fog)})`;
+            ctx.fillRect(column, top, 1, wallHeight);
+          }
+        }
+      };
+
+      const drawEnemySprite = (ctx, width, height, horizon, enemy, time) => {
+        const dx = enemy.x - game.player.x;
+        const dy = enemy.y - game.player.y;
+        const distance = Math.hypot(dx, dy);
+        const angle = normalizeAngle(Math.atan2(dy, dx) - game.player.angle);
+        const fieldOfView = Math.PI / 3;
+
+        if (Math.abs(angle) > fieldOfView * .72 || distance < .15) return;
+
+        const centerX = width * (.5 + angle / fieldOfView);
+        const scale = clamp(height / distance, 12, height * 1.55);
+        const bodyHeight = scale * (enemy.type === 'crawler' ? .58 : enemy.type === 'brute' ? 1.12 : .92);
+        const bodyWidth = bodyHeight * (enemy.type === 'brute' ? .50 : enemy.type === 'crawler' ? .86 : .38);
+        const bottom = horizon + scale * .44;
+        const left = Math.floor(centerX - bodyWidth / 2);
+        const right = Math.floor(centerX + bodyWidth / 2);
+
+        const depthColumn = clamp(Math.floor(centerX), 0, zBuffer.length - 1);
+        if (distance > zBuffer[depthColumn] + .2) return;
+
+        const bob = Math.sin(time * 5 + enemy.phase) * bodyHeight * .025;
+        ctx.save();
+        ctx.translate(centerX, bottom + bob);
+        ctx.shadowColor = enemy.hit ? 'rgba(198,226,181,.9)' : 'rgba(0,0,0,.7)';
+        ctx.shadowBlur = enemy.hit ? 18 : 8;
+        ctx.fillStyle = enemy.hit
+          ? 'rgba(205,229,189,.94)'
+          : enemy.type === 'brute'
+            ? '#343b31'
+            : enemy.type === 'crawler'
+              ? '#2b332c'
+              : '#252d27';
+
+        if (enemy.type === 'crawler') {
+          ctx.beginPath();
+          ctx.ellipse(0, -bodyHeight * .28, bodyWidth * .48, bodyHeight * .25, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = 'rgba(119,151,112,.42)';
+          ctx.lineWidth = Math.max(1, bodyWidth * .06);
+          for (const direction of [-1, 1]) {
+            ctx.beginPath();
+            ctx.moveTo(direction * bodyWidth * .20, -bodyHeight * .23);
+            ctx.lineTo(direction * bodyWidth * .72, bodyHeight * .12);
+            ctx.stroke();
+          }
+        } else {
+          ctx.beginPath();
+          ctx.ellipse(0, -bodyHeight * .88, bodyWidth * .19, bodyHeight * .11, 0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.beginPath();
+          ctx.moveTo(-bodyWidth * .46, -bodyHeight * .72);
+          ctx.quadraticCurveTo(0, -bodyHeight * .92, bodyWidth * .44, -bodyHeight * .69);
+          ctx.lineTo(bodyWidth * .31, -bodyHeight * .10);
+          ctx.lineTo(-bodyWidth * .31, -bodyHeight * .10);
+          ctx.closePath();
+          ctx.fill();
+
+          ctx.strokeStyle = 'rgba(121,153,113,.38)';
+          ctx.lineWidth = Math.max(1, bodyWidth * .11);
+          ctx.lineCap = 'round';
+          ctx.beginPath();
+          ctx.moveTo(-bodyWidth * .28, -bodyHeight * .13);
+          ctx.lineTo(-bodyWidth * .39, bodyHeight * .24);
+          ctx.moveTo(bodyWidth * .28, -bodyHeight * .13);
+          ctx.lineTo(bodyWidth * .42, bodyHeight * .25);
+          ctx.moveTo(-bodyWidth * .39, -bodyHeight * .60);
+          ctx.lineTo(-bodyWidth * .70, -bodyHeight * .25);
+          ctx.moveTo(bodyWidth * .39, -bodyHeight * .60);
+          ctx.lineTo(bodyWidth * .72, -bodyHeight * .28);
+          ctx.stroke();
+
+          const infection = enemy.type === 'brute' ? '#b85b43' : '#75a96b';
+          ctx.fillStyle = infection;
+          ctx.shadowColor = infection;
+          ctx.shadowBlur = 12;
+          ctx.beginPath();
+          ctx.arc(bodyWidth * .30, -bodyHeight * .62, bodyWidth * .15, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        if (enemy.health < enemy.maxHealth) {
+          ctx.shadowBlur = 0;
+          ctx.fillStyle = 'rgba(0,0,0,.65)';
+          ctx.fillRect(-bodyWidth * .42, -bodyHeight * 1.08, bodyWidth * .84, 3);
+          ctx.fillStyle = 'rgba(172,205,158,.82)';
+          ctx.fillRect(-bodyWidth * .42, -bodyHeight * 1.08, bodyWidth * .84 * (enemy.health / enemy.maxHealth), 3);
+        }
+
+        ctx.restore();
+      };
+
+      const drawWeapon = (ctx, width, height, movementBob) => {
+        const recoilY = game.recoil * height * .035;
+        const recoilX = game.recoil * width * .009;
+        const bobX = Math.sin(game.walkCycle) * width * .006 * movementBob;
+        const bobY = Math.abs(Math.cos(game.walkCycle)) * height * .008 * movementBob;
+
+        ctx.save();
+        ctx.translate(bobX - recoilX, bobY + recoilY);
+
+        ctx.fillStyle = '#080b09';
+        ctx.strokeStyle = 'rgba(181,193,169,.27)';
+        ctx.lineWidth = Math.max(1, width * .0015);
+        ctx.beginPath();
+        ctx.moveTo(width * .43, height);
+        ctx.lineTo(width * .55, height * .72);
+        ctx.lineTo(width * .73, height * .73);
+        ctx.lineTo(width * .80, height * .88);
+        ctx.lineTo(width * .72, height);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = '#67492f';
+        ctx.beginPath();
+        ctx.moveTo(width * .45, height * .83);
+        ctx.lineTo(width * .56, height * .71);
+        ctx.lineTo(width * .66, height * .72);
+        ctx.lineTo(width * .57, height * .84);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = '#161c19';
+        ctx.fillRect(width * .56, height * .68, width * .19, height * .052);
+        ctx.fillStyle = '#0c100e';
+        ctx.fillRect(width * .72, height * .70, width * .13, height * .022);
+        ctx.fillStyle = '#1b221d';
+        ctx.fillRect(width * .61, height * .62, width * .055, height * .064);
+
+        ctx.fillStyle = '#222825';
+        ctx.beginPath();
+        ctx.moveTo(width * .62, height * .76);
+        ctx.lineTo(width * .69, height * .77);
+        ctx.quadraticCurveTo(width * .70, height * .91, width * .65, height * .96);
+        ctx.lineTo(width * .59, height * .91);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.restore();
+
+        if (game.muzzle > 0) {
+          const muzzleX = width * .855 - recoilX + bobX;
+          const muzzleY = height * .715 + recoilY + bobY;
+          const radius = width * (.028 + game.muzzle * .030);
+          const gradient = ctx.createRadialGradient(muzzleX, muzzleY, 0, muzzleX, muzzleY, radius);
+          gradient.addColorStop(0, `rgba(255,250,218,${game.muzzle})`);
+          gradient.addColorStop(.24, `rgba(240,185,88,${game.muzzle * .8})`);
+          gradient.addColorStop(1, 'rgba(210,88,42,0)');
+          ctx.fillStyle = gradient;
+          ctx.fillRect(muzzleX - radius, muzzleY - radius, radius * 2, radius * 2);
+        }
+
+        if (game.casing) {
+          game.casing.x += game.casing.vx;
+          game.casing.y += game.casing.vy;
+          game.casing.vy += .00055;
+          game.casing.rotation += .18;
+          ctx.save();
+          ctx.translate(width * game.casing.x, height * game.casing.y);
+          ctx.rotate(game.casing.rotation);
+          ctx.fillStyle = '#b49b5d';
+          ctx.fillRect(-width * .005, -height * .002, width * .010, height * .004);
+          ctx.restore();
+          if (game.casing.y > 1.1) game.casing = null;
+        }
+      };
+
+      const renderSimulation = now => {
+        if (!combatCtx || !combatCanvas || !internalCtx) return;
+        const deltaTime = Math.min(.05, Math.max(0, (now - game.lastFrame) / 1000));
+        game.lastFrame = now;
+        updateSimulation(now, deltaTime);
+
+        const ctx = internalCtx;
+        const width = internalCanvas.width;
+        const height = internalCanvas.height;
+        const movement = clamp(Math.hypot(game.velocity.x, game.velocity.y) / 3.15, 0, 1);
+        const pitchOffset = game.player.pitch * height * .32;
+        const walkBob = Math.sin(game.walkCycle * .52) * height * .012 * movement;
+        const horizon = height * .48 + pitchOffset + walkBob;
+
+        const ceiling = ctx.createLinearGradient(0, 0, 0, horizon);
+        ceiling.addColorStop(0, '#111a17');
+        ceiling.addColorStop(1, '#080c0a');
+        ctx.fillStyle = ceiling;
+        ctx.fillRect(0, 0, width, Math.max(0, horizon));
+
+        const floor = ctx.createLinearGradient(0, horizon, 0, height);
+        floor.addColorStop(0, '#171c18');
+        floor.addColorStop(1, '#030403');
+        ctx.fillStyle = floor;
+        ctx.fillRect(0, horizon, width, height - horizon);
+
+        // Subtle perspective floor divisions preserve the original camera-feed look.
+        ctx.strokeStyle = 'rgba(183,194,161,.075)';
+        ctx.lineWidth = 1;
+        for (let index = -7; index <= 7; index++) {
+          ctx.beginPath();
+          ctx.moveTo(width * .5 + index * 4, horizon);
+          ctx.lineTo(width * .5 + index * 38, height);
+          ctx.stroke();
+        }
+
+        castWalls(ctx, width, height, horizon);
+
+        const sortedEnemies = [...game.enemies].sort((a, b) => {
+          const distanceA = Math.hypot(a.x - game.player.x, a.y - game.player.y);
+          const distanceB = Math.hypot(b.x - game.player.x, b.y - game.player.y);
+          return distanceB - distanceA;
+        });
+        for (const enemy of sortedEnemies) drawEnemySprite(ctx, width, height, horizon, enemy, now / 1000);
+
+        drawWeapon(ctx, width, height, movement);
+
+        if (game.damageFlash > 0) {
+          const damage = ctx.createRadialGradient(width / 2, height / 2, width * .12, width / 2, height / 2, width * .72);
+          damage.addColorStop(0, 'rgba(128,22,18,0)');
+          damage.addColorStop(1, `rgba(128,22,18,${game.damageFlash * .42})`);
+          ctx.fillStyle = damage;
+          ctx.fillRect(0, 0, width, height);
+        }
+
+        // CRT grain and scan lines.
+        ctx.globalAlpha = .055;
+        for (let index = 0; index < 85; index++) {
+          ctx.fillStyle = Math.random() > .5 ? '#d9e3d3' : '#000';
+          ctx.fillRect(Math.random() * width, Math.random() * height, 1, 1);
+        }
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = 'rgba(0,0,0,.10)';
+        for (let y = 0; y < height; y += 4) ctx.fillRect(0, y, width, 1);
+
+        combatCtx.imageSmoothingEnabled = false;
+        combatCtx.drawImage(internalCanvas, 0, 0, combatCanvas.width, combatCanvas.height);
+        window.requestAnimationFrame(renderSimulation);
+      };
+
+      startButton?.addEventListener('click', beginSimulation);
+      controlsButton?.addEventListener('click', () => {
+        controlPanel.hidden = !controlPanel.hidden;
+        controlsButton.textContent = controlPanel.hidden ? 'View controls' : 'Hide controls';
+      });
+      resumeButton?.addEventListener('click', () => {
+        game.paused = false;
+        pauseMenu.hidden = true;
+        if (statusDisplay) statusDisplay.textContent = 'CONTAINMENT ACTIVE';
+        game.lastFrame = performance.now();
+        requestGamePointerLock();
+      });
+      restartButton?.addEventListener('click', () => {
+        resetSimulation();
+        beginSimulation();
+      });
+      retryButton?.addEventListener('click', () => {
+        resetSimulation();
+        beginSimulation();
+      });
+      exitButton?.addEventListener('click', returnToMainMenu);
+      gameoverExitButton?.addEventListener('click', returnToMainMenu);
+
+      fullscreenButton?.addEventListener('click', async () => {
+        try {
+          if (!document.fullscreenElement && gameTerminal?.requestFullscreen) {
+            await gameTerminal.requestFullscreen();
+          } else if (document.exitFullscreen) {
+            await document.exitFullscreen();
+          }
+        } catch {
+          gameTerminal?.classList.toggle('is-fullscreen');
+        }
+        window.setTimeout(resizeCombatCanvas, 100);
+      });
+
+      document.addEventListener('fullscreenchange', () => {
+        const active = document.fullscreenElement === gameTerminal;
+        gameTerminal?.classList.toggle('is-fullscreen', active);
+        if (fullscreenButton) fullscreenButton.textContent = active ? '×' : '⛶';
+        window.setTimeout(resizeCombatCanvas, 100);
+      });
+
+      document.addEventListener('pointerlockchange', () => {
+        gameScreen?.classList.toggle('pointer-locked', document.pointerLockElement === gameScreen);
+        if (game.running && !game.paused && document.pointerLockElement !== gameScreen && !('ontouchstart' in window)) {
+          pauseSimulation(true);
+        }
+      });
+
+      document.addEventListener('mousemove', event => {
+        if (document.pointerLockElement !== gameScreen || !game.running || game.paused) return;
+        game.player.angle += event.movementX * .00245;
+        game.player.pitch = clamp(game.player.pitch + event.movementY * .0020, -.65, .65);
+      });
+
+      window.addEventListener('keydown', event => {
+        const key = event.key.toLowerCase();
+        const controlled = ['w', 'a', 's', 'd', 'shift', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright', ' ', 'r', 'escape'];
+        if (controlled.includes(key) && (game.running || gameTerminal?.contains(document.activeElement))) event.preventDefault();
+
+        game.keys.add(key);
+        if (key === ' ' && !event.repeat) fireWeapon();
+        if (key === 'r' && !event.repeat) reloadWeapon(performance.now());
+        if (key === 'escape' && game.running && !game.paused) pauseSimulation(true);
+      });
+
+      window.addEventListener('keyup', event => game.keys.delete(event.key.toLowerCase()));
+
+      gameScreen?.addEventListener('mousedown', event => {
+        if (event.button !== 0 || !game.running || game.paused) return;
+        event.preventDefault();
+        if (document.pointerLockElement !== gameScreen && !('ontouchstart' in window)) {
+          requestGamePointerLock();
+          return;
+        }
+        fireWeapon();
+      });
+
+      gameScreen?.addEventListener('contextmenu', event => event.preventDefault());
+
+      gameScreen?.addEventListener('pointerdown', event => {
+        if (event.pointerType !== 'touch' || event.target.closest('button')) return;
+        game.touchLook = true;
+        game.touchX = event.clientX;
+        game.touchY = event.clientY;
+      });
+      gameScreen?.addEventListener('pointermove', event => {
+        if (!game.touchLook || event.pointerType !== 'touch' || !game.running || game.paused) return;
+        const deltaX = event.clientX - game.touchX;
+        const deltaY = event.clientY - game.touchY;
+        game.touchX = event.clientX;
+        game.touchY = event.clientY;
+        game.player.angle += deltaX * .006;
+        game.player.pitch = clamp(game.player.pitch + deltaY * .005, -.62, .62);
+      });
+      const endTouchLook = () => { game.touchLook = false; };
+      gameScreen?.addEventListener('pointerup', endTouchLook);
+      gameScreen?.addEventListener('pointercancel', endTouchLook);
+
+      document.querySelectorAll('[data-sim-key]').forEach(button => {
+        const key = button.dataset.simKey;
+        const press = event => {
+          event.preventDefault();
+          game.keys.add(key);
+        };
+        const release = event => {
+          event.preventDefault();
+          game.keys.delete(key);
+        };
+        button.addEventListener('pointerdown', press);
+        button.addEventListener('pointerup', release);
+        button.addEventListener('pointercancel', release);
+        button.addEventListener('pointerleave', release);
+      });
+      touchFireButton?.addEventListener('pointerdown', event => {
+        event.preventDefault();
+        fireWeapon();
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden && game.running && !game.paused) pauseSimulation(true);
+      });
+
+      resizeCombatCanvas();
+      window.addEventListener('resize', resizeCombatCanvas, { passive: true });
+      resetSimulation();
+      window.requestAnimationFrame(renderSimulation);
+
+
+      document.addEventListener('click', event => {
+        const link = event.target.closest('a[href]');
+        if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+        const href = link.getAttribute('href');
+        if (!href || href.startsWith('#') || link.target === '_blank' || link.hasAttribute('download')) return;
+
+        const destination = new URL(link.href, window.location.href);
+        if (destination.origin !== window.location.origin) return;
+
+        event.preventDefault();
+        body.classList.remove('is-ready');
+        body.classList.add('is-leaving');
+        window.setTimeout(() => { window.location.href = destination.href; }, reducedMotion ? 0 : 390);
+      });
+    })();
+  </script>
+
+</body>
+</html><!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#05070a" />
+  <meta name="description" content="B.L.A.C.K.O.U.T. is a single-player tactical FPS blending 1970s Cold War aesthetics, science fiction, and survival horror." />
+  <title>B.L.A.C.K.O.U.T. — Tactical Realism Horror</title>
+  <script>document.documentElement.classList.add("js");</script>
+  <style>
+    :root{
+      --bg:#05070a;--panel:#0b0f14;--panel2:#10161d;--text:#eef2f5;--muted:#9ba8b4;
+      --line:rgba(255,255,255,.12);--accent:#c7d3dc;--danger:#b03a3a;--max:1180px;
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:"Arial Narrow","Roboto Condensed","Segoe UI",Arial,sans-serif;line-height:1.6;overflow-x:hidden}
+    a{color:inherit;text-decoration:none} img{display:block;max-width:100%}
+    .noise{position:fixed;inset:0;pointer-events:none;opacity:.07;z-index:10;background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.2) 0,rgba(255,255,255,.2) 1px,transparent 1px,transparent 3px)}
+    .nav{position:fixed;top:0;left:0;right:0;z-index:20;background:linear-gradient(180deg,rgba(5,7,10,.95),rgba(5,7,10,.62),transparent);backdrop-filter:blur(10px)}
+    .nav-inner{max-width:var(--max);margin:auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{font-weight:900;letter-spacing:.28em;font-size:.98rem}.brand span{color:#8996a3}
+    .links{display:flex;gap:22px;color:var(--muted);font-size:.82rem;text-transform:uppercase;letter-spacing:.12em}.links a:hover{color:white}
+    .hero{min-height:100vh;display:grid;align-items:end;position:relative;background:
+      linear-gradient(90deg,rgba(2,3,5,.96) 0%,rgba(2,3,5,.7) 43%,rgba(2,3,5,.22) 75%,rgba(2,3,5,.65) 100%),
+      linear-gradient(0deg,var(--bg) 0%,transparent 38%),url('assets/anomaly-01.png') center/cover no-repeat}
+    .hero:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 46%,transparent 0 17%,rgba(0,0,0,.42) 62%,rgba(0,0,0,.82) 100%)}
+    .hero-content{position:relative;z-index:2;max-width:var(--max);width:100%;margin:auto;padding:150px 24px 92px}
+    .eyebrow{font-size:.75rem;letter-spacing:.34em;text-transform:uppercase;color:#aeb8c1;margin-bottom:20px}
+    h1{font-size:clamp(3.2rem,10vw,8.4rem);line-height:.88;margin:0;letter-spacing:-.05em;font-weight:950;text-transform:uppercase}
+    .tagline{margin-top:20px;font-size:clamp(.9rem,2vw,1.3rem);letter-spacing:.45em;text-transform:uppercase;color:#d5dde3}
+    .lead{max-width:760px;margin:30px 0 0;color:#c3cbd2;font-size:clamp(1rem,1.8vw,1.25rem)}
+    .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:13px 18px;border:1px solid var(--line);background:rgba(255,255,255,.05);font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:.75rem}
+    .btn.primary{background:#e8edf1;color:#0a0c0f;border-color:#e8edf1}.btn:hover{transform:translateY(-1px);filter:brightness(1.08)}
+    section{padding:92px 24px}.wrap{max-width:var(--max);margin:auto}
+    .section-head{display:grid;grid-template-columns:.9fr 1.4fr;gap:48px;align-items:start;margin-bottom:44px}
+    .kicker{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:#8e9aa5}
+    h2{font-size:clamp(2rem,5vw,4.4rem);line-height:1.02;margin:.5rem 0 0;text-transform:uppercase;letter-spacing:-.03em}
+    .section-copy{color:#b4bec7;font-size:1.06rem;margin:0}
+    .grid{display:grid;gap:16px}.features{grid-template-columns:repeat(4,1fr)}
+    .card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);padding:24px;min-height:190px}
+    .card .num{font-size:.72rem;letter-spacing:.2em;color:#7f8b96}.card h3{margin:28px 0 10px;text-transform:uppercase;letter-spacing:.06em;font-size:1rem}.card p{margin:0;color:#96a2ad;font-size:.93rem}
+    .story{background:linear-gradient(180deg,#090c10,#05070a)}
+    .story-panel{display:grid;grid-template-columns:1.1fr .9fr;border:1px solid var(--line);background:#090d12}
+    .story-text{padding:42px}.story-text p{color:#aeb8c1}.story-image{min-height:460px;background:url('assets/anomaly-05.png') center/cover no-repeat;position:relative}.story-image:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#090d12,transparent 45%)}
+    .pillars{grid-template-columns:repeat(3,1fr)}
+    .pillar{padding:24px 0;border-top:1px solid var(--line);font-size:1.1rem;text-transform:uppercase;letter-spacing:.08em}
+    .gallery{grid-template-columns:repeat(2,1fr)}.gallery figure{margin:0;position:relative;overflow:hidden;border:1px solid var(--line);background:#05070a}.gallery img{width:100%;aspect-ratio:3/2;object-fit:cover;filter:saturate(.75) contrast(1.08);transition:.35s transform,.35s filter}.gallery figure:hover img{transform:scale(1.02);filter:saturate(1) contrast(1.1)}.gallery figcaption{position:absolute;left:18px;bottom:14px;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:#d5dde3;text-shadow:0 2px 8px #000}
+    .status{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.status-box{border:1px solid var(--line);padding:28px;background:#0a0e13}.status-box strong{display:block;font-size:1.6rem;margin-top:8px}.status-box span{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#8996a3}
+    footer{border-top:1px solid var(--line);padding:38px 24px;color:#7f8b96}.footer-inner{max-width:var(--max);margin:auto;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}.legal{max-width:760px;font-size:.82rem}
+    @media(max-width:900px){.features{grid-template-columns:repeat(2,1fr)}.section-head,.story-panel{grid-template-columns:1fr}.story-image{min-height:340px;order:-1}.story-image:after{background:linear-gradient(0deg,#090d12,transparent 45%)}.pillars{grid-template-columns:repeat(2,1fr)}.status{grid-template-columns:1fr}.links{display:none}}
+    @media(max-width:600px){section{padding:68px 18px}.hero-content{padding:130px 18px 64px}.features,.gallery,.pillars{grid-template-columns:1fr}.tagline{letter-spacing:.22em}.brand{letter-spacing:.18em}.card{min-height:auto}.story-text{padding:26px}}
+
+
+    /* Lightweight cinematic glitch layer */
+    :root{--glitch-a:#6ff7ff;--glitch-b:#ff405d;--ease:cubic-bezier(.22,.8,.28,1)}
+    body{transition:opacity .28s ease,filter .28s ease}
+    .js body:not(.is-ready){overflow:hidden}
+
+    .page-transition{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#020305;pointer-events:none;transform:translateY(0);transition:transform .72s var(--ease);will-change:transform}
+    .page-transition:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.045) 3px 4px),linear-gradient(90deg,transparent,rgba(111,247,255,.07),transparent);animation:transition-scan 1.25s linear infinite}
+    .page-transition:after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(255,255,255,.38);box-shadow:0 0 18px rgba(111,247,255,.34);animation:transition-line .9s steps(5,end) infinite}
+    .transition-mark{position:relative;font-weight:950;letter-spacing:.34em;text-indent:.34em;font-size:clamp(1rem,3vw,1.55rem);text-transform:uppercase;animation:mark-glitch .9s steps(2,end) infinite}
+    .transition-mark:before,.transition-mark:after{content:attr(data-text);position:absolute;inset:0;opacity:.72;pointer-events:none}
+    .transition-mark:before{color:var(--glitch-a);transform:translateX(-2px);clip-path:inset(10% 0 62% 0)}
+    .transition-mark:after{color:var(--glitch-b);transform:translateX(2px);clip-path:inset(64% 0 8% 0)}
+    .js body.is-ready .page-transition{transform:translateY(-101%)}
+    .js body.is-leaving .page-transition{transform:translateY(0);transition-duration:.42s}
+    .js body.is-leaving main,.js body.is-leaving footer,.js body.is-leaving .nav{filter:contrast(1.35) saturate(.6);transform:translateY(-8px);opacity:.32;transition:transform .38s ease,opacity .38s ease,filter .38s ease}
+
+    .hero{overflow:hidden;isolation:isolate}
+    .hero:before{content:"";position:absolute;z-index:1;left:0;right:0;top:-18%;height:18%;background:linear-gradient(180deg,transparent,rgba(190,231,255,.085),transparent);mix-blend-mode:screen;animation:hero-scan 6.5s linear infinite;pointer-events:none}
+    .hero-content{transition:opacity .75s ease .1s,transform .75s var(--ease) .1s,filter .75s ease .1s}
+    .js body:not(.is-ready) .hero-content{opacity:0;transform:translateY(22px);filter:blur(7px)}
+
+    .hero-title{display:flex;flex-direction:column;width:max-content;max-width:100%}
+    .glitch{position:relative;display:block;width:max-content;max-width:100%;text-shadow:0 0 28px rgba(255,255,255,.055)}
+    .glitch:before,.glitch:after{content:attr(data-text);position:absolute;inset:0;pointer-events:none;opacity:0}
+    .glitch:before{color:var(--glitch-a);transform:translateX(-3px)}
+    .glitch:after{color:var(--glitch-b);transform:translateX(3px)}
+    .is-ready .glitch:before{animation:glitch-before 5.4s steps(2,end) infinite}
+    .is-ready .glitch:after{animation:glitch-after 5.4s steps(2,end) infinite}
+
+    .nav{transition:background .28s ease,border-color .28s ease}
+    .nav.scrolled{background:rgba(5,7,10,.88);border-bottom:1px solid rgba(255,255,255,.08)}
+    .links a{position:relative;transition:color .2s ease}
+    .links a:after{content:"";position:absolute;left:0;right:100%;bottom:-7px;height:1px;background:currentColor;transition:right .28s var(--ease)}
+    .links a:hover:after,.links a:focus-visible:after{right:0}
+
+    .btn,.card,.pillar,.status-box,.gallery figure{transition:transform .3s var(--ease),border-color .3s ease,background .3s ease,box-shadow .3s ease,filter .3s ease}
+    .card:hover,.status-box:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.24);box-shadow:0 18px 45px rgba(0,0,0,.22)}
+    .pillar:hover{transform:translateX(6px);border-color:rgba(255,255,255,.28)}
+    .gallery figure:hover{border-color:rgba(255,255,255,.26);box-shadow:0 22px 52px rgba(0,0,0,.25)}
+    .gallery figure:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;background:repeating-linear-gradient(0deg,transparent 0 5px,rgba(255,255,255,.1) 5px 6px);mix-blend-mode:overlay;transition:opacity .25s ease}
+    .gallery figure:hover:after{opacity:.32}
+
+    .js .reveal{opacity:0;transform:translateY(22px);filter:blur(4px);transition:opacity .62s ease,transform .62s var(--ease),filter .62s ease}
+    .js .reveal.is-visible{opacity:1;transform:none;filter:none}
+    .js .reveal-delay-1{transition-delay:.06s}.js .reveal-delay-2{transition-delay:.12s}.js .reveal-delay-3{transition-delay:.18s}
+
+    @keyframes transition-scan{to{background-position:0 24px,100vw 0}}
+    @keyframes transition-line{0%,100%{transform:translateY(-42vh);opacity:.15}50%{transform:translateY(42vh);opacity:.65}}
+    @keyframes mark-glitch{0%,88%,100%{transform:none}89%{transform:skewX(-8deg) translateX(2px)}91%{transform:skewX(6deg) translateX(-2px)}}
+    @keyframes hero-scan{0%{transform:translateY(-15vh);opacity:0}8%{opacity:.65}92%{opacity:.2}100%{transform:translateY(135vh);opacity:0}}
+    @keyframes glitch-before{
+      0%,7%,9%,47%,49%,83%,85%,100%{opacity:0;clip-path:inset(0 0 100% 0)}
+      8%{opacity:.75;clip-path:inset(12% 0 64% 0);transform:translate(-4px,-1px)}
+      48%{opacity:.6;clip-path:inset(58% 0 16% 0);transform:translate(3px,1px)}
+      84%{opacity:.55;clip-path:inset(35% 0 42% 0);transform:translate(-2px,0)}
+    }
+    @keyframes glitch-after{
+      0%,7%,9%,47%,49%,83%,85%,100%{opacity:0;clip-path:inset(100% 0 0 0)}
+      8%{opacity:.68;clip-path:inset(66% 0 10% 0);transform:translate(4px,1px)}
+      48%{opacity:.56;clip-path:inset(18% 0 62% 0);transform:translate(-3px,-1px)}
+      84%{opacity:.5;clip-path:inset(72% 0 7% 0);transform:translate(2px,0)}
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}.page-transition,.hero-content,.reveal,.btn,.card,.pillar,.status-box,.gallery figure,.gallery img{transition-duration:.01ms!important;animation:none!important}
+      .hero:before,.glitch:before,.glitch:after,.page-transition:before,.page-transition:after{animation:none!important;display:none!important}
+      .js body.is-ready .page-transition{display:none}.js .reveal{opacity:1;transform:none;filter:none}
+    }
+
+
+    /* =========================================================
+       1970s COLD WAR TERMINAL / CRT ATMOSPHERE
+       Visual-only enhancements; original site content is preserved.
+       ========================================================= */
+    :root{
+      --phosphor:#b7c2a1;
+      --phosphor-dim:rgba(183,194,161,.17);
+      --amber:#d6aa62;
+      --ink:#030503;
+      --terminal-grid:rgba(183,194,161,.035);
+    }
+
+    body{
+      background:
+        linear-gradient(rgba(255,255,255,.012),rgba(255,255,255,.012)),
+        repeating-linear-gradient(90deg,transparent 0 79px,var(--terminal-grid) 79px 80px),
+        repeating-linear-gradient(0deg,transparent 0 79px,var(--terminal-grid) 79px 80px),
+        var(--bg);
+      text-shadow:0 0 12px rgba(183,194,161,.025);
+    }
+
+    body:before{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:8;
+      pointer-events:none;
+      opacity:.16;
+      background:linear-gradient(
+        rgba(18,16,12,.08) 50%,
+        rgba(0,0,0,.18) 50%
+      );
+      background-size:100% 4px;
+      animation:crt-flicker .13s steps(2,end) infinite;
+    }
+
+    .film-dust,.crt-vignette,.radar-sweep{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+    }
+
+    .film-dust{
+      z-index:9;
+      opacity:.09;
+      background-image:
+        radial-gradient(circle at 14% 23%,rgba(255,255,255,.65) 0 1px,transparent 1.5px),
+        radial-gradient(circle at 72% 68%,rgba(255,255,255,.5) 0 1px,transparent 1.6px),
+        radial-gradient(circle at 43% 81%,rgba(255,255,255,.45) 0 1px,transparent 1.5px),
+        radial-gradient(circle at 87% 14%,rgba(255,255,255,.5) 0 1px,transparent 1.7px);
+      background-size:173px 211px,241px 193px,199px 277px,281px 167px;
+      animation:film-drift 17s steps(8,end) infinite;
+    }
+
+    .crt-vignette{
+      z-index:11;
+      box-shadow:
+        inset 0 0 12vw rgba(0,0,0,.82),
+        inset 0 0 2vw rgba(0,0,0,.62);
+      background:radial-gradient(ellipse at center,transparent 47%,rgba(0,0,0,.2) 76%,rgba(0,0,0,.68) 100%);
+      opacity:.72;
+    }
+
+    .radar-sweep{
+      z-index:7;
+      inset:auto -18vw -52vw auto;
+      width:min(92vw,900px);
+      aspect-ratio:1;
+      border-radius:50%;
+      opacity:.13;
+      background:
+        repeating-radial-gradient(circle,transparent 0 58px,rgba(183,194,161,.18) 59px 60px),
+        repeating-conic-gradient(from 0deg,rgba(183,194,161,.08) 0 1deg,transparent 1deg 30deg),
+        conic-gradient(from 0deg,transparent 0 334deg,rgba(183,194,161,.58) 350deg,transparent 360deg);
+      border:1px solid rgba(183,194,161,.18);
+      filter:blur(.15px);
+      animation:radar-rotate 12s linear infinite;
+      transform-origin:center;
+    }
+
+    .signal-ticker{
+      position:fixed;
+      z-index:18;
+      left:0;
+      right:0;
+      bottom:0;
+      height:24px;
+      overflow:hidden;
+      border-top:1px solid rgba(183,194,161,.16);
+      background:rgba(3,5,3,.88);
+      color:rgba(183,194,161,.58);
+      font-family:"Courier New",monospace;
+      font-size:.62rem;
+      line-height:23px;
+      letter-spacing:.24em;
+      white-space:nowrap;
+      pointer-events:none;
+    }
+
+    .signal-ticker span{
+      display:inline-block;
+      min-width:max-content;
+      padding-left:100%;
+      animation:ticker-scroll 24s linear infinite;
+    }
+
+    main,footer{position:relative;z-index:2}
+    footer{padding-bottom:58px}
+
+    .nav{
+      border-bottom:1px solid rgba(183,194,161,.08);
+      box-shadow:0 8px 45px rgba(0,0,0,.18);
+    }
+
+    .brand,.kicker,.eyebrow,.tagline,.links,.num,.btn,.status-box span,.gallery figcaption{
+      font-family:"Courier New",monospace;
+    }
+
+    .brand{
+      text-shadow:0 0 14px rgba(183,194,161,.18);
+      animation:brand-breathe 4.5s ease-in-out infinite;
+    }
+
+    .brand:before{
+      content:"[";
+      color:rgba(183,194,161,.42);
+      margin-right:.45em;
+    }
+
+    .brand:after{
+      content:"]";
+      color:rgba(183,194,161,.42);
+      margin-left:.18em;
+    }
+
+    .hero{
+      background-position:center;
+      animation:hero-drift 18s ease-in-out infinite alternate;
+    }
+
+    .hero-content:before{
+      content:"RESTRICTED // EYES ONLY";
+      display:inline-flex;
+      margin-bottom:15px;
+      padding:5px 8px;
+      border:1px solid rgba(214,170,98,.36);
+      color:rgba(214,170,98,.76);
+      font:700 .6rem/1 "Courier New",monospace;
+      letter-spacing:.18em;
+      transform:rotate(-1deg);
+      animation:stamp-pulse 3.2s steps(2,end) infinite;
+    }
+
+    .hero-title{
+      filter:drop-shadow(0 0 16px rgba(183,194,161,.07));
+    }
+
+    .hero-title:after{
+      content:"";
+      width:100%;
+      height:1px;
+      margin-top:15px;
+      background:linear-gradient(90deg,var(--phosphor),transparent);
+      transform-origin:left;
+      animation:title-line 3.7s ease-in-out infinite;
+      opacity:.45;
+    }
+
+    .eyebrow:after{
+      content:"_";
+      margin-left:.35em;
+      animation:terminal-cursor .85s steps(1,end) infinite;
+    }
+
+    .section-head,.story-panel,.card,.status-box,.gallery figure{
+      position:relative;
+    }
+
+    .section-head:before{
+      content:"";
+      position:absolute;
+      left:-14px;
+      top:3px;
+      width:3px;
+      height:42px;
+      background:var(--phosphor);
+      box-shadow:0 0 15px rgba(183,194,161,.3);
+      opacity:.38;
+      animation:section-marker 4.2s ease-in-out infinite;
+    }
+
+    .card,.status-box,.story-panel,.gallery figure{
+      clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
+    }
+
+    .card:before,.status-box:before,.story-panel:before{
+      content:"";
+      position:absolute;
+      z-index:0;
+      inset:0;
+      pointer-events:none;
+      opacity:.22;
+      background:linear-gradient(110deg,transparent 0 42%,rgba(183,194,161,.12) 49%,transparent 56%);
+      background-size:250% 100%;
+      animation:panel-scan 7s linear infinite;
+    }
+
+    .card > *,.status-box > *,.story-panel > *{
+      position:relative;
+      z-index:1;
+    }
+
+    .feature-card{
+      min-height:215px;
+      overflow:hidden;
+    }
+
+    .feature-card h3{
+      margin-bottom:18px;
+    }
+
+    .feature-dropdown{
+      margin-top:auto;
+      border-top:1px dashed rgba(183,194,161,.19);
+    }
+
+    .feature-dropdown summary{
+      list-style:none;
+      cursor:pointer;
+      min-height:48px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      color:rgba(199,211,220,.78);
+      font-family:"Courier New",monospace;
+      font-size:.68rem;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      transition:color .25s ease,text-shadow .25s ease;
+    }
+
+    .feature-dropdown summary::-webkit-details-marker{display:none}
+
+    .feature-dropdown summary:hover,
+    .feature-dropdown summary:focus-visible{
+      color:#fff;
+      text-shadow:0 0 12px rgba(183,194,161,.28);
+      outline:none;
+    }
+
+    .detail-icon{
+      width:20px;
+      height:20px;
+      flex:0 0 20px;
+      position:relative;
+      border:1px solid rgba(183,194,161,.22);
+      border-radius:50%;
+      transition:transform .35s var(--ease),border-color .25s ease,box-shadow .25s ease;
+    }
+
+    .detail-icon:before,.detail-icon:after{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:50%;
+      width:8px;
+      height:1px;
+      background:var(--phosphor);
+      transform:translate(-50%,-50%);
+    }
+
+    .detail-icon:after{
+      transform:translate(-50%,-50%) rotate(90deg);
+      transition:opacity .25s ease;
+    }
+
+    details[open] .detail-icon{
+      transform:rotate(180deg);
+      border-color:rgba(183,194,161,.5);
+      box-shadow:0 0 14px rgba(183,194,161,.12);
+    }
+
+    details[open] .detail-icon:after{opacity:0}
+
+    .feature-detail{
+      display:grid;
+      grid-template-rows:0fr;
+      opacity:0;
+      transition:grid-template-rows .42s var(--ease),opacity .32s ease,padding .32s ease;
+    }
+
+    .feature-detail p{
+      min-height:0;
+      overflow:hidden;
+      padding:0 0;
+    }
+
+    details[open] .feature-detail{
+      grid-template-rows:1fr;
+      opacity:1;
+      padding-bottom:4px;
+    }
+
+    details[open] .feature-detail p{
+      padding:0 0 12px;
+    }
+
+    .btn{
+      position:relative;
+      overflow:visible;
+      isolation:isolate;
+    }
+
+    .btn:before{
+      content:"";
+      position:absolute;
+      inset:-5px;
+      z-index:-1;
+      border:1px solid rgba(183,194,161,.22);
+      opacity:0;
+      transform:scale(.94);
+      pointer-events:none;
+    }
+
+    .btn:after{
+      content:"";
+      position:absolute;
+      inset:0;
+      z-index:-1;
+      pointer-events:none;
+      background:linear-gradient(100deg,transparent 0 35%,rgba(255,255,255,.42) 50%,transparent 65%);
+      background-size:240% 100%;
+      transform:translateZ(0);
+      animation:button-sweep 4.6s ease-in-out infinite;
+      opacity:.24;
+    }
+
+    .btn.primary{
+      animation:button-pulse 2.35s ease-in-out infinite;
+    }
+
+    .btn.primary:before{
+      opacity:.7;
+      animation:button-ring 2.35s ease-out infinite;
+    }
+
+    .btn:hover,.btn:focus-visible{
+      box-shadow:0 0 0 1px rgba(183,194,161,.24),0 0 28px rgba(183,194,161,.12);
+      outline:none;
+    }
+
+    .gallery img{
+      animation:archive-breathe 10s ease-in-out infinite alternate;
+    }
+
+    .gallery figure:nth-child(2) img{animation-delay:-2.4s}
+    .gallery figure:nth-child(3) img{animation-delay:-5.1s}
+    .gallery figure:nth-child(4) img{animation-delay:-7.3s}
+
+    .status-box strong:after{
+      content:" //";
+      color:rgba(183,194,161,.22);
+      animation:terminal-cursor .95s steps(1,end) infinite;
+    }
+
+    body.signal-hit main,
+    body.signal-hit footer,
+    body.signal-hit .nav{
+      animation:signal-jolt .18s steps(2,end) 1;
+    }
+
+    body.signal-hit:after{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:9998;
+      pointer-events:none;
+      background:linear-gradient(transparent 0 35%,rgba(183,194,161,.1) 35% 39%,transparent 39% 100%);
+      mix-blend-mode:screen;
+      animation:signal-tear .18s steps(2,end) 1;
+    }
+
+    @keyframes crt-flicker{
+      0%,100%{opacity:.12}
+      50%{opacity:.18}
+    }
+    @keyframes film-drift{
+      0%{transform:translate3d(0,0,0)}
+      25%{transform:translate3d(-1.4%,1%,0)}
+      50%{transform:translate3d(.8%,-1.2%,0)}
+      75%{transform:translate3d(1.1%,.7%,0)}
+      100%{transform:translate3d(-.6%,-.5%,0)}
+    }
+    @keyframes radar-rotate{to{transform:rotate(360deg)}}
+    @keyframes ticker-scroll{to{transform:translateX(-100%)}}
+    @keyframes brand-breathe{
+      0%,100%{opacity:.82;filter:none}
+      50%{opacity:1;filter:drop-shadow(0 0 5px rgba(183,194,161,.12))}
+    }
+    @keyframes hero-drift{
+      from{background-position:49% 50%}
+      to{background-position:52% 48%}
+    }
+    @keyframes stamp-pulse{
+      0%,82%,100%{opacity:.58}
+      84%,88%{opacity:1}
+      86%{opacity:.28}
+    }
+    @keyframes title-line{
+      0%,100%{transform:scaleX(.35);opacity:.18}
+      50%{transform:scaleX(1);opacity:.5}
+    }
+    @keyframes terminal-cursor{50%{opacity:0}}
+    @keyframes section-marker{
+      0%,100%{transform:scaleY(.4);opacity:.2}
+      50%{transform:scaleY(1);opacity:.52}
+    }
+    @keyframes panel-scan{to{background-position:-250% 0}}
+    @keyframes button-sweep{
+      0%,56%{background-position:160% 0}
+      78%,100%{background-position:-70% 0}
+    }
+    @keyframes button-pulse{
+      0%,100%{box-shadow:0 0 0 0 rgba(232,237,241,0),0 0 0 rgba(183,194,161,0)}
+      50%{box-shadow:0 0 0 1px rgba(232,237,241,.42),0 0 28px rgba(183,194,161,.17)}
+    }
+    @keyframes button-ring{
+      0%{opacity:.62;transform:scale(.95)}
+      72%,100%{opacity:0;transform:scale(1.14)}
+    }
+    @keyframes archive-breathe{
+      from{transform:scale(1.01);filter:saturate(.66) contrast(1.08) brightness(.9)}
+      to{transform:scale(1.035);filter:saturate(.84) contrast(1.13) brightness(1)}
+    }
+    @keyframes signal-jolt{
+      0%{transform:none;filter:none}
+      35%{transform:translateX(2px);filter:contrast(1.25) saturate(.55)}
+      70%{transform:translateX(-2px);filter:contrast(1.5)}
+      100%{transform:none;filter:none}
+    }
+    @keyframes signal-tear{
+      0%{transform:translateY(-30%);opacity:0}
+      35%{opacity:.8}
+      100%{transform:translateY(70%);opacity:0}
+    }
+
+    @media(max-width:600px){
+      .signal-ticker{height:21px;line-height:20px;font-size:.54rem}
+      footer{padding-bottom:52px}
+      .radar-sweep{width:125vw;right:-52vw;bottom:-58vw}
+      .section-head:before{left:-8px}
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      body:before,.film-dust,.radar-sweep,.signal-ticker span,.brand,.hero,.hero-content:before,
+      .hero-title:after,.section-head:before,.card:before,.status-box:before,.story-panel:before,
+      .btn:before,.btn:after,.btn.primary,.gallery img,.status-box strong:after{
+        animation:none!important;
+      }
+      .feature-detail{transition:none}
+      .signal-ticker{display:none}
+      footer{padding-bottom:38px}
+    }
+
+
+    /* =========================================================
+       RELEASE COUNTDOWN + PROCEDURAL FPS COMBAT FEED + SOUND UI
+       ========================================================= */
+    .release-section{
+      background:
+        linear-gradient(180deg,rgba(183,194,161,.025),transparent 24%),
+        linear-gradient(0deg,#05070a,#080b0e);
+      overflow:hidden;
+    }
+
+    .release-grid{
+      display:grid;
+      grid-template-columns:.88fr 1.12fr;
+      gap:18px;
+      align-items:stretch;
+    }
+
+    .countdown-console,.combat-terminal{
+      position:relative;
+      border:1px solid rgba(183,194,161,.2);
+      background:
+        repeating-linear-gradient(0deg,transparent 0 34px,rgba(183,194,161,.018) 34px 35px),
+        linear-gradient(145deg,#0d1210,#060807);
+      box-shadow:inset 0 0 40px rgba(0,0,0,.48),0 20px 60px rgba(0,0,0,.22);
+      clip-path:polygon(0 0,calc(100% - 15px) 0,100% 15px,100% 100%,15px 100%,0 calc(100% - 15px));
+    }
+
+    .countdown-console{
+      padding:24px;
+      display:flex;
+      min-height:420px;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+    .countdown-console:before,.combat-terminal:before{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:linear-gradient(100deg,transparent 30%,rgba(183,194,161,.08) 48%,transparent 66%);
+      background-size:280% 100%;
+      animation:release-panel-scan 8s linear infinite;
+      opacity:.36;
+    }
+
+    .console-topline,.combat-header,.release-meta,.combat-caption{
+      position:relative;
+      z-index:2;
+      font-family:"Courier New",monospace;
+      text-transform:uppercase;
+      letter-spacing:.15em;
+    }
+
+    .console-topline,.combat-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      color:rgba(199,211,220,.68);
+      font-size:.63rem;
+      border-bottom:1px solid rgba(183,194,161,.13);
+      padding-bottom:13px;
+    }
+
+    .live-indicator{
+      color:rgba(183,194,161,.9);
+      white-space:nowrap;
+    }
+
+    .live-indicator i{
+      display:inline-block;
+      width:7px;
+      height:7px;
+      margin-right:6px;
+      border-radius:50%;
+      background:var(--phosphor);
+      box-shadow:0 0 12px rgba(183,194,161,.58);
+      animation:release-live 1s steps(1,end) infinite;
+    }
+
+    .countdown{
+      position:relative;
+      z-index:2;
+      display:grid;
+      grid-template-columns:1.35fr auto 1fr auto 1fr auto 1fr;
+      align-items:center;
+      gap:8px;
+      margin:40px 0;
+    }
+
+    .time-unit{
+      min-width:0;
+      text-align:center;
+    }
+
+    .time-unit strong{
+      display:block;
+      color:#e4eadc;
+      font-family:"Courier New",monospace;
+      font-size:clamp(2.25rem,5vw,4.4rem);
+      line-height:1;
+      letter-spacing:-.08em;
+      text-shadow:0 0 19px rgba(183,194,161,.19);
+      font-variant-numeric:tabular-nums;
+      animation:digit-glow 2.8s ease-in-out infinite;
+    }
+
+    .time-unit span{
+      display:block;
+      margin-top:10px;
+      color:rgba(183,194,161,.52);
+      font:700 .58rem/1 "Courier New",monospace;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+    }
+
+    .time-divider{
+      color:rgba(183,194,161,.35);
+      font-family:"Courier New",monospace;
+      font-size:2rem;
+      transform:translateY(-12px);
+      animation:count-divider 1s steps(1,end) infinite;
+    }
+
+    .release-meta{
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      color:rgba(183,194,161,.46);
+      font-size:.56rem;
+      border-top:1px solid rgba(183,194,161,.13);
+      padding-top:14px;
+    }
+
+    .combat-terminal{
+      padding:15px;
+    }
+
+    .combat-header{
+      padding:3px 4px 12px;
+    }
+
+    .combat-code{
+      color:var(--amber);
+    }
+
+    .combat-screen{
+      position:relative;
+      margin-top:14px;
+      overflow:hidden;
+      background:#020302;
+      border:1px solid rgba(183,194,161,.17);
+      aspect-ratio:16/9;
+      box-shadow:inset 0 0 45px #000;
+    }
+
+    .combat-screen:before{
+      content:"";
+      position:absolute;
+      z-index:4;
+      inset:0;
+      pointer-events:none;
+      background:
+        repeating-linear-gradient(0deg,transparent 0 3px,rgba(190,215,182,.055) 3px 4px),
+        radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.62) 100%);
+      mix-blend-mode:screen;
+    }
+
+    .combat-screen:after{
+      content:"";
+      position:absolute;
+      z-index:5;
+      left:-20%;
+      right:-20%;
+      top:-15%;
+      height:14%;
+      pointer-events:none;
+      background:linear-gradient(180deg,transparent,rgba(183,194,161,.12),transparent);
+      animation:combat-scanline 4.8s linear infinite;
+    }
+
+    #combat-feed{
+      display:block;
+      width:100%;
+      height:100%;
+      filter:saturate(.68) contrast(1.16) sepia(.08);
+    }
+
+    .combat-overlay{
+      position:absolute;
+      z-index:6;
+      inset:0;
+      pointer-events:none;
+      color:rgba(222,234,215,.78);
+      font-family:"Courier New",monospace;
+      font-size:.62rem;
+      letter-spacing:.12em;
+      text-shadow:0 0 7px #000;
+    }
+
+    .feed-rec{position:absolute;left:15px;top:13px;color:#d0786c;animation:rec-blink 1s steps(1,end) infinite}
+    .feed-time{position:absolute;left:50%;top:13px;transform:translateX(-50%)}
+    .feed-classified{position:absolute;right:15px;top:13px;color:rgba(214,170,98,.86)}
+    .hud-ammo{position:absolute;right:18px;bottom:16px;text-align:right}
+    .hud-ammo b{font-size:2.1rem;line-height:1}
+    .hud-ammo small{font-size:.67rem}
+    .hud-status{position:absolute;left:15px;bottom:16px;color:rgba(183,194,161,.68)}
+
+    .combat-caption{
+      position:relative;
+      z-index:2;
+      padding:12px 4px 1px;
+      color:rgba(183,194,161,.4);
+      font-size:.52rem;
+    }
+
+    .sound-toggle{
+      position:fixed;
+      z-index:30;
+      right:18px;
+      bottom:36px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      min-height:35px;
+      padding:0 12px;
+      border:1px solid rgba(183,194,161,.22);
+      background:rgba(3,5,3,.9);
+      color:rgba(199,211,220,.72);
+      font:700 .58rem/1 "Courier New",monospace;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      cursor:pointer;
+      backdrop-filter:blur(8px);
+      box-shadow:0 8px 30px rgba(0,0,0,.24);
+      transition:border-color .25s ease,color .25s ease,box-shadow .25s ease,transform .25s ease;
+    }
+
+    .sound-toggle:hover,.sound-toggle:focus-visible{
+      color:#fff;
+      border-color:rgba(183,194,161,.5);
+      box-shadow:0 0 22px rgba(183,194,161,.1);
+      outline:none;
+      transform:translateY(-1px);
+    }
+
+    .sound-dot{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:#6e7470;
+      box-shadow:0 0 0 rgba(183,194,161,0);
+    }
+
+    .sound-toggle[aria-pressed="true"] .sound-dot{
+      background:var(--phosphor);
+      box-shadow:0 0 10px rgba(183,194,161,.5);
+      animation:sound-dot-pulse 1.4s ease-in-out infinite;
+    }
+
+    @keyframes release-panel-scan{to{background-position:-280% 0}}
+    @keyframes release-live{50%{opacity:.22}}
+    @keyframes digit-glow{
+      0%,100%{opacity:.87;text-shadow:0 0 10px rgba(183,194,161,.11)}
+      50%{opacity:1;text-shadow:0 0 22px rgba(183,194,161,.24)}
+    }
+    @keyframes count-divider{50%{opacity:.12}}
+    @keyframes combat-scanline{to{transform:translateY(135vh)}}
+    @keyframes rec-blink{50%{opacity:.28}}
+    @keyframes sound-dot-pulse{
+      0%,100%{transform:scale(.85)}
+      50%{transform:scale(1.18)}
+    }
+
+    @media(max-width:980px){
+      .release-grid{grid-template-columns:1fr}
+      .countdown-console{min-height:360px}
+    }
+
+    @media(max-width:600px){
+      .countdown-console{padding:18px;min-height:320px}
+      .countdown{gap:3px;margin:30px 0}
+      .time-unit strong{font-size:clamp(1.65rem,10vw,2.8rem)}
+      .time-unit span{font-size:.48rem;letter-spacing:.08em}
+      .time-divider{font-size:1.2rem}
+      .release-meta{flex-direction:column;gap:7px}
+      .sound-toggle{right:10px;bottom:29px}
+      .combat-overlay{font-size:.48rem}
+      .hud-ammo b{font-size:1.5rem}
+      .hud-status{max-width:55%}
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      .countdown-console:before,.combat-terminal:before,.live-indicator i,.time-unit strong,
+      .time-divider,.combat-screen:after,.feed-rec,.sound-toggle[aria-pressed="true"] .sound-dot{
+        animation:none!important;
+      }
+    }
+
   </style>
 </head>
 <body id="top">
