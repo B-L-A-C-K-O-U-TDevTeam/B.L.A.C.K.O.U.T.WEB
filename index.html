@@ -889,644 +889,6 @@
       }
     }
 
-
-    /* =========================================================
-       PLAYABLE RETRO FPS MINI-GAME
-       ========================================================= */
-    .retro-game-shell{
-      min-width:0;
-    }
-
-    .game-window-actions{
-      display:flex;
-      gap:7px;
-      align-items:center;
-    }
-
-    .game-icon-btn{
-      width:28px;
-      height:28px;
-      border:1px solid rgba(183,194,161,.25);
-      background:rgba(183,194,161,.04);
-      color:rgba(224,232,218,.78);
-      font:700 .86rem/1 "Courier New",monospace;
-      cursor:pointer;
-      transition:background .2s ease,border-color .2s ease,color .2s ease,transform .2s ease;
-    }
-
-    .game-icon-btn:hover,.game-icon-btn:focus-visible{
-      background:rgba(183,194,161,.12);
-      border-color:rgba(183,194,161,.55);
-      color:#fff;
-      transform:translateY(-1px);
-      outline:none;
-    }
-
-    .game-screen{
-      cursor:crosshair;
-      user-select:none;
-      touch-action:none;
-      min-height:300px;
-    }
-
-    .game-screen:focus{
-      outline:1px solid rgba(183,194,161,.36);
-      outline-offset:3px;
-    }
-
-    .game-hud{
-      transition:opacity .2s ease;
-    }
-
-    .hud-health{
-      position:absolute;
-      left:15px;
-      top:42px;
-      display:grid;
-      grid-template-columns:auto 110px auto;
-      align-items:center;
-      gap:8px;
-      color:rgba(222,234,215,.72);
-      font-size:.54rem;
-    }
-
-    .health-track{
-      width:110px;
-      height:6px;
-      border:1px solid rgba(183,194,161,.27);
-      background:rgba(0,0,0,.45);
-      overflow:hidden;
-    }
-
-    .health-track i{
-      display:block;
-      width:100%;
-      height:100%;
-      background:linear-gradient(90deg,#7b936d,#c2d0b7);
-      box-shadow:0 0 8px rgba(183,194,161,.28);
-      transition:width .18s linear;
-    }
-
-    .hud-score{
-      position:absolute;
-      right:15px;
-      top:42px;
-      text-align:right;
-      color:rgba(222,234,215,.72);
-      font-size:.54rem;
-    }
-
-    .hud-score span,.hud-score b{
-      display:block;
-    }
-
-    .hud-score b{
-      font-size:1rem;
-      letter-spacing:.12em;
-    }
-
-    .game-start-panel,.game-pause-panel,.game-over-panel{
-      position:absolute;
-      z-index:10;
-      inset:0;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap:14px;
-      padding:28px;
-      text-align:center;
-      color:#e5eadf;
-      background:
-        linear-gradient(rgba(3,5,3,.72),rgba(3,5,3,.89)),
-        repeating-linear-gradient(0deg,transparent 0 4px,rgba(183,194,161,.035) 4px 5px);
-      backdrop-filter:blur(4px);
-    }
-
-    .game-pause-panel[hidden],.game-over-panel[hidden],.game-start-panel[hidden]{
-      display:none;
-    }
-
-    .game-start-panel h3,.game-over-panel h3{
-      margin:0;
-      font-size:clamp(1.4rem,3vw,2.4rem);
-      text-transform:uppercase;
-      letter-spacing:.05em;
-    }
-
-    .game-start-panel p,.game-over-panel p{
-      max-width:560px;
-      margin:0;
-      color:#aeb8c1;
-      font-size:.9rem;
-    }
-
-    .game-title-small{
-      color:var(--amber);
-      font:700 .64rem/1 "Courier New",monospace;
-      letter-spacing:.25em;
-      text-transform:uppercase;
-    }
-
-    .game-controls-list{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:7px 18px;
-      max-width:570px;
-      color:rgba(199,211,220,.72);
-      font:700 .58rem/1.5 "Courier New",monospace;
-      letter-spacing:.05em;
-      text-transform:uppercase;
-    }
-
-    .game-controls-list span{
-      border:1px solid rgba(183,194,161,.13);
-      background:rgba(183,194,161,.025);
-      padding:7px 9px;
-    }
-
-    .game-controls-list b{
-      color:rgba(232,237,226,.96);
-    }
-
-    .game-play-btn{
-      margin-top:4px;
-    }
-
-    .game-screen.is-hit{
-      animation:game-damage-flash .18s steps(2,end);
-    }
-
-    .game-screen.is-shot{
-      animation:game-shot-kick .1s steps(2,end);
-    }
-
-    .game-touch-controls{
-      display:none;
-      position:absolute;
-      z-index:9;
-      left:10px;
-      right:10px;
-      bottom:10px;
-      justify-content:space-between;
-      align-items:end;
-      pointer-events:none;
-    }
-
-    .game-touch-controls button{
-      width:54px;
-      height:48px;
-      border:1px solid rgba(183,194,161,.25);
-      background:rgba(3,5,3,.58);
-      color:rgba(231,237,225,.78);
-      font:700 .72rem/1 "Courier New",monospace;
-      pointer-events:auto;
-      touch-action:none;
-    }
-
-    .game-touch-controls button[data-touch="shoot"]{
-      width:74px;
-      height:64px;
-      border-radius:50%;
-      border-color:rgba(214,170,98,.42);
-      color:rgba(241,209,151,.9);
-    }
-
-    .retro-game-shell.is-fullscreen{
-      position:fixed!important;
-      inset:0!important;
-      z-index:10000!important;
-      width:100vw!important;
-      max-width:none!important;
-      height:100vh!important;
-      padding:14px!important;
-      background:#020302;
-      clip-path:none!important;
-    }
-
-    .retro-game-shell.is-fullscreen .combat-screen{
-      height:calc(100vh - 84px);
-      aspect-ratio:auto;
-      margin-top:10px;
-    }
-
-    .retro-game-shell.is-fullscreen .combat-caption{
-      display:none;
-    }
-
-    .retro-game-shell.is-fullscreen .combat-header{
-      height:42px;
-    }
-
-    .retro-game-shell.is-fullscreen #combat-feed{
-      width:100%;
-      height:100%;
-    }
-
-    @keyframes game-damage-flash{
-      0%{box-shadow:inset 0 0 0 999px rgba(158,49,42,.35)}
-      100%{box-shadow:inset 0 0 0 999px rgba(158,49,42,0)}
-    }
-
-    @keyframes game-shot-kick{
-      0%{transform:translateY(2px)}
-      100%{transform:none}
-    }
-
-    @media(max-width:760px),(pointer:coarse){
-      .game-touch-controls{display:flex}
-      .game-controls-list{grid-template-columns:1fr}
-      .hud-health{grid-template-columns:auto 72px auto}
-      .health-track{width:72px}
-      .game-start-panel{padding:18px}
-      .game-start-panel p{font-size:.78rem}
-      .combat-screen{min-height:360px}
-    }
-
-    @media(prefers-reduced-motion:reduce){
-      .game-screen.is-hit,.game-screen.is-shot{animation:none!important}
-    }
-
-
-    /* Unity-style greybox FPS prototype refinements */
-    .hud-weapon{
-      position:absolute;
-      left:15px;
-      bottom:43px;
-      display:flex;
-      flex-direction:column;
-      color:rgba(222,234,215,.82);
-      font-family:"Courier New",monospace;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-    }
-
-    .hud-weapon span{
-      font-size:.74rem;
-      font-weight:900;
-      color:rgba(231,220,190,.92);
-    }
-
-    .hud-weapon small{
-      margin-top:2px;
-      font-size:.44rem;
-      color:rgba(199,211,220,.54);
-    }
-
-    .game-screen{
-      background:#8f969c;
-    }
-
-    .game-start-panel{
-      background:
-        linear-gradient(rgba(20,24,23,.72),rgba(5,7,6,.93)),
-        repeating-linear-gradient(90deg,transparent 0 63px,rgba(183,194,161,.025) 63px 64px),
-        repeating-linear-gradient(0deg,transparent 0 63px,rgba(183,194,161,.025) 63px 64px);
-    }
-
-    .game-start-panel:before{
-      content:"UNITY-STYLE WEB PROTOTYPE // NOT REPRESENTATIVE OF FINAL GAMEPLAY";
-      color:rgba(214,170,98,.72);
-      font:700 .48rem/1.4 "Courier New",monospace;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-    }
-
-    .retro-game-shell.is-fullscreen .game-start-panel h3,
-    .retro-game-shell.is-fullscreen .game-over-panel h3{
-      font-size:clamp(2rem,5vw,4rem);
-    }
-
-    @media(max-width:600px){
-      .hud-weapon{bottom:54px}
-      .hud-weapon small{display:none}
-    }
-
-
-    /* Actual WebGL 3D renderer and full camera-look presentation */
-    #combat-feed{
-      filter:contrast(1.04) saturate(.88);
-    }
-
-    .webgl-crosshair{
-      position:absolute;
-      z-index:8;
-      left:50%;
-      top:50%;
-      width:44px;
-      height:44px;
-      transform:translate(-50%,-50%);
-      pointer-events:none;
-      filter:drop-shadow(0 1px 2px rgba(255,255,255,.22));
-    }
-
-    .webgl-crosshair i{
-      position:absolute;
-      display:block;
-      background:rgba(20,24,22,.82);
-      box-shadow:0 0 1px rgba(255,255,255,.65);
-    }
-
-    .webgl-crosshair i:nth-child(1){width:10px;height:2px;left:0;top:21px}
-    .webgl-crosshair i:nth-child(2){width:10px;height:2px;right:0;top:21px}
-    .webgl-crosshair i:nth-child(3){width:2px;height:10px;left:21px;top:0}
-    .webgl-crosshair i:nth-child(4){width:2px;height:10px;left:21px;bottom:0}
-
-    .webgl-crosshair b{
-      position:absolute;
-      width:3px;
-      height:3px;
-      left:20.5px;
-      top:20.5px;
-      border-radius:50%;
-      background:rgba(20,24,22,.88);
-    }
-
-    .game-screen.is-shot .webgl-crosshair{
-      transform:translate(-50%,-50%) scale(1.22);
-    }
-
-    .camera-lock-hint{
-      position:absolute;
-      z-index:9;
-      left:50%;
-      top:72px;
-      transform:translateX(-50%);
-      max-width:calc(100% - 30px);
-      padding:6px 10px;
-      border:1px solid rgba(183,194,161,.22);
-      background:rgba(5,7,6,.72);
-      color:rgba(231,237,225,.72);
-      font:700 .5rem/1.3 "Courier New",monospace;
-      letter-spacing:.12em;
-      text-align:center;
-      text-transform:uppercase;
-      pointer-events:none;
-      transition:opacity .22s ease,transform .22s ease;
-    }
-
-    .game-screen.camera-locked .camera-lock-hint{
-      opacity:0;
-      transform:translate(-50%,-7px);
-    }
-
-    .game-screen.camera-locked{
-      cursor:none;
-    }
-
-    .game-screen.camera-locked .webgl-crosshair{
-      filter:drop-shadow(0 0 4px rgba(255,255,255,.28));
-    }
-
-    @media(max-width:760px),(pointer:coarse){
-      .camera-lock-hint{display:none}
-      .webgl-crosshair{width:36px;height:36px}
-      .webgl-crosshair i:nth-child(1){top:17px}
-      .webgl-crosshair i:nth-child(2){top:17px}
-      .webgl-crosshair i:nth-child(3){left:17px}
-      .webgl-crosshair i:nth-child(4){left:17px}
-      .webgl-crosshair b{left:16.5px;top:16.5px}
-    }
-
-
-    /* Stable hybrid renderer HUD and mission systems */
-    .hud-score small{
-      display:block;
-      margin-top:4px;
-      color:rgba(214,170,98,.72);
-      font-size:.46rem;
-      letter-spacing:.09em;
-    }
-    .hud-score small b{
-      display:inline;
-      font-size:.58rem;
-      color:rgba(235,211,164,.92);
-    }
-    .hud-objective{
-      position:absolute;
-      left:50%;
-      top:42px;
-      transform:translateX(-50%);
-      padding:5px 9px;
-      border:1px solid rgba(183,194,161,.17);
-      background:rgba(3,5,3,.48);
-      color:rgba(224,232,218,.76);
-      font:700 .5rem/1.2 "Courier New",monospace;
-      letter-spacing:.11em;
-      text-align:center;
-      white-space:nowrap;
-    }
-    .hud-renderer{
-      position:absolute;
-      right:15px;
-      bottom:49px;
-      color:rgba(183,194,161,.46);
-      font:700 .43rem/1.2 "Courier New",monospace;
-      letter-spacing:.09em;
-      text-align:right;
-    }
-    .hud-renderer b{
-      display:block;
-      margin-top:2px;
-      color:rgba(214,170,98,.78);
-      font-size:.48rem;
-    }
-    @media(max-width:700px){
-      .hud-objective{top:67px;font-size:.43rem;max-width:70%;white-space:normal}
-      .hud-renderer{display:none}
-      .hud-score small{display:none}
-    }
-
-
-    /* =========================================================
-       MINIMAL BLANK 3D FPS CONTROLLER SCENE
-       Smooth white plane, blue sky and distance fog. No grid.
-       ========================================================= */
-    .blank-scene-shell{
-      background:linear-gradient(145deg,#101515,#070a09);
-    }
-
-    .blank-scene-screen{
-      background:#79a9d1;
-      cursor:crosshair;
-      min-height:330px;
-    }
-
-    .blank-scene-screen:before{
-      background:radial-gradient(ellipse at center,transparent 62%,rgba(0,0,0,.16) 100%);
-      mix-blend-mode:multiply;
-      opacity:.36;
-    }
-
-    .blank-scene-screen:after{
-      display:none;
-    }
-
-    .blank-scene-screen #combat-feed{
-      width:100%;
-      height:100%;
-      filter:none;
-      image-rendering:auto;
-    }
-
-    .blank-crosshair{
-      position:absolute;
-      z-index:8;
-      left:50%;
-      top:50%;
-      width:28px;
-      height:28px;
-      transform:translate(-50%,-50%);
-      pointer-events:none;
-      opacity:.72;
-    }
-
-    .blank-crosshair i{
-      position:absolute;
-      display:block;
-      background:rgba(24,32,37,.72);
-      box-shadow:0 0 1px rgba(255,255,255,.9);
-    }
-
-    .blank-crosshair i:first-child{
-      left:0;
-      right:0;
-      top:13px;
-      height:1px;
-    }
-
-    .blank-crosshair i:nth-child(2){
-      top:0;
-      bottom:0;
-      left:13px;
-      width:1px;
-    }
-
-    .blank-crosshair b{
-      position:absolute;
-      left:12px;
-      top:12px;
-      width:3px;
-      height:3px;
-      border-radius:50%;
-      background:rgba(24,32,37,.82);
-    }
-
-    .blank-scene-status{
-      position:absolute;
-      z-index:8;
-      left:12px;
-      right:12px;
-      bottom:12px;
-      display:flex;
-      justify-content:space-between;
-      gap:14px;
-      pointer-events:none;
-      color:rgba(25,34,39,.66);
-      font:700 .52rem/1.2 "Courier New",monospace;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      text-shadow:0 1px 1px rgba(255,255,255,.65);
-    }
-
-    .blank-start-panel{
-      background:linear-gradient(rgba(22,34,41,.56),rgba(8,13,16,.82));
-      backdrop-filter:blur(5px);
-    }
-
-    .blank-start-panel:before{
-      content:"UNITY-STYLE WEB SCENE // SMOOTH UNMARKED PLANE";
-    }
-
-    .blank-scene-screen.camera-locked{
-      cursor:none;
-    }
-
-    .blank-scene-screen.camera-locked .camera-lock-hint{
-      opacity:0;
-      transform:translate(-50%,-8px);
-    }
-
-    .blank-touch-controls{
-      justify-content:center;
-      gap:8px;
-    }
-
-    .blank-touch-controls button{
-      width:50px;
-      height:46px;
-      border-radius:4px;
-    }
-
-    .retro-game-shell.is-fullscreen .blank-scene-screen{
-      height:calc(100vh - 84px);
-      min-height:0;
-    }
-
-    @media(max-width:760px),(pointer:coarse){
-      .blank-scene-status{bottom:68px}
-      .blank-scene-screen{min-height:390px}
-      .camera-lock-hint{display:none}
-    }
-
-
-    /* Fluid FPS controller refinements */
-    .blank-scene-screen{
-      background:#6ea6d1;
-    }
-
-    .blank-scene-status{
-      align-items:center;
-      color:rgba(237,242,244,.78);
-      text-shadow:0 1px 3px rgba(0,0,0,.85);
-    }
-
-    #movement-state{
-      color:rgba(222,231,225,.9);
-      text-align:center;
-    }
-
-    .blank-scene-screen.is-sprinting .blank-crosshair{
-      opacity:.58;
-      transform:translate(-50%,-50%) scale(1.08);
-    }
-
-    .blank-scene-screen.is-sliding .blank-crosshair{
-      opacity:.5;
-      transform:translate(-50%,-44%) scale(1.16);
-    }
-
-    .blank-scene-screen.is-airborne .blank-crosshair{
-      opacity:.64;
-    }
-
-    .blank-touch-controls{
-      flex-wrap:wrap;
-    }
-
-    .blank-touch-controls button[data-touch="jump"],
-    .blank-touch-controls button[data-touch="crouch"]{
-      width:64px;
-      color:rgba(232,239,235,.9);
-      border-color:rgba(183,194,161,.34);
-    }
-
-    .blank-touch-controls button[data-touch="crouch"]{
-      color:rgba(226,196,140,.94);
-      border-color:rgba(214,170,98,.4);
-    }
-
-    @media(max-width:760px),(pointer:coarse){
-      .blank-scene-status{
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        font-size:.46rem;
-      }
-      #renderer-mode{display:none}
-      #movement-state{text-align:left}
-      #position-readout{text-align:right}
-    }
-
   </style>
 </head>
 <body id="top">
@@ -1708,58 +1070,22 @@
             </div>
           </div>
 
-          <div class="combat-terminal retro-game-shell blank-scene-shell" id="retro-game-shell">
+          <div class="combat-terminal">
             <div class="combat-header">
-              <span>UNITY-STYLE BLANK 3D SCENE // FLUID FPS CONTROLLER</span>
-              <div class="game-window-actions">
-                <button class="game-icon-btn" id="game-help-btn" type="button" aria-label="Show controller instructions" title="Controls">?</button>
-                <button class="game-icon-btn" id="game-fullscreen-btn" type="button" aria-label="Open scene in fullscreen" title="Fullscreen">⛶</button>
+              <span>TACTICAL CAMERA // LIVE SIMULATION</span>
+              <span class="combat-code">CAM-07</span>
+            </div>
+            <div class="combat-screen">
+              <canvas id="combat-feed" width="960" height="540" aria-label="Animated stylized first-person tactical shooting simulation"></canvas>
+              <div class="combat-overlay" aria-hidden="true">
+                <span class="feed-rec">● REC</span>
+                <span class="feed-time">00:00:00:00</span>
+                <span class="feed-classified">CLASSIFIED</span>
+                <div class="hud-ammo"><b id="hud-ammo">30</b><small>/ 120</small></div>
+                <div class="hud-status">BIO-SIGNAL: UNSTABLE</div>
               </div>
             </div>
-
-            <div class="combat-screen game-screen blank-scene-screen" id="game-screen" tabindex="0" aria-label="Playable blank 3D Unity-style scene with fluid FPS movement">
-              <canvas id="combat-feed" width="960" height="540"></canvas>
-              <div class="blank-crosshair" aria-hidden="true"><i></i><i></i><b></b></div>
-              <div class="camera-lock-hint" id="camera-lock-hint">CLICK THE SCENE TO LOCK CAMERA LOOK</div>
-
-              <div class="blank-scene-status" aria-hidden="true">
-                <span id="renderer-mode">INITIALIZING</span>
-                <span id="movement-state">STANDING // 0.0 M/S</span><span id="position-readout">X 0.0&nbsp;&nbsp;Y 0.0&nbsp;&nbsp;Z 0.0</span>
-              </div>
-
-              <div class="game-start-panel blank-start-panel" id="game-start-panel">
-                <div class="game-title-small">BLANK SCENE</div>
-                <h3>Fluid First-Person Controller</h3>
-                <p>An endless smooth dark-grey plane beneath a clear blue sky, fading naturally into fog. Test fluid walking, sprinting, jumping, crouching, sliding, air control, and full camera look.</p>
-                <div class="game-controls-list">
-                  <span><b>WASD</b> Fluid movement</span>
-                  <span><b>MOUSE</b> Full camera look</span>
-                  <span><b>SHIFT</b> Sprint</span>
-                  <span><b>SPACE</b> Jump</span>
-                  <span><b>C / CTRL</b> Crouch or slide</span>
-                  <span><b>ARROWS</b> Alternate camera look</span>
-                  <span><b>CLICK SCENE</b> Lock camera</span>
-                  <span><b>ESC</b> Pause / release mouse</span>
-                </div>
-                <button class="btn primary game-play-btn" id="game-play-btn" type="button">Enter blank scene</button>
-              </div>
-
-              <div class="game-pause-panel" id="game-pause-panel" hidden>
-                <div class="game-title-small">CONTROLLER PAUSED</div>
-                <button class="btn primary" id="game-resume-btn" type="button">Resume</button>
-              </div>
-
-              <div class="game-touch-controls blank-touch-controls" aria-label="Touch movement controls">
-                <button type="button" data-touch="left" aria-label="Move left">◀</button>
-                <button type="button" data-touch="forward" aria-label="Move forward">▲</button>
-                <button type="button" data-touch="back" aria-label="Move backward">▼</button>
-                <button type="button" data-touch="right" aria-label="Move right">▶</button>
-                <button type="button" data-touch="jump" aria-label="Jump">JUMP</button>
-                <button type="button" data-touch="crouch" aria-label="Crouch or slide">SLIDE</button>
-              </div>
-            </div>
-
-            <div class="combat-caption">A minimal Unity-style movement sandbox: an unmarked infinite dark-grey plane, blue sky, distance fog, acceleration, sprinting, jumping, crouching, sliding, air control, camera bob, landing response, touch controls, and fullscreen.</div>
+            <div class="combat-caption">Procedural browser-rendered combat footage. No external video asset is required.</div>
           </div>
         </div>
       </div>
@@ -1971,727 +1297,272 @@
         detail.addEventListener('toggle', () => playDropdownSound(detail.open));
       });
 
-      // Minimal blank 3D scene: WebGL white plane with a stable canvas fallback.
+      // Procedural stylized FPS combat feed rendered on a canvas.
       const combatCanvas = document.getElementById('combat-feed');
-      const gameScreen = document.getElementById('game-screen');
-      const gameShell = document.getElementById('retro-game-shell');
-      const gameStartPanel = document.getElementById('game-start-panel');
-      const gamePausePanel = document.getElementById('game-pause-panel');
-      const gamePlayBtn = document.getElementById('game-play-btn');
-      const gameResumeBtn = document.getElementById('game-resume-btn');
-      const gameFullscreenBtn = document.getElementById('game-fullscreen-btn');
-      const gameHelpBtn = document.getElementById('game-help-btn');
-      const rendererModeLabel = document.getElementById('renderer-mode');
-      const positionReadout = document.getElementById('position-readout');
-      const movementStateReadout = document.getElementById('movement-state');
-      const cameraLockHint = document.getElementById('camera-lock-hint');
+      const combatCtx = combatCanvas?.getContext('2d');
+      const ammoDisplay = document.getElementById('hud-ammo');
+      const feedTime = document.querySelector('.feed-time');
+      let combatStart = performance.now();
+      let lastFrame = combatStart;
+      let shotFlash = 0;
+      let recoil = 0;
+      let ammo = 30;
+      let nextShot = combatStart + 1400;
+      let nextReload = 0;
+      let casing = null;
+      let targetHit = 0;
 
-      const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
-      const controller = {
-        running: false,
-        paused: false,
-        lastFrame: performance.now(),
-
-        // World-space position: x/z are horizontal, feetY is vertical.
-        x: 0,
-        feetY: 0,
-        y: 1.72,
-        z: 0,
-
-        // Smoothed camera orientation.
-        yaw: 0,
-        pitch: 0,
-        targetYaw: 0,
-        targetPitch: 0,
-        cameraRoll: 0,
-
-        // Velocity and grounded movement.
-        velocityX: 0,
-        velocityY: 0,
-        velocityZ: 0,
-        grounded: true,
-        coyoteTimer: 0,
-        jumpBuffer: 0,
-
-        // Stance and movement states.
-        standingHeight: 1.72,
-        crouchingHeight: 1.08,
-        currentHeight: 1.72,
-        crouchRequested: false,
-        sprinting: false,
-        sliding: false,
-        slideTimer: 0,
-        slideDuration: .82,
-        slideDirectionX: 0,
-        slideDirectionZ: -1,
-        slideStartSpeed: 0,
-
-        // Camera movement feedback.
-        walkCycle: 0,
-        landingKick: 0,
-        fov: Math.PI / 3,
-        movementState: 'STANDING',
-
-        keys: new Set(),
-        touchLook: false,
-        touchX: 0,
-        touchY: 0
+      const resizeCombatCanvas = () => {
+        if (!combatCanvas) return;
+        const rect = combatCanvas.getBoundingClientRect();
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        combatCanvas.width = Math.max(640, Math.round(rect.width * ratio));
+        combatCanvas.height = Math.max(360, Math.round(rect.height * ratio));
       };
+      resizeCombatCanvas();
+      window.addEventListener('resize', resizeCombatCanvas, { passive: true });
 
-      const mat4Multiply = (a, b) => {
-        const output = new Float32Array(16);
-        for (let column = 0; column < 4; column += 1) {
-          for (let row = 0; row < 4; row += 1) {
-            let value = 0;
-            for (let index = 0; index < 4; index += 1) value += a[index * 4 + row] * b[column * 4 + index];
-            output[column * 4 + row] = value;
+      const drawCombatFeed = now => {
+        if (!combatCtx || !combatCanvas) return;
+        const ctx = combatCtx;
+        const w = combatCanvas.width;
+        const h = combatCanvas.height;
+        const dt = Math.min(40, now - lastFrame);
+        const t = (now - combatStart) / 1000;
+        lastFrame = now;
+
+        // Automatic reload sequence.
+        if (ammo <= 0 && !nextReload) nextReload = now + 1150;
+        if (nextReload && now >= nextReload) {
+          ammo = 30;
+          nextReload = 0;
+          if (ammoDisplay) ammoDisplay.textContent = String(ammo);
+          if (audioEnabled) {
+            playTone(180, .06, .012, 'square');
+            window.setTimeout(() => playTone(260, .05, .01, 'square'), 95);
           }
         }
-        return output;
-      };
 
-      const mat4Translate = (x, y, z) => new Float32Array([
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        x, y, z, 1
-      ]);
-
-      const mat4RotateX = angle => {
-        const cosine = Math.cos(angle), sine = Math.sin(angle);
-        return new Float32Array([
-          1, 0, 0, 0,
-          0, cosine, sine, 0,
-          0, -sine, cosine, 0,
-          0, 0, 0, 1
-        ]);
-      };
-
-      const mat4RotateY = angle => {
-        const cosine = Math.cos(angle), sine = Math.sin(angle);
-        return new Float32Array([
-          cosine, 0, -sine, 0,
-          0, 1, 0, 0,
-          sine, 0, cosine, 0,
-          0, 0, 0, 1
-        ]);
-      };
-
-      const mat4RotateZ = angle => {
-        const cosine = Math.cos(angle), sine = Math.sin(angle);
-        return new Float32Array([
-          cosine, sine, 0, 0,
-          -sine, cosine, 0, 0,
-          0, 0, 1, 0,
-          0, 0, 0, 1
-        ]);
-      };
-
-      const mat4Perspective = (fieldOfView, aspect, near, far) => {
-        const scale = 1 / Math.tan(fieldOfView / 2);
-        const range = 1 / (near - far);
-        return new Float32Array([
-          scale / aspect, 0, 0, 0,
-          0, scale, 0, 0,
-          0, 0, (far + near) * range, -1,
-          0, 0, (2 * far * near) * range, 0
-        ]);
-      };
-
-      class BlankWebGLRenderer {
-        constructor(canvas) {
-          this.canvas = canvas;
-          this.gl = canvas.getContext('webgl', {
-            antialias: true,
-            alpha: false,
-            depth: true,
-            powerPreference: 'default'
-          });
-          if (!this.gl) throw new Error('WebGL unavailable');
-          this.modeName = 'WEBGL 3D';
-          this.initialize();
+        // Irregular controlled bursts.
+        if (now >= nextShot && ammo > 0) {
+          shotFlash = 1;
+          recoil = 1;
+          ammo -= 1;
+          targetHit = 1;
+          if (ammoDisplay) ammoDisplay.textContent = String(ammo);
+          playShotSound();
+          casing = { x:w*.67, y:h*.76, vx:w*.00045, vy:-h*.0005, r:0 };
+          const burstGap = ammo % 7 === 0 ? 850 + Math.random()*520 : 145 + Math.random()*185;
+          nextShot = now + burstGap;
         }
 
-        shader(type, source) {
-          const shader = this.gl.createShader(type);
-          this.gl.shaderSource(shader, source);
-          this.gl.compileShader(shader);
-          if (!this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)) throw new Error(this.gl.getShaderInfoLog(shader) || 'Shader compile error');
-          return shader;
+        shotFlash = Math.max(0, shotFlash - dt / 90);
+        recoil = Math.max(0, recoil - dt / 150);
+        targetHit = Math.max(0, targetHit - dt / 260);
+
+        // Camera sway and subtle forward travel.
+        const swayX = Math.sin(t * .72) * w * .009 + Math.sin(t * 2.1) * w * .002;
+        const swayY = Math.cos(t * .57) * h * .006;
+        const horizon = h * .47 + swayY;
+
+        // Background bunker corridor.
+        const bg = ctx.createLinearGradient(0, 0, 0, h);
+        bg.addColorStop(0, '#111b18');
+        bg.addColorStop(.46, '#0a100e');
+        bg.addColorStop(1, '#020302');
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.save();
+        ctx.translate(swayX, 0);
+
+        // Ceiling and floor perspective.
+        ctx.fillStyle = '#0d1512';
+        ctx.beginPath();
+        ctx.moveTo(0, 0); ctx.lineTo(w, 0); ctx.lineTo(w*.62, horizon); ctx.lineTo(w*.38, horizon); ctx.closePath();
+        ctx.fill();
+
+        ctx.fillStyle = '#060907';
+        ctx.beginPath();
+        ctx.moveTo(0, h); ctx.lineTo(w, h); ctx.lineTo(w*.62, horizon); ctx.lineTo(w*.38, horizon); ctx.closePath();
+        ctx.fill();
+
+        // Side walls.
+        ctx.fillStyle = '#111916';
+        ctx.beginPath();
+        ctx.moveTo(0, 0); ctx.lineTo(w*.38, horizon); ctx.lineTo(w*.38, horizon + h*.04); ctx.lineTo(0, h); ctx.closePath();
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(w, 0); ctx.lineTo(w*.62, horizon); ctx.lineTo(w*.62, horizon + h*.04); ctx.lineTo(w, h); ctx.closePath();
+        ctx.fill();
+
+        // Perspective structural ribs.
+        ctx.strokeStyle = 'rgba(166,185,154,.17)';
+        ctx.lineWidth = Math.max(1, w*.0014);
+        for (let i = 0; i < 9; i++) {
+          const phase = (t*.36 + i/9) % 1;
+          const z = phase * phase;
+          const left = w*.5 - (w*.5*z);
+          const right = w*.5 + (w*.5*z);
+          const top = horizon - h*.47*z;
+          const bottom = horizon + h*.53*z;
+          ctx.strokeRect(left, top, right-left, bottom-top);
         }
 
-        initialize() {
-          const vertexSource = `
-            attribute vec3 aPosition;
-            uniform mat4 uProjection;
-            uniform mat4 uView;
-            varying vec3 vWorld;
-            void main(){
-              vWorld = aPosition;
-              gl_Position = uProjection * uView * vec4(aPosition, 1.0);
-            }
-          `;
-          const fragmentSource = `
-            precision mediump float;
-            varying vec3 vWorld;
-            uniform vec3 uCamera;
-            uniform vec3 uFogColor;
-            void main(){
-              float distanceToCamera = distance(vWorld.xz, uCamera.xz);
-              float fog = smoothstep(38.0, 150.0, distanceToCamera);
-
-              // Smooth low-frequency material variation. It is not a grid or marking;
-              // it only gives the otherwise featureless plane enough depth for motion.
-              float broadShade = sin(vWorld.x * 0.022 + vWorld.z * 0.015) * 0.018;
-              float distanceShade = min(distanceToCamera / 900.0, 0.035);
-              vec3 ground = vec3(0.205 + broadShade - distanceShade,
-                                 0.218 + broadShade - distanceShade,
-                                 0.225 + broadShade - distanceShade);
-
-              gl_FragColor = vec4(mix(ground, uFogColor, fog), 1.0);
-            }
-          `;
-
-          const program = this.gl.createProgram();
-          this.gl.attachShader(program, this.shader(this.gl.VERTEX_SHADER, vertexSource));
-          this.gl.attachShader(program, this.shader(this.gl.FRAGMENT_SHADER, fragmentSource));
-          this.gl.linkProgram(program);
-          if (!this.gl.getProgramParameter(program, this.gl.LINK_STATUS)) throw new Error(this.gl.getProgramInfoLog(program) || 'Program link error');
-          this.program = program;
-          this.positionLocation = this.gl.getAttribLocation(program, 'aPosition');
-          this.projectionLocation = this.gl.getUniformLocation(program, 'uProjection');
-          this.viewLocation = this.gl.getUniformLocation(program, 'uView');
-          this.cameraLocation = this.gl.getUniformLocation(program, 'uCamera');
-          this.fogLocation = this.gl.getUniformLocation(program, 'uFogColor');
-
-          // One enormous, completely unmarked white plane.
-          const size = 5000;
-          const vertices = new Float32Array([
-            -size, 0, -size,
-             size, 0, -size,
-             size, 0,  size,
-            -size, 0, -size,
-             size, 0,  size,
-            -size, 0,  size
-          ]);
-          this.buffer = this.gl.createBuffer();
-          this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer);
-          this.gl.bufferData(this.gl.ARRAY_BUFFER, vertices, this.gl.STATIC_DRAW);
-          this.gl.enable(this.gl.DEPTH_TEST);
-          this.gl.depthFunc(this.gl.LEQUAL);
+        // Floor guide lines.
+        ctx.strokeStyle = 'rgba(183,194,161,.1)';
+        for (let i = -4; i <= 4; i++) {
+          ctx.beginPath();
+          ctx.moveTo(w*.5 + i*w*.025, horizon);
+          ctx.lineTo(w*.5 + i*w*.15, h);
+          ctx.stroke();
         }
 
-        resize(width, height) {
-          if (this.canvas.width !== width || this.canvas.height !== height) {
-            this.canvas.width = width;
-            this.canvas.height = height;
+        // Distant warning lights.
+        for (let i = 0; i < 5; i++) {
+          const x = w*(.43 + i*.035);
+          const pulse = .22 + .18*Math.sin(t*2.5+i);
+          ctx.fillStyle = `rgba(199,86,70,${pulse})`;
+          ctx.fillRect(x, horizon-h*.075, w*.006, h*.012);
+        }
+
+        // Moving biological silhouette target.
+        const targetX = w*(.5 + Math.sin(t*.38)*.12);
+        const targetY = horizon + h*.018;
+        const targetScale = 1 + .12*Math.sin(t*.8);
+        ctx.save();
+        ctx.translate(targetX, targetY);
+        ctx.scale(targetScale, targetScale);
+        ctx.fillStyle = targetHit ? 'rgba(196,212,178,.58)' : 'rgba(8,12,9,.92)';
+        ctx.shadowColor = targetHit ? 'rgba(183,194,161,.8)' : 'transparent';
+        ctx.shadowBlur = targetHit * 25;
+        ctx.beginPath();
+        ctx.ellipse(0, -h*.055, w*.014, h*.034, 0, 0, Math.PI*2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(-w*.022, -h*.02);
+        ctx.quadraticCurveTo(0, -h*.055, w*.024, -h*.018);
+        ctx.lineTo(w*.018, h*.065);
+        ctx.lineTo(-w*.018, h*.065);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(134,156,126,.26)';
+        ctx.lineWidth = w*.004;
+        ctx.beginPath();
+        ctx.moveTo(-w*.012, h*.055); ctx.lineTo(-w*.025, h*.13);
+        ctx.moveTo(w*.012, h*.055); ctx.lineTo(w*.027, h*.13);
+        ctx.moveTo(-w*.018, -h*.005); ctx.lineTo(-w*.046, h*.05);
+        ctx.moveTo(w*.018, -h*.005); ctx.lineTo(w*.05, h*.04);
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.restore();
+
+        // Weapon silhouette and recoil.
+        const recoilY = recoil * h*.028;
+        const recoilX = recoil * w*.008;
+        ctx.save();
+        ctx.translate(-recoilX, recoilY);
+        ctx.fillStyle = '#080b09';
+        ctx.strokeStyle = 'rgba(181,193,169,.24)';
+        ctx.lineWidth = Math.max(1, w*.0015);
+        ctx.beginPath();
+        ctx.moveTo(w*.48,h*.82);
+        ctx.lineTo(w*.57,h*.68);
+        ctx.lineTo(w*.72,h*.73);
+        ctx.lineTo(w*.78,h*.86);
+        ctx.lineTo(w*.71,h);
+        ctx.lineTo(w*.43,h);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = '#111713';
+        ctx.fillRect(w*.56,h*.7,w*.18,h*.055);
+        ctx.fillStyle = '#0b0f0c';
+        ctx.fillRect(w*.7,h*.72,w*.12,h*.025);
+        ctx.fillStyle = '#151b16';
+        ctx.fillRect(w*.61,h*.64,w*.055,h*.07);
+        ctx.restore();
+
+        // Muzzle flash.
+        if (shotFlash > 0) {
+          const mx = w*.815 - recoilX;
+          const my = h*.735 + recoilY;
+          const flashRadius = w*(.035 + .035*shotFlash);
+          const flash = ctx.createRadialGradient(mx,my,0,mx,my,flashRadius);
+          flash.addColorStop(0,`rgba(255,250,215,${.95*shotFlash})`);
+          flash.addColorStop(.25,`rgba(240,187,94,${.78*shotFlash})`);
+          flash.addColorStop(1,'rgba(208,96,45,0)');
+          ctx.fillStyle = flash;
+          ctx.fillRect(mx-flashRadius,my-flashRadius,flashRadius*2,flashRadius*2);
+          ctx.fillStyle = `rgba(255,231,169,${.8*shotFlash})`;
+          ctx.beginPath();
+          for (let i=0;i<8;i++){
+            const a=i*Math.PI/4;
+            const r=i%2?flashRadius*.42:flashRadius;
+            const x=mx+Math.cos(a)*r;
+            const y=my+Math.sin(a)*r;
+            if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
           }
-          this.gl.viewport(0, 0, width, height);
+          ctx.closePath(); ctx.fill();
         }
 
-        render(camera, motion) {
-          const gl = this.gl;
-          const aspect = this.canvas.width / Math.max(1, this.canvas.height);
-          const projection = mat4Perspective(camera.fov || Math.PI / 3, aspect, .06, 620);
-
-          const rightX = Math.cos(camera.yaw);
-          const rightZ = Math.sin(camera.yaw);
-          const cameraX = camera.x + rightX * motion.bobX;
-          const cameraZ = camera.z + rightZ * motion.bobX;
-          const cameraY = camera.y + motion.bobY - motion.landingKick;
-
-          let view = mat4RotateZ(-motion.roll);
-          view = mat4Multiply(view, mat4RotateX(-camera.pitch));
-          view = mat4Multiply(view, mat4RotateY(camera.yaw));
-          view = mat4Multiply(view, mat4Translate(-cameraX, -cameraY, -cameraZ));
-
-          gl.clearColor(.39, .63, .84, 1);
-          gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-          gl.useProgram(this.program);
-          gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
-          gl.enableVertexAttribArray(this.positionLocation);
-          gl.vertexAttribPointer(this.positionLocation, 3, gl.FLOAT, false, 0, 0);
-          gl.uniformMatrix4fv(this.projectionLocation, false, projection);
-          gl.uniformMatrix4fv(this.viewLocation, false, view);
-          gl.uniform3f(this.cameraLocation, cameraX, cameraY, cameraZ);
-          gl.uniform3f(this.fogLocation, .47, .61, .69);
-          gl.drawArrays(gl.TRIANGLES, 0, 6);
+        // Ejected casing.
+        if (casing) {
+          casing.x += casing.vx * dt;
+          casing.y += casing.vy * dt;
+          casing.vy += h*.0000018 * dt;
+          casing.r += dt*.018;
+          ctx.save();
+          ctx.translate(casing.x,casing.y);
+          ctx.rotate(casing.r);
+          ctx.fillStyle = '#b39b5e';
+          ctx.fillRect(-w*.006,-h*.003,w*.012,h*.006);
+          ctx.restore();
+          if (casing.y > h*1.1) casing = null;
         }
+
+        // Crosshair.
+        const cx = w*.5 + swayX*.25;
+        const cy = h*.5 + swayY*.2 + recoil*h*.015;
+        ctx.strokeStyle = 'rgba(210,225,201,.62)';
+        ctx.lineWidth = Math.max(1, w*.001);
+        const gap = w*.008 + recoil*w*.012;
+        const len = w*.015;
+        ctx.beginPath();
+        ctx.moveTo(cx-gap-len,cy); ctx.lineTo(cx-gap,cy);
+        ctx.moveTo(cx+gap,cy); ctx.lineTo(cx+gap+len,cy);
+        ctx.moveTo(cx,cy-gap-len); ctx.lineTo(cx,cy-gap);
+        ctx.moveTo(cx,cy+gap); ctx.lineTo(cx,cy+gap+len);
+        ctx.stroke();
+
+        // Film grain.
+        ctx.globalAlpha = .07;
+        for (let i=0;i<90;i++){
+          ctx.fillStyle = Math.random()>.5 ? '#d7e1cf' : '#000';
+          ctx.fillRect(Math.random()*w,Math.random()*h,1+Math.random()*2,1+Math.random()*2);
+        }
+        ctx.globalAlpha = 1;
+
+        // Timecode.
+        if (feedTime) {
+          const elapsed = Math.floor((now - combatStart) / 1000);
+          const hh = String(Math.floor(elapsed/3600)).padStart(2,'0');
+          const mm = String(Math.floor((elapsed%3600)/60)).padStart(2,'0');
+          const ss = String(elapsed%60).padStart(2,'0');
+          const ff = String(Math.floor((now%1000)/40)).padStart(2,'0');
+          feedTime.textContent = `${hh}:${mm}:${ss}:${ff}`;
+        }
+
+        if (!reducedMotion) window.requestAnimationFrame(drawCombatFeed);
+      };
+
+      if (combatCanvas && combatCtx && !reducedMotion) {
+        window.requestAnimationFrame(drawCombatFeed);
+      } else if (combatCanvas && combatCtx) {
+        // Render one still frame for reduced-motion users.
+        drawCombatFeed(performance.now());
       }
-
-      class BlankCanvasRenderer {
-        constructor(canvas) {
-          this.canvas = canvas;
-          this.context = canvas.getContext('2d');
-          if (!this.context) throw new Error('Canvas unavailable');
-          this.modeName = 'CANVAS 3D FALLBACK';
-        }
-
-        resize(width, height) {
-          if (this.canvas.width !== width || this.canvas.height !== height) {
-            this.canvas.width = width;
-            this.canvas.height = height;
-          }
-        }
-
-        render(camera, motion) {
-          const context = this.context;
-          const width = this.canvas.width;
-          const height = this.canvas.height;
-          const horizon = clamp(
-            height * (.5 + camera.pitch * .34 + motion.bobY * .045 - motion.landingKick * .04),
-            -height * .3,
-            height * 1.3
-          );
-
-          context.save();
-          context.translate(width / 2, height / 2);
-          context.rotate(motion.roll);
-          context.translate(-width / 2, -height / 2);
-
-          const overscan = Math.max(width, height) * .22;
-          const sky = context.createLinearGradient(0, -overscan, 0, Math.max(1, horizon + height * .18));
-          sky.addColorStop(0, '#5898cd');
-          sky.addColorStop(.68, '#82b3d8');
-          sky.addColorStop(1, '#a9c5d3');
-          context.fillStyle = sky;
-          context.fillRect(-overscan, -overscan, width + overscan * 2, height + overscan * 2);
-
-          const ground = context.createLinearGradient(0, horizon - height * .04, 0, height + overscan);
-          ground.addColorStop(0, '#71848c');
-          ground.addColorStop(.08, '#3f474a');
-          ground.addColorStop(.38, '#343a3d');
-          ground.addColorStop(1, '#292e30');
-          context.fillStyle = ground;
-          context.fillRect(-overscan, horizon, width + overscan * 2, height - horizon + overscan);
-
-          // A broad, smooth lighting wash—not a grid—adds motion readability.
-          const lightCenter = width * (.5 + Math.sin(camera.yaw) * .22);
-          const wash = context.createRadialGradient(
-            lightCenter, horizon + height * .18, 0,
-            lightCenter, horizon + height * .18, width * .62
-          );
-          wash.addColorStop(0, 'rgba(255,255,255,.055)');
-          wash.addColorStop(1, 'rgba(255,255,255,0)');
-          context.fillStyle = wash;
-          context.fillRect(-overscan, horizon, width + overscan * 2, height - horizon + overscan);
-
-          const fog = context.createLinearGradient(0, horizon - height * .035, 0, horizon + height * .18);
-          fog.addColorStop(0, 'rgba(119,157,177,.82)');
-          fog.addColorStop(.5, 'rgba(108,137,151,.55)');
-          fog.addColorStop(1, 'rgba(91,108,115,0)');
-          context.fillStyle = fog;
-          context.fillRect(-overscan, horizon - height * .04, width + overscan * 2, height * .24);
-
-          context.restore();
-        }
-      }
-
-      let renderer = null;
-
-      const initializeBlankRenderer = () => {
-        try {
-          renderer = new BlankWebGLRenderer(combatCanvas);
-        } catch (webglError) {
-          console.info('WebGL blank scene unavailable; using stable canvas fallback.', webglError);
-          renderer = new BlankCanvasRenderer(combatCanvas);
-        }
-        if (rendererModeLabel) rendererModeLabel.textContent = renderer.modeName;
-      };
-
-      const resizeBlankScene = () => {
-        if (!combatCanvas || !gameScreen || !renderer) return;
-        const rectangle = gameScreen.getBoundingClientRect();
-        const ratio = Math.min(window.devicePixelRatio || 1, 1.75);
-        renderer.resize(
-          Math.max(640, Math.round(rectangle.width * ratio)),
-          Math.max(360, Math.round(rectangle.height * ratio))
-        );
-      };
-
-      const updateReadout = () => {
-        const horizontalSpeed = Math.hypot(controller.velocityX, controller.velocityZ);
-        if (positionReadout) {
-          positionReadout.textContent = `X ${controller.x.toFixed(1)}  Y ${controller.feetY.toFixed(1)}  Z ${controller.z.toFixed(1)}`;
-        }
-        if (movementStateReadout) {
-          movementStateReadout.textContent = `${controller.movementState} // ${horizontalSpeed.toFixed(1)} M/S`;
-        }
-
-        gameScreen?.classList.toggle('is-sprinting', controller.sprinting);
-        gameScreen?.classList.toggle('is-sliding', controller.sliding);
-        gameScreen?.classList.toggle('is-airborne', !controller.grounded);
-      };
-
-      const startBlankScene = () => {
-        controller.running = true;
-        controller.paused = false;
-        controller.lastFrame = performance.now();
-        controller.targetYaw = controller.yaw;
-        controller.targetPitch = controller.pitch;
-        gameStartPanel.hidden = true;
-        gamePausePanel.hidden = true;
-        gameScreen.focus();
-        gameScreen.requestPointerLock?.();
-      };
-
-      const pauseBlankScene = force => {
-        if (!controller.running) return;
-        controller.paused = typeof force === 'boolean' ? force : !controller.paused;
-        gamePausePanel.hidden = !controller.paused;
-        if (controller.paused && document.pointerLockElement === gameScreen) document.exitPointerLock?.();
-        controller.lastFrame = performance.now();
-      };
-
-      const queueJump = () => {
-        if (!controller.running || controller.paused) return;
-        controller.jumpBuffer = .14;
-      };
-
-      const requestCrouchOrSlide = () => {
-        if (!controller.running || controller.paused) return;
-        controller.crouchRequested = true;
-
-        const speed = Math.hypot(controller.velocityX, controller.velocityZ);
-        if (
-          controller.grounded &&
-          !controller.sliding &&
-          controller.keys.has('shift') &&
-          speed > 6.1
-        ) {
-          controller.sliding = true;
-          controller.slideTimer = controller.slideDuration;
-          controller.slideStartSpeed = Math.max(10.5, speed * 1.08);
-          const inverseSpeed = speed > .001 ? 1 / speed : 0;
-          controller.slideDirectionX = controller.velocityX * inverseSpeed;
-          controller.slideDirectionZ = controller.velocityZ * inverseSpeed;
-          controller.movementState = 'SLIDING';
-          if (audioEnabled) playTone(105, .09, .012, 'sawtooth');
-        }
-      };
-
-      const releaseCrouch = () => {
-        controller.crouchRequested = false;
-      };
-
-      const updateBlankController = deltaTime => {
-        if (!controller.running || controller.paused) return;
-
-        controller.jumpBuffer = Math.max(0, controller.jumpBuffer - deltaTime);
-        controller.coyoteTimer = controller.grounded
-          ? .11
-          : Math.max(0, controller.coyoteTimer - deltaTime);
-
-        // Smooth mouse/keyboard look without introducing noticeable input lag.
-        const lookSmoothing = 1 - Math.exp(-deltaTime * 32);
-        controller.yaw += (controller.targetYaw - controller.yaw) * lookSmoothing;
-        controller.pitch += (controller.targetPitch - controller.pitch) * lookSmoothing;
-
-        if (controller.keys.has('arrowleft')) controller.targetYaw -= 1.65 * deltaTime;
-        if (controller.keys.has('arrowright')) controller.targetYaw += 1.65 * deltaTime;
-        if (controller.keys.has('arrowup')) {
-          controller.targetPitch = clamp(controller.targetPitch + 1.15 * deltaTime, -1.3, 1.3);
-        }
-        if (controller.keys.has('arrowdown')) {
-          controller.targetPitch = clamp(controller.targetPitch - 1.15 * deltaTime, -1.3, 1.3);
-        }
-
-        let forwardInput = (controller.keys.has('w') ? 1 : 0) - (controller.keys.has('s') ? 1 : 0);
-        let strafeInput = (controller.keys.has('d') ? 1 : 0) - (controller.keys.has('a') ? 1 : 0);
-        const inputLength = Math.hypot(forwardInput, strafeInput);
-        if (inputLength > 1) {
-          forwardInput /= inputLength;
-          strafeInput /= inputLength;
-        }
-
-        const hasMovementInput = inputLength > .01;
-        const speedBeforeMovement = Math.hypot(controller.velocityX, controller.velocityZ);
-        const wantsSprint =
-          controller.keys.has('shift') &&
-          forwardInput > .1 &&
-          !controller.crouchRequested &&
-          !controller.sliding &&
-          controller.grounded;
-
-        controller.sprinting = wantsSprint;
-
-        const forwardX = Math.sin(controller.yaw);
-        const forwardZ = -Math.cos(controller.yaw);
-        const rightX = Math.cos(controller.yaw);
-        const rightZ = Math.sin(controller.yaw);
-
-        if (controller.sliding) {
-          controller.slideTimer = Math.max(0, controller.slideTimer - deltaTime);
-          const progress = 1 - controller.slideTimer / controller.slideDuration;
-          const slideSpeed = controller.slideStartSpeed * (1 - progress * .5);
-
-          // A small amount of steering keeps the slide controllable without feeling arcade-like.
-          const steerX = (forwardX * forwardInput + rightX * strafeInput) * 1.4;
-          const steerZ = (forwardZ * forwardInput + rightZ * strafeInput) * 1.4;
-          controller.slideDirectionX += steerX * deltaTime;
-          controller.slideDirectionZ += steerZ * deltaTime;
-          const slideDirectionLength = Math.hypot(controller.slideDirectionX, controller.slideDirectionZ) || 1;
-          controller.slideDirectionX /= slideDirectionLength;
-          controller.slideDirectionZ /= slideDirectionLength;
-
-          controller.velocityX = controller.slideDirectionX * slideSpeed;
-          controller.velocityZ = controller.slideDirectionZ * slideSpeed;
-
-          if (
-            controller.slideTimer <= 0 ||
-            speedBeforeMovement < 3.7 ||
-            !controller.grounded
-          ) {
-            controller.sliding = false;
-          }
-        } else {
-          const crouched = controller.crouchRequested;
-          const targetSpeed = crouched ? 2.75 : wantsSprint ? 8.8 : 5.15;
-          const desiredX = (forwardX * forwardInput + rightX * strafeInput) * targetSpeed;
-          const desiredZ = (forwardZ * forwardInput + rightZ * strafeInput) * targetSpeed;
-
-          const acceleration = controller.grounded
-            ? (hasMovementInput ? (wantsSprint ? 19 : 24) : 16)
-            : 5.6;
-          const response = 1 - Math.exp(-acceleration * deltaTime);
-
-          controller.velocityX += (desiredX - controller.velocityX) * response;
-          controller.velocityZ += (desiredZ - controller.velocityZ) * response;
-
-          // Ground friction settles the player cleanly without instant stopping.
-          if (controller.grounded && !hasMovementInput) {
-            const friction = Math.exp(-8.5 * deltaTime);
-            controller.velocityX *= friction;
-            controller.velocityZ *= friction;
-          }
-        }
-
-        // Buffered jump plus short coyote time.
-        if (
-          controller.jumpBuffer > 0 &&
-          controller.coyoteTimer > 0 &&
-          !controller.sliding
-        ) {
-          controller.velocityY = 7.65;
-          controller.grounded = false;
-          controller.coyoteTimer = 0;
-          controller.jumpBuffer = 0;
-          controller.landingKick = -.025;
-          if (audioEnabled) playTone(155, .06, .012, 'triangle');
-        }
-
-        const wasGrounded = controller.grounded;
-        const previousVerticalVelocity = controller.velocityY;
-        controller.velocityY -= 22.5 * deltaTime;
-        controller.feetY += controller.velocityY * deltaTime;
-
-        if (controller.feetY <= 0) {
-          controller.feetY = 0;
-          controller.grounded = true;
-          if (!wasGrounded && previousVerticalVelocity < -2.2) {
-            controller.landingKick = Math.min(.16, Math.abs(previousVerticalVelocity) * .012);
-            if (audioEnabled) playTone(82, .055, .01, 'triangle');
-          }
-          controller.velocityY = Math.max(0, controller.velocityY);
-        } else {
-          controller.grounded = false;
-        }
-
-        // Smooth standing/crouching camera height.
-        const targetHeight = (controller.crouchRequested || controller.sliding)
-          ? controller.crouchingHeight
-          : controller.standingHeight;
-        const heightResponse = 1 - Math.exp(-deltaTime * (controller.sliding ? 18 : 12));
-        controller.currentHeight += (targetHeight - controller.currentHeight) * heightResponse;
-        controller.y = controller.feetY + controller.currentHeight;
-
-        controller.x += controller.velocityX * deltaTime;
-        controller.z += controller.velocityZ * deltaTime;
-
-        const horizontalSpeed = Math.hypot(controller.velocityX, controller.velocityZ);
-        controller.walkCycle += horizontalSpeed * deltaTime * (controller.sprinting ? 2.15 : 1.78);
-
-        // Landing compression and camera lean settle smoothly.
-        controller.landingKick += (0 - controller.landingKick) * (1 - Math.exp(-deltaTime * 15));
-        const targetRoll = controller.sliding
-          ? clamp(-strafeInput * .055, -.055, .055)
-          : clamp(-strafeInput * horizontalSpeed * .004, -.038, .038);
-        controller.cameraRoll += (targetRoll - controller.cameraRoll) * (1 - Math.exp(-deltaTime * 10));
-
-        const targetFov = controller.sliding
-          ? Math.PI / 2.82
-          : controller.sprinting
-            ? Math.PI / 2.92
-            : Math.PI / 3;
-        controller.fov += (targetFov - controller.fov) * (1 - Math.exp(-deltaTime * 7));
-
-        if (!controller.grounded) controller.movementState = controller.velocityY > .2 ? 'JUMPING' : 'FALLING';
-        else if (controller.sliding) controller.movementState = 'SLIDING';
-        else if (controller.crouchRequested) controller.movementState = 'CROUCHED';
-        else if (controller.sprinting) controller.movementState = 'SPRINTING';
-        else if (horizontalSpeed > .35) controller.movementState = 'WALKING';
-        else controller.movementState = 'STANDING';
-      };
-
-      const renderBlankScene = now => {
-        if (!renderer) {
-          window.requestAnimationFrame(renderBlankScene);
-          return;
-        }
-        resizeBlankScene();
-        const deltaTime = Math.min(.05, Math.max(0, (now - controller.lastFrame) / 1000));
-        controller.lastFrame = now;
-        updateBlankController(deltaTime);
-        const horizontalSpeed = Math.hypot(controller.velocityX, controller.velocityZ);
-        const movementAmount = clamp(horizontalSpeed / 8.8, 0, 1);
-        const bobStrength = controller.grounded && !controller.sliding
-          ? (controller.sprinting ? .044 : controller.crouchRequested ? .012 : .026)
-          : 0;
-        const motion = {
-          bobX: Math.cos(controller.walkCycle * .5) * bobStrength * movementAmount,
-          bobY: Math.abs(Math.sin(controller.walkCycle)) * bobStrength * movementAmount,
-          roll: controller.cameraRoll,
-          landingKick: Math.max(0, controller.landingKick)
-        };
-        renderer.render(controller, motion);
-        updateReadout();
-        window.requestAnimationFrame(renderBlankScene);
-      };
-
-      gamePlayBtn?.addEventListener('click', startBlankScene);
-      gameResumeBtn?.addEventListener('click', () => {
-        controller.paused = false;
-        gamePausePanel.hidden = true;
-        controller.lastFrame = performance.now();
-        gameScreen.requestPointerLock?.();
-      });
-
-      gameHelpBtn?.addEventListener('click', () => {
-        if (controller.running && !controller.paused) pauseBlankScene(true);
-        gameStartPanel.hidden = false;
-        gamePausePanel.hidden = true;
-      });
-
-      gameFullscreenBtn?.addEventListener('click', async () => {
-        try {
-          if (!document.fullscreenElement && gameShell.requestFullscreen) await gameShell.requestFullscreen();
-          else if (document.exitFullscreen) await document.exitFullscreen();
-        } catch (fullscreenError) {
-          gameShell.classList.toggle('is-fullscreen');
-        }
-        window.setTimeout(resizeBlankScene, 120);
-      });
-
-      document.addEventListener('fullscreenchange', () => {
-        gameShell?.classList.toggle('is-fullscreen', document.fullscreenElement === gameShell);
-        if (gameFullscreenBtn) gameFullscreenBtn.textContent = document.fullscreenElement === gameShell ? '×' : '⛶';
-        window.setTimeout(resizeBlankScene, 100);
-      });
-
-      document.addEventListener('pointerlockchange', () => {
-        const locked = document.pointerLockElement === gameScreen;
-        gameScreen?.classList.toggle('camera-locked', locked);
-        if (cameraLockHint) cameraLockHint.textContent = locked ? 'CAMERA LOOK ACTIVE' : 'CLICK THE SCENE TO LOCK CAMERA LOOK';
-      });
-
-      document.addEventListener('mousemove', event => {
-        if (document.pointerLockElement !== gameScreen || !controller.running || controller.paused) return;
-        controller.targetYaw += event.movementX * .00245;
-        controller.targetPitch = clamp(controller.targetPitch - event.movementY * .00225, -1.3, 1.3);
-      });
-
-      window.addEventListener('keydown', event => {
-        const key = event.key.toLowerCase();
-        const controlled = [
-          'w', 'a', 's', 'd', 'shift', ' ', 'spacebar', 'c', 'control',
-          'arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'escape'
-        ];
-        if (controlled.includes(key) && (controller.running || gameShell?.contains(document.activeElement))) {
-          event.preventDefault();
-        }
-
-        const wasDown = controller.keys.has(key);
-        controller.keys.add(key);
-
-        if (!wasDown && (key === ' ' || key === 'spacebar')) queueJump();
-        if (!wasDown && (key === 'c' || key === 'control')) requestCrouchOrSlide();
-        if (key === 'escape' && controller.running && !controller.paused) pauseBlankScene(true);
-      });
-
-      window.addEventListener('keyup', event => {
-        const key = event.key.toLowerCase();
-        controller.keys.delete(key);
-        if (key === 'c' || key === 'control') releaseCrouch();
-      });
-
-      gameScreen?.addEventListener('mousedown', event => {
-        if (event.button !== 0 || !controller.running || controller.paused) return;
-        event.preventDefault();
-        if (document.pointerLockElement !== gameScreen) gameScreen.requestPointerLock?.();
-      });
-
-      gameScreen?.addEventListener('contextmenu', event => event.preventDefault());
-
-      gameScreen?.addEventListener('pointerdown', event => {
-        if (event.pointerType !== 'touch' || event.target.closest('[data-touch]')) return;
-        controller.touchLook = true;
-        controller.touchX = event.clientX;
-        controller.touchY = event.clientY;
-      });
-
-      gameScreen?.addEventListener('pointermove', event => {
-        if (!controller.touchLook || event.pointerType !== 'touch') return;
-        const deltaX = event.clientX - controller.touchX;
-        const deltaY = event.clientY - controller.touchY;
-        controller.touchX = event.clientX;
-        controller.touchY = event.clientY;
-        controller.targetYaw += deltaX * .006;
-        controller.targetPitch = clamp(controller.targetPitch - deltaY * .005, -1.22, 1.22);
-      });
-
-      const endTouchLook = () => { controller.touchLook = false; };
-      gameScreen?.addEventListener('pointerup', endTouchLook);
-      gameScreen?.addEventListener('pointercancel', endTouchLook);
-
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden && controller.running && !controller.paused) pauseBlankScene(true);
-      });
-
-      document.querySelectorAll('[data-touch]').forEach(button => {
-        const action = button.dataset.touch;
-        const down = event => {
-          event.preventDefault();
-          if (action === 'jump') {
-            queueJump();
-            return;
-          }
-          if (action === 'crouch') {
-            requestCrouchOrSlide();
-            return;
-          }
-          if (action === 'left') controller.keys.add('a');
-          if (action === 'right') controller.keys.add('d');
-          if (action === 'forward') controller.keys.add('w');
-          if (action === 'back') controller.keys.add('s');
-        };
-        const up = event => {
-          event.preventDefault();
-          if (action === 'crouch') releaseCrouch();
-          if (action === 'left') controller.keys.delete('a');
-          if (action === 'right') controller.keys.delete('d');
-          if (action === 'forward') controller.keys.delete('w');
-          if (action === 'back') controller.keys.delete('s');
-        };
-        button.addEventListener('pointerdown', down);
-        button.addEventListener('pointerup', up);
-        button.addEventListener('pointercancel', up);
-        button.addEventListener('pointerleave', up);
-      });
-
-      initializeBlankRenderer();
-      resizeBlankScene();
-      window.addEventListener('resize', resizeBlankScene, { passive: true });
-      window.requestAnimationFrame(renderBlankScene);
 
 
       document.addEventListener('click', event => {
