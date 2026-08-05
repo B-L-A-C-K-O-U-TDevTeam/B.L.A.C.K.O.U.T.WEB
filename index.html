@@ -1337,6 +1337,138 @@
       .hud-score small{display:none}
     }
 
+
+    /* =========================================================
+       MINIMAL BLANK 3D FPS CONTROLLER SCENE
+       Smooth white plane, blue sky and distance fog. No grid.
+       ========================================================= */
+    .blank-scene-shell{
+      background:linear-gradient(145deg,#101515,#070a09);
+    }
+
+    .blank-scene-screen{
+      background:#79a9d1;
+      cursor:crosshair;
+      min-height:330px;
+    }
+
+    .blank-scene-screen:before{
+      background:radial-gradient(ellipse at center,transparent 62%,rgba(0,0,0,.16) 100%);
+      mix-blend-mode:multiply;
+      opacity:.36;
+    }
+
+    .blank-scene-screen:after{
+      display:none;
+    }
+
+    .blank-scene-screen #combat-feed{
+      width:100%;
+      height:100%;
+      filter:none;
+      image-rendering:auto;
+    }
+
+    .blank-crosshair{
+      position:absolute;
+      z-index:8;
+      left:50%;
+      top:50%;
+      width:28px;
+      height:28px;
+      transform:translate(-50%,-50%);
+      pointer-events:none;
+      opacity:.72;
+    }
+
+    .blank-crosshair i{
+      position:absolute;
+      display:block;
+      background:rgba(24,32,37,.72);
+      box-shadow:0 0 1px rgba(255,255,255,.9);
+    }
+
+    .blank-crosshair i:first-child{
+      left:0;
+      right:0;
+      top:13px;
+      height:1px;
+    }
+
+    .blank-crosshair i:nth-child(2){
+      top:0;
+      bottom:0;
+      left:13px;
+      width:1px;
+    }
+
+    .blank-crosshair b{
+      position:absolute;
+      left:12px;
+      top:12px;
+      width:3px;
+      height:3px;
+      border-radius:50%;
+      background:rgba(24,32,37,.82);
+    }
+
+    .blank-scene-status{
+      position:absolute;
+      z-index:8;
+      left:12px;
+      right:12px;
+      bottom:12px;
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      pointer-events:none;
+      color:rgba(25,34,39,.66);
+      font:700 .52rem/1.2 "Courier New",monospace;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      text-shadow:0 1px 1px rgba(255,255,255,.65);
+    }
+
+    .blank-start-panel{
+      background:linear-gradient(rgba(22,34,41,.56),rgba(8,13,16,.82));
+      backdrop-filter:blur(5px);
+    }
+
+    .blank-start-panel:before{
+      content:"UNITY-STYLE WEB SCENE // SMOOTH UNMARKED PLANE";
+    }
+
+    .blank-scene-screen.camera-locked{
+      cursor:none;
+    }
+
+    .blank-scene-screen.camera-locked .camera-lock-hint{
+      opacity:0;
+      transform:translate(-50%,-8px);
+    }
+
+    .blank-touch-controls{
+      justify-content:center;
+      gap:8px;
+    }
+
+    .blank-touch-controls button{
+      width:50px;
+      height:46px;
+      border-radius:4px;
+    }
+
+    .retro-game-shell.is-fullscreen .blank-scene-screen{
+      height:calc(100vh - 84px);
+      min-height:0;
+    }
+
+    @media(max-width:760px),(pointer:coarse){
+      .blank-scene-status{bottom:68px}
+      .blank-scene-screen{min-height:390px}
+      .camera-lock-hint{display:none}
+    }
+
   </style>
 </head>
 <body id="top">
@@ -1518,82 +1650,54 @@
             </div>
           </div>
 
-          <div class="combat-terminal retro-game-shell" id="retro-game-shell">
+          <div class="combat-terminal retro-game-shell blank-scene-shell" id="retro-game-shell">
             <div class="combat-header">
-              <span>B.L.A.C.K.O.U.T. 3D VERTICAL SLICE // CONTAINMENT RANGE</span>
+              <span>UNITY-STYLE BLANK 3D SCENE // FPS CONTROLLER</span>
               <div class="game-window-actions">
-                <button class="game-icon-btn" id="game-help-btn" type="button" aria-label="Show game controls" title="Controls">?</button>
-                <button class="game-icon-btn" id="game-fullscreen-btn" type="button" aria-label="Open game in fullscreen" title="Fullscreen">⛶</button>
+                <button class="game-icon-btn" id="game-help-btn" type="button" aria-label="Show controller instructions" title="Controls">?</button>
+                <button class="game-icon-btn" id="game-fullscreen-btn" type="button" aria-label="Open scene in fullscreen" title="Fullscreen">⛶</button>
               </div>
             </div>
 
-            <div class="combat-screen game-screen" id="game-screen" tabindex="0" aria-label="Playable Unity-style first-person shooter prototype mini-game">
+            <div class="combat-screen game-screen blank-scene-screen" id="game-screen" tabindex="0" aria-label="Playable blank 3D Unity-style FPS controller scene">
               <canvas id="combat-feed" width="960" height="540"></canvas>
-              <div class="webgl-crosshair" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b></div>
-              <div class="camera-lock-hint" id="camera-lock-hint">CLICK THE 3D SCENE TO LOCK FULL CAMERA LOOK</div>
+              <div class="blank-crosshair" aria-hidden="true"><i></i><i></i><b></b></div>
+              <div class="camera-lock-hint" id="camera-lock-hint">CLICK THE SCENE TO LOCK CAMERA LOOK</div>
 
-              <div class="combat-overlay game-hud" aria-hidden="true">
-                <span class="feed-rec">● LIVE</span>
-                <span class="feed-time" id="game-clock">00:00</span>
-                <span class="feed-classified">WEB VERTICAL SLICE 0.1</span>
-
-                <div class="hud-health">
-                  <span>HEALTH</span>
-                  <div class="health-track"><i id="health-bar"></i></div>
-                  <b id="hud-health">100</b>
-                </div>
-
-                <div class="hud-score">
-                  <span>SCORE</span>
-                  <b id="hud-score">0000</b>
-                  <small>FUNDING <b id="hud-funding">0000</b></small>
-                </div>
-
-                <div class="hud-ammo">
-                  <b id="hud-ammo">20</b><small>/ <span id="hud-reserve">100</span></small>
-                </div>
-
-                <div class="hud-objective" id="hud-objective">RESEARCH 0/3 // WAVE 1</div>
-                <div class="hud-renderer">RENDERER <b id="renderer-mode">INITIALIZING</b></div>
-                <div class="hud-status" id="hud-status">CLICK PLAY TO BEGIN</div>
-                <div class="hud-weapon"><span>VX-72</span><small>7.62 EXPERIMENTAL RIFLE</small></div>
+              <div class="blank-scene-status" aria-hidden="true">
+                <span id="renderer-mode">INITIALIZING</span>
+                <span id="position-readout">X 0.0&nbsp;&nbsp;Z 0.0</span>
               </div>
 
-              <div class="game-start-panel" id="game-start-panel">
-                <div class="game-title-small">B.L.A.C.K.O.U.T.</div>
-                <h3>Morticaius Containment Range</h3>
-                <p>Recover three classified research logs, coordinate with two AI squadmates, manage ammunition, and survive a Morticaius containment breach using the experimental VX-72 Cold War rifle.</p>
+              <div class="game-start-panel blank-start-panel" id="game-start-panel">
+                <div class="game-title-small">BLANK SCENE</div>
+                <h3>First-Person Controller Test</h3>
+                <p>An endless smooth white plane beneath a clear blue sky, fading naturally into fog. No grid, enemies, weapons, objectives, or scenery.</p>
                 <div class="game-controls-list">
-                  <span><b>WASD</b> Move through the range</span>
-                  <span><b>MOUSE / ARROWS</b> Full 360° camera look</span>
-                  <span><b>CLICK / SPACE</b> Fire</span>
-                  <span><b>R</b> Reload</span>
-                  <span><b>CLICK SCENE</b> Lock mouse camera</span><span><b>ESC</b> Pause / release mouse</span>
+                  <span><b>WASD</b> Move</span>
+                  <span><b>MOUSE</b> Look around</span>
+                  <span><b>SHIFT</b> Sprint</span>
+                  <span><b>ARROWS</b> Alternate look</span>
+                  <span><b>CLICK SCENE</b> Lock camera</span>
+                  <span><b>ESC</b> Pause / release mouse</span>
                 </div>
-                <button class="btn primary game-play-btn" id="game-play-btn" type="button">Enter prototype</button>
+                <button class="btn primary game-play-btn" id="game-play-btn" type="button">Enter blank scene</button>
               </div>
 
               <div class="game-pause-panel" id="game-pause-panel" hidden>
-                <div class="game-title-small">SIMULATION PAUSED</div>
+                <div class="game-title-small">CONTROLLER PAUSED</div>
                 <button class="btn primary" id="game-resume-btn" type="button">Resume</button>
               </div>
 
-              <div class="game-over-panel" id="game-over-panel" hidden>
-                <div class="game-title-small">TRAINING COMPLETE</div>
-                <h3 id="game-over-title">Containment Failed</h3>
-                <p id="game-final-score">Score: 0</p>
-                <button class="btn primary" id="game-restart-btn" type="button">Try again</button>
-              </div>
-
-              <div class="game-touch-controls" aria-hidden="true">
-                <button type="button" data-touch="left">◀</button>
-                <button type="button" data-touch="forward">▲</button>
-                <button type="button" data-touch="right">▶</button>
-                <button type="button" data-touch="shoot">FIRE</button>
+              <div class="game-touch-controls blank-touch-controls" aria-label="Touch movement controls">
+                <button type="button" data-touch="left" aria-label="Move left">◀</button>
+                <button type="button" data-touch="forward" aria-label="Move forward">▲</button>
+                <button type="button" data-touch="back" aria-label="Move backward">▼</button>
+                <button type="button" data-touch="right" aria-label="Move right">▶</button>
               </div>
             </div>
 
-            <div class="combat-caption">A playable B.L.A.C.K.O.U.T. browser vertical slice with WebGL 3D, automatic software-3D fallback, 360° camera look, squadmates, research recovery, funding, resource management, mutant biology, fullscreen play, sound, waves, health, score, and reloading.</div>
+            <div class="combat-caption">A minimal Unity-style blank-scene experiment: an unmarked infinite white plane, blue sky, distance fog, first-person movement, full camera look, pause, touch controls, and fullscreen.</div>
           </div>
         </div>
       </div>
@@ -1805,117 +1909,49 @@
         detail.addEventListener('toggle', () => playDropdownSound(detail.open));
       });
 
-      // Stable hybrid 3D FPS: WebGL renderer with a dependency-free software 3D fallback.
-      let combatCanvas = document.getElementById('combat-feed');
+      // Minimal blank 3D scene: WebGL white plane with a stable canvas fallback.
+      const combatCanvas = document.getElementById('combat-feed');
       const gameScreen = document.getElementById('game-screen');
       const gameShell = document.getElementById('retro-game-shell');
       const gameStartPanel = document.getElementById('game-start-panel');
       const gamePausePanel = document.getElementById('game-pause-panel');
-      const gameOverPanel = document.getElementById('game-over-panel');
       const gamePlayBtn = document.getElementById('game-play-btn');
       const gameResumeBtn = document.getElementById('game-resume-btn');
-      const gameRestartBtn = document.getElementById('game-restart-btn');
       const gameFullscreenBtn = document.getElementById('game-fullscreen-btn');
       const gameHelpBtn = document.getElementById('game-help-btn');
-      const gameClock = document.getElementById('game-clock');
-      const hudHealth = document.getElementById('hud-health');
-      const healthBar = document.getElementById('health-bar');
-      const hudScore = document.getElementById('hud-score');
-      const ammoDisplay = document.getElementById('hud-ammo');
-      const reserveDisplay = document.getElementById('hud-reserve');
-      const hudStatus = document.getElementById('hud-status');
-      const hudObjective = document.getElementById('hud-objective');
-      const hudFunding = document.getElementById('hud-funding');
       const rendererModeLabel = document.getElementById('renderer-mode');
-      const gameOverTitle = document.getElementById('game-over-title');
-      const gameFinalScore = document.getElementById('game-final-score');
+      const positionReadout = document.getElementById('position-readout');
       const cameraLockHint = document.getElementById('camera-lock-hint');
 
-      const MAGAZINE_SIZE = 20;
-      const MISSION_LENGTH = 90;
-      const LOGS_REQUIRED = 3;
-      const ARENA_LIMIT = 20;
       const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
-
-      const game = {
+      const controller = {
         running: false,
         paused: false,
-        over: false,
-        startedAt: 0,
-        elapsed: 0,
         lastFrame: performance.now(),
-        score: 0,
-        funding: 0,
-        health: 100,
-        ammo: MAGAZINE_SIZE,
-        reserve: 100,
-        reloading: false,
-        reloadStarted: 0,
-        reloadUntil: 0,
-        player: { x: 0, y: 1.68, z: 7.5, yaw: 0, pitch: 0 },
-        velocity: { x: 0, z: 0 },
+        x: 0,
+        y: 1.72,
+        z: 0,
+        yaw: 0,
+        pitch: 0,
+        velocityX: 0,
+        velocityZ: 0,
         walkCycle: 0,
-        muzzle: 0,
-        recoil: 0,
-        damageFlash: 0,
-        wave: 1,
-        kills: 0,
-        research: 0,
-        nextSpawn: 0,
-        enemies: [],
-        impacts: [],
-        logs: [],
-        squad: [],
         keys: new Set(),
         touchLook: false,
         touchX: 0,
         touchY: 0
       };
 
-      const arenaBlocks = [
-        { p: [-7, 1.5, -2], s: [2.4, 3, 2.2], c: [.49, .52, .53] },
-        { p: [7, 2, -5], s: [3.1, 4, 2.5], c: [.42, .45, .46] },
-        { p: [-4.5, 1, -10], s: [2, 2, 2], c: [.57, .59, .60] },
-        { p: [4.2, 1.2, -12], s: [2.2, 2.4, 2.2], c: [.47, .49, .50] },
-        { p: [0, .75, -17], s: [7, 1.5, 1.4], c: [.53, .55, .56] },
-        { p: [-13, 3, -11], s: [2.6, 6, 2.8], c: [.43, .46, .47] },
-        { p: [13, 2.8, -9], s: [2.5, 5.6, 2.6], c: [.51, .53, .54] },
-        { p: [-10, .65, 7], s: [4, 1.3, 2.2], c: [.46, .48, .49] },
-        { p: [10, .65, 6], s: [4.2, 1.3, 2.2], c: [.55, .57, .58] },
-        { p: [0, 1.3, 16], s: [5.5, 2.6, 1.5], c: [.45, .47, .48] }
-      ];
-
-      const normalize3 = (x, y, z) => {
-        const length = Math.hypot(x, y, z) || 1;
-        return [x / length, y / length, z / length];
-      };
-
-      const cameraForward = () => {
-        const cosinePitch = Math.cos(game.player.pitch);
-        return [
-          Math.sin(game.player.yaw) * cosinePitch,
-          Math.sin(game.player.pitch),
-          -Math.cos(game.player.yaw) * cosinePitch
-        ];
-      };
-
-      const mat4Identity = () => new Float32Array([
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1
-      ]);
-
       const mat4Multiply = (a, b) => {
-        const result = new Float32Array(16);
+        const output = new Float32Array(16);
         for (let column = 0; column < 4; column += 1) {
           for (let row = 0; row < 4; row += 1) {
-            let sum = 0;
-            for (let index = 0; index < 4; index += 1) sum += a[index * 4 + row] * b[column * 4 + index];
-            result[column * 4 + row] = sum;
+            let value = 0;
+            for (let index = 0; index < 4; index += 1) value += a[index * 4 + row] * b[column * 4 + index];
+            output[column * 4 + row] = value;
           }
         }
-        return result;
+        return output;
       };
 
       const mat4Translate = (x, y, z) => new Float32Array([
@@ -1925,16 +1961,8 @@
         x, y, z, 1
       ]);
 
-      const mat4Scale = (x, y, z) => new Float32Array([
-        x, 0, 0, 0,
-        0, y, 0, 0,
-        0, 0, z, 0,
-        0, 0, 0, 1
-      ]);
-
       const mat4RotateX = angle => {
-        const cosine = Math.cos(angle);
-        const sine = Math.sin(angle);
+        const cosine = Math.cos(angle), sine = Math.sin(angle);
         return new Float32Array([
           1, 0, 0, 0,
           0, cosine, sine, 0,
@@ -1944,8 +1972,7 @@
       };
 
       const mat4RotateY = angle => {
-        const cosine = Math.cos(angle);
-        const sine = Math.sin(angle);
+        const cosine = Math.cos(angle), sine = Math.sin(angle);
         return new Float32Array([
           cosine, 0, -sine, 0,
           0, 1, 0, 0,
@@ -1954,239 +1981,27 @@
         ]);
       };
 
-      const mat4RotateZ = angle => {
-        const cosine = Math.cos(angle);
-        const sine = Math.sin(angle);
-        return new Float32Array([
-          cosine, sine, 0, 0,
-          -sine, cosine, 0, 0,
-          0, 0, 1, 0,
-          0, 0, 0, 1
-        ]);
-      };
-
       const mat4Perspective = (fieldOfView, aspect, near, far) => {
-        const f = 1 / Math.tan(fieldOfView / 2);
+        const scale = 1 / Math.tan(fieldOfView / 2);
         const range = 1 / (near - far);
         return new Float32Array([
-          f / aspect, 0, 0, 0,
-          0, f, 0, 0,
+          scale / aspect, 0, 0, 0,
+          0, scale, 0, 0,
           0, 0, (far + near) * range, -1,
           0, 0, (2 * far * near) * range, 0
         ]);
       };
 
-      const composeMatrix = (position = [0, 0, 0], rotation = [0, 0, 0], scale = [1, 1, 1]) => {
-        let matrix = mat4Translate(position[0], position[1], position[2]);
-        matrix = mat4Multiply(matrix, mat4RotateY(rotation[1] || 0));
-        matrix = mat4Multiply(matrix, mat4RotateX(rotation[0] || 0));
-        matrix = mat4Multiply(matrix, mat4RotateZ(rotation[2] || 0));
-        return mat4Multiply(matrix, mat4Scale(scale[0], scale[1], scale[2]));
-      };
-
-      class SoftwareRenderer {
+      class BlankWebGLRenderer {
         constructor(canvas) {
           this.canvas = canvas;
-          this.context = canvas.getContext('2d');
-          if (!this.context) throw new Error('2D canvas context unavailable.');
-          this.items = [];
-          this.viewItems = [];
-          this.camera = null;
-          this.width = 0;
-          this.height = 0;
-          this.focal = 0;
-          this.modeName = 'SOFTWARE 3D FALLBACK';
-        }
-
-        resize(width, height) {
-          this.width = width;
-          this.height = height;
-          this.focal = height / Math.tan(Math.PI / 6);
-        }
-
-        begin(camera) {
-          this.camera = camera;
-          this.items.length = 0;
-          this.viewItems.length = 0;
-          const gradient = this.context.createLinearGradient(0, 0, 0, this.height);
-          gradient.addColorStop(0, '#536f83');
-          gradient.addColorStop(.45, '#94a6ae');
-          gradient.addColorStop(.55, '#bfc5c3');
-          gradient.addColorStop(1, '#565b59');
-          this.context.fillStyle = gradient;
-          this.context.fillRect(0, 0, this.width, this.height);
-        }
-
-        color(color, shade = 1, fog = 0) {
-          const fogColor = [.50, .59, .65];
-          const red = clamp(color[0] * shade * (1 - fog) + fogColor[0] * fog, 0, 1);
-          const green = clamp(color[1] * shade * (1 - fog) + fogColor[1] * fog, 0, 1);
-          const blue = clamp(color[2] * shade * (1 - fog) + fogColor[2] * fog, 0, 1);
-          return `rgb(${Math.round(red * 255)},${Math.round(green * 255)},${Math.round(blue * 255)})`;
-        }
-
-        rotatePoint(point, rotation) {
-          let [x, y, z] = point;
-          const [rx, ry, rz] = rotation;
-          if (rx) {
-            const cosine = Math.cos(rx), sine = Math.sin(rx);
-            [y, z] = [y * cosine - z * sine, y * sine + z * cosine];
-          }
-          if (ry) {
-            const cosine = Math.cos(ry), sine = Math.sin(ry);
-            [x, z] = [x * cosine + z * sine, -x * sine + z * cosine];
-          }
-          if (rz) {
-            const cosine = Math.cos(rz), sine = Math.sin(rz);
-            [x, y] = [x * cosine - y * sine, x * sine + y * cosine];
-          }
-          return [x, y, z];
-        }
-
-        worldToCamera(point) {
-          const dx = point[0] - this.camera.x;
-          const dy = point[1] - this.camera.y;
-          const dz = point[2] - this.camera.z;
-          const cosineYaw = Math.cos(this.camera.yaw);
-          const sineYaw = Math.sin(this.camera.yaw);
-          const cameraX = dx * cosineYaw + dz * sineYaw;
-          const depthBeforePitch = dx * sineYaw - dz * cosineYaw;
-          const cosinePitch = Math.cos(this.camera.pitch);
-          const sinePitch = Math.sin(this.camera.pitch);
-          return [
-            cameraX,
-            dy * cosinePitch - depthBeforePitch * sinePitch,
-            dy * sinePitch + depthBeforePitch * cosinePitch
-          ];
-        }
-
-        project(cameraPoint) {
-          const depth = cameraPoint[2];
-          if (depth <= .06) return null;
-          return {
-            x: this.width / 2 + cameraPoint[0] * this.focal / depth,
-            y: this.height / 2 - cameraPoint[1] * this.focal / depth,
-            depth
-          };
-        }
-
-        boxWorld(position, scale, color, rotation = [0, 0, 0], emissive = 0) {
-          const vertices = [
-            [-.5, -.5, -.5], [.5, -.5, -.5], [.5, .5, -.5], [-.5, .5, -.5],
-            [-.5, -.5, .5], [.5, -.5, .5], [.5, .5, .5], [-.5, .5, .5]
-          ].map(vertex => {
-            const scaled = [vertex[0] * scale[0], vertex[1] * scale[1], vertex[2] * scale[2]];
-            const rotated = this.rotatePoint(scaled, rotation);
-            return this.worldToCamera([rotated[0] + position[0], rotated[1] + position[1], rotated[2] + position[2]]);
+          this.gl = canvas.getContext('webgl', {
+            antialias: true,
+            alpha: false,
+            depth: true,
+            powerPreference: 'default'
           });
-          this.pushBoxFaces(vertices, color, emissive, this.items);
-        }
-
-        sphereWorld(position, scale, color, emissive = 0) {
-          const cameraPoint = this.worldToCamera(position);
-          const projected = this.project(cameraPoint);
-          if (!projected) return;
-          const radius = this.focal * Math.max(scale[0], scale[1], scale[2]) / projected.depth;
-          if (radius < .4) return;
-          this.items.push({ type: 'circle', x: projected.x, y: projected.y, radius, depth: projected.depth, color, emissive });
-        }
-
-        boxView(position, scale, color, rotation = [0, 0, 0], emissive = 0) {
-          const vertices = [
-            [-.5, -.5, -.5], [.5, -.5, -.5], [.5, .5, -.5], [-.5, .5, -.5],
-            [-.5, -.5, .5], [.5, -.5, .5], [.5, .5, .5], [-.5, .5, .5]
-          ].map(vertex => {
-            const scaled = [vertex[0] * scale[0], vertex[1] * scale[1], vertex[2] * scale[2]];
-            const rotated = this.rotatePoint(scaled, rotation);
-            return [rotated[0] + position[0], rotated[1] + position[1], rotated[2] + position[2]];
-          });
-          this.pushBoxFaces(vertices, color, emissive, this.viewItems);
-        }
-
-        sphereView(position, scale, color, emissive = 0) {
-          const projected = this.project(position);
-          if (!projected) return;
-          const radius = this.focal * Math.max(scale[0], scale[1], scale[2]) / projected.depth;
-          this.viewItems.push({ type: 'circle', x: projected.x, y: projected.y, radius, depth: projected.depth, color, emissive });
-        }
-
-        pushBoxFaces(vertices, color, emissive, target) {
-          const faces = [
-            { indices: [0, 1, 2, 3], shade: .58 },
-            { indices: [5, 4, 7, 6], shade: .92 },
-            { indices: [4, 0, 3, 7], shade: .68 },
-            { indices: [1, 5, 6, 2], shade: .78 },
-            { indices: [3, 2, 6, 7], shade: 1.08 },
-            { indices: [4, 5, 1, 0], shade: .46 }
-          ];
-          for (const face of faces) {
-            const cameraPoints = face.indices.map(index => vertices[index]);
-            if (cameraPoints.every(point => point[2] <= .06)) continue;
-            const projected = cameraPoints.map(point => this.project(point));
-            if (projected.some(point => !point)) continue;
-            const depth = cameraPoints.reduce((total, point) => total + point[2], 0) / cameraPoints.length;
-            target.push({ type: 'polygon', points: projected, depth, color, shade: face.shade, emissive });
-          }
-        }
-
-        drawItems(items) {
-          items.sort((a, b) => b.depth - a.depth);
-          for (const item of items) {
-            const fog = clamp((item.depth - 10) / 42, 0, .82);
-            if (item.type === 'polygon') {
-              this.context.beginPath();
-              this.context.moveTo(item.points[0].x, item.points[0].y);
-              for (let index = 1; index < item.points.length; index += 1) this.context.lineTo(item.points[index].x, item.points[index].y);
-              this.context.closePath();
-              this.context.fillStyle = this.color(item.color, item.emissive ? 1.25 : item.shade, item.emissive ? 0 : fog);
-              this.context.fill();
-              this.context.strokeStyle = item.emissive ? 'rgba(225,255,222,.45)' : 'rgba(24,29,28,.30)';
-              this.context.lineWidth = 1;
-              this.context.stroke();
-            } else {
-              const radial = this.context.createRadialGradient(item.x - item.radius * .2, item.y - item.radius * .2, 0, item.x, item.y, item.radius);
-              radial.addColorStop(0, this.color(item.color, item.emissive ? 1.4 : 1.12, 0));
-              radial.addColorStop(1, this.color(item.color, item.emissive ? .76 : .58, fog));
-              this.context.fillStyle = radial;
-              this.context.beginPath();
-              this.context.arc(item.x, item.y, item.radius, 0, Math.PI * 2);
-              this.context.fill();
-            }
-          }
-        }
-
-        finishWorld() {
-          this.drawItems(this.items);
-        }
-
-        finishView() {
-          this.drawItems(this.viewItems);
-        }
-
-        finish(damageFlash) {
-          if (damageFlash > 0) {
-            const vignette = this.context.createRadialGradient(this.width / 2, this.height / 2, this.width * .1, this.width / 2, this.height / 2, this.width * .72);
-            vignette.addColorStop(0, 'rgba(110,12,8,0)');
-            vignette.addColorStop(1, `rgba(110,12,8,${damageFlash * .48})`);
-            this.context.fillStyle = vignette;
-            this.context.fillRect(0, 0, this.width, this.height);
-          }
-          this.context.globalAlpha = .035;
-          for (let index = 0; index < 45; index += 1) {
-            this.context.fillStyle = Math.random() > .5 ? '#fff' : '#000';
-            this.context.fillRect(Math.random() * this.width, Math.random() * this.height, 1 + Math.random() * 2, 1 + Math.random() * 2);
-          }
-          this.context.globalAlpha = 1;
-        }
-      }
-
-      class WebGLRenderer {
-        constructor(canvas) {
-          this.canvas = canvas;
-          this.gl = canvas.getContext('webgl2', { antialias: true, alpha: false, depth: true })
-            || canvas.getContext('webgl', { antialias: true, alpha: false, depth: true })
-            || canvas.getContext('experimental-webgl', { antialias: true, alpha: false, depth: true });
-          if (!this.gl) throw new Error('WebGL unavailable.');
+          if (!this.gl) throw new Error('WebGL unavailable');
           this.modeName = 'WEBGL 3D';
           this.initialize();
         }
@@ -2195,789 +2010,328 @@
           const shader = this.gl.createShader(type);
           this.gl.shaderSource(shader, source);
           this.gl.compileShader(shader);
-          if (!this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)) throw new Error(this.gl.getShaderInfoLog(shader) || 'Shader compilation failed.');
+          if (!this.gl.getShaderParameter(shader, this.gl.COMPILE_STATUS)) throw new Error(this.gl.getShaderInfoLog(shader) || 'Shader compile error');
           return shader;
         }
 
         initialize() {
           const vertexSource = `
             attribute vec3 aPosition;
-            attribute vec3 aNormal;
-            uniform mat4 uModel;
-            uniform mat4 uView;
             uniform mat4 uProjection;
-            varying vec3 vNormal;
+            uniform mat4 uView;
             varying vec3 vWorld;
             void main(){
-              vec4 world = uModel * vec4(aPosition, 1.0);
-              vWorld = world.xyz;
-              vNormal = normalize(mat3(uModel) * aNormal);
-              gl_Position = uProjection * uView * world;
+              vWorld = aPosition;
+              gl_Position = uProjection * uView * vec4(aPosition, 1.0);
             }
           `;
           const fragmentSource = `
             precision mediump float;
-            varying vec3 vNormal;
             varying vec3 vWorld;
-            uniform vec3 uColor;
             uniform vec3 uCamera;
             uniform vec3 uFogColor;
-            uniform float uFogDensity;
-            uniform float uEmissive;
             void main(){
-              vec3 lightDirection = normalize(vec3(-0.45, 0.82, 0.28));
-              float diffuse = max(dot(normalize(vNormal), lightDirection), 0.0);
-              float lighting = 0.28 + diffuse * 0.72;
-              vec3 shaded = mix(uColor * lighting, uColor, uEmissive);
-              float distanceToCamera = distance(vWorld, uCamera);
-              float fog = clamp(1.0 - exp(-distanceToCamera * uFogDensity), 0.0, 0.88);
-              gl_FragColor = vec4(mix(shaded, uFogColor, fog), 1.0);
+              float distanceToCamera = distance(vWorld.xz, uCamera.xz);
+              float fog = smoothstep(42.0, 155.0, distanceToCamera);
+              float softShade = 0.985 - min(distanceToCamera / 800.0, 0.025);
+              vec3 whiteGround = vec3(softShade);
+              gl_FragColor = vec4(mix(whiteGround, uFogColor, fog), 1.0);
             }
           `;
+
           const program = this.gl.createProgram();
           this.gl.attachShader(program, this.shader(this.gl.VERTEX_SHADER, vertexSource));
           this.gl.attachShader(program, this.shader(this.gl.FRAGMENT_SHADER, fragmentSource));
           this.gl.linkProgram(program);
-          if (!this.gl.getProgramParameter(program, this.gl.LINK_STATUS)) throw new Error(this.gl.getProgramInfoLog(program) || 'Shader link failed.');
+          if (!this.gl.getProgramParameter(program, this.gl.LINK_STATUS)) throw new Error(this.gl.getProgramInfoLog(program) || 'Program link error');
           this.program = program;
-          this.locations = {
-            position: this.gl.getAttribLocation(program, 'aPosition'),
-            normal: this.gl.getAttribLocation(program, 'aNormal'),
-            model: this.gl.getUniformLocation(program, 'uModel'),
-            view: this.gl.getUniformLocation(program, 'uView'),
-            projection: this.gl.getUniformLocation(program, 'uProjection'),
-            color: this.gl.getUniformLocation(program, 'uColor'),
-            camera: this.gl.getUniformLocation(program, 'uCamera'),
-            fogColor: this.gl.getUniformLocation(program, 'uFogColor'),
-            fogDensity: this.gl.getUniformLocation(program, 'uFogDensity'),
-            emissive: this.gl.getUniformLocation(program, 'uEmissive')
-          };
-          this.cube = this.createCube();
-          this.sphere = this.createSphere();
+          this.positionLocation = this.gl.getAttribLocation(program, 'aPosition');
+          this.projectionLocation = this.gl.getUniformLocation(program, 'uProjection');
+          this.viewLocation = this.gl.getUniformLocation(program, 'uView');
+          this.cameraLocation = this.gl.getUniformLocation(program, 'uCamera');
+          this.fogLocation = this.gl.getUniformLocation(program, 'uFogColor');
+
+          // One enormous, completely unmarked white plane.
+          const size = 1200;
+          const vertices = new Float32Array([
+            -size, 0, -size,
+             size, 0, -size,
+             size, 0,  size,
+            -size, 0, -size,
+             size, 0,  size,
+            -size, 0,  size
+          ]);
+          this.buffer = this.gl.createBuffer();
+          this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer);
+          this.gl.bufferData(this.gl.ARRAY_BUFFER, vertices, this.gl.STATIC_DRAW);
           this.gl.enable(this.gl.DEPTH_TEST);
           this.gl.depthFunc(this.gl.LEQUAL);
         }
 
-        createMesh(positions, normals) {
-          const mesh = { count: positions.length / 3, position: this.gl.createBuffer(), normal: this.gl.createBuffer() };
-          this.gl.bindBuffer(this.gl.ARRAY_BUFFER, mesh.position);
-          this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(positions), this.gl.STATIC_DRAW);
-          this.gl.bindBuffer(this.gl.ARRAY_BUFFER, mesh.normal);
-          this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(normals), this.gl.STATIC_DRAW);
-          return mesh;
-        }
-
-        createCube() {
-          const positions = [], normals = [];
-          const face = (normal, a, b, c, d) => {
-            positions.push(...a, ...b, ...c, ...a, ...c, ...d);
-            for (let index = 0; index < 6; index += 1) normals.push(...normal);
-          };
-          face([0, 0, 1], [-.5, -.5, .5], [.5, -.5, .5], [.5, .5, .5], [-.5, .5, .5]);
-          face([0, 0, -1], [.5, -.5, -.5], [-.5, -.5, -.5], [-.5, .5, -.5], [.5, .5, -.5]);
-          face([1, 0, 0], [.5, -.5, .5], [.5, -.5, -.5], [.5, .5, -.5], [.5, .5, .5]);
-          face([-1, 0, 0], [-.5, -.5, -.5], [-.5, -.5, .5], [-.5, .5, .5], [-.5, .5, -.5]);
-          face([0, 1, 0], [-.5, .5, .5], [.5, .5, .5], [.5, .5, -.5], [-.5, .5, -.5]);
-          face([0, -1, 0], [-.5, -.5, -.5], [.5, -.5, -.5], [.5, -.5, .5], [-.5, -.5, .5]);
-          return this.createMesh(positions, normals);
-        }
-
-        createSphere(segments = 10, rings = 7) {
-          const positions = [], normals = [];
-          const point = (theta, phi) => [Math.sin(phi) * Math.cos(theta), Math.cos(phi), Math.sin(phi) * Math.sin(theta)];
-          for (let ring = 0; ring < rings; ring += 1) {
-            const phi0 = ring / rings * Math.PI;
-            const phi1 = (ring + 1) / rings * Math.PI;
-            for (let segment = 0; segment < segments; segment += 1) {
-              const theta0 = segment / segments * Math.PI * 2;
-              const theta1 = (segment + 1) / segments * Math.PI * 2;
-              const a = point(theta0, phi0), b = point(theta1, phi0), c = point(theta1, phi1), d = point(theta0, phi1);
-              positions.push(...a, ...b, ...c, ...a, ...c, ...d);
-              normals.push(...a, ...b, ...c, ...a, ...c, ...d);
-            }
-          }
-          return this.createMesh(positions, normals);
-        }
-
         resize(width, height) {
-          this.width = width;
-          this.height = height;
+          if (this.canvas.width !== width || this.canvas.height !== height) {
+            this.canvas.width = width;
+            this.canvas.height = height;
+          }
           this.gl.viewport(0, 0, width, height);
         }
 
-        bind(mesh) {
-          this.gl.bindBuffer(this.gl.ARRAY_BUFFER, mesh.position);
-          this.gl.enableVertexAttribArray(this.locations.position);
-          this.gl.vertexAttribPointer(this.locations.position, 3, this.gl.FLOAT, false, 0, 0);
-          this.gl.bindBuffer(this.gl.ARRAY_BUFFER, mesh.normal);
-          this.gl.enableVertexAttribArray(this.locations.normal);
-          this.gl.vertexAttribPointer(this.locations.normal, 3, this.gl.FLOAT, false, 0, 0);
-        }
-
-        draw(mesh, model, color, emissive = 0) {
-          this.bind(mesh);
-          this.gl.uniformMatrix4fv(this.locations.model, false, model);
-          this.gl.uniform3fv(this.locations.color, color);
-          this.gl.uniform1f(this.locations.emissive, emissive);
-          this.gl.drawArrays(this.gl.TRIANGLES, 0, mesh.count);
-        }
-
-        begin(camera) {
-          this.camera = camera;
-          const aspect = this.width / this.height;
-          const projection = mat4Perspective(Math.PI / 3, aspect, .08, 100);
-          let view = mat4RotateX(-camera.pitch);
+        render(camera, bob) {
+          const gl = this.gl;
+          const aspect = this.canvas.width / Math.max(1, this.canvas.height);
+          const projection = mat4Perspective(Math.PI / 3, aspect, .08, 520);
+          let view = mat4RotateX(-camera.pitch - bob * .15);
           view = mat4Multiply(view, mat4RotateY(camera.yaw));
-          view = mat4Multiply(view, mat4Translate(-camera.x, -camera.y, -camera.z));
-          this.gl.clearColor(.50, .59, .65, 1);
-          this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-          this.gl.useProgram(this.program);
-          this.gl.uniformMatrix4fv(this.locations.view, false, view);
-          this.gl.uniformMatrix4fv(this.locations.projection, false, projection);
-          this.gl.uniform3fv(this.locations.camera, [camera.x, camera.y, camera.z]);
-          this.gl.uniform3fv(this.locations.fogColor, [.50, .59, .65]);
-          this.gl.uniform1f(this.locations.fogDensity, .024);
+          view = mat4Multiply(view, mat4Translate(-camera.x, -camera.y - bob, -camera.z));
+
+          gl.clearColor(.43, .67, .86, 1);
+          gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+          gl.useProgram(this.program);
+          gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
+          gl.enableVertexAttribArray(this.positionLocation);
+          gl.vertexAttribPointer(this.positionLocation, 3, gl.FLOAT, false, 0, 0);
+          gl.uniformMatrix4fv(this.projectionLocation, false, projection);
+          gl.uniformMatrix4fv(this.viewLocation, false, view);
+          gl.uniform3f(this.cameraLocation, camera.x, camera.y, camera.z);
+          gl.uniform3f(this.fogLocation, .66, .78, .86);
+          gl.drawArrays(gl.TRIANGLES, 0, 6);
         }
-
-        boxWorld(position, scale, color, rotation = [0, 0, 0], emissive = 0) {
-          this.draw(this.cube, composeMatrix(position, rotation, scale), color, emissive);
-        }
-
-        sphereWorld(position, scale, color, emissive = 0) {
-          this.draw(this.sphere, composeMatrix(position, [0, 0, 0], scale), color, emissive);
-        }
-
-        finishWorld() {}
-
-        beginView() {
-          this.gl.clear(this.gl.DEPTH_BUFFER_BIT);
-          const aspect = this.width / this.height;
-          this.gl.uniformMatrix4fv(this.locations.view, false, mat4Identity());
-          this.gl.uniformMatrix4fv(this.locations.projection, false, mat4Perspective(Math.PI / 3.25, aspect, .03, 10));
-          this.gl.uniform3fv(this.locations.camera, [0, 0, 0]);
-          this.gl.uniform1f(this.locations.fogDensity, 0);
-        }
-
-        boxView(position, scale, color, rotation = [0, 0, 0], emissive = 0) {
-          this.draw(this.cube, composeMatrix([position[0], position[1], -position[2]], rotation, scale), color, emissive);
-        }
-
-        sphereView(position, scale, color, emissive = 0) {
-          this.draw(this.sphere, composeMatrix([position[0], position[1], -position[2]], [0, 0, 0], scale), color, emissive);
-        }
-
-        finishView() {}
-        finish() {}
       }
 
-      let renderer;
-      const initializeRenderer = () => {
+      class BlankCanvasRenderer {
+        constructor(canvas) {
+          this.canvas = canvas;
+          this.context = canvas.getContext('2d');
+          if (!this.context) throw new Error('Canvas unavailable');
+          this.modeName = 'CANVAS 3D FALLBACK';
+        }
+
+        resize(width, height) {
+          if (this.canvas.width !== width || this.canvas.height !== height) {
+            this.canvas.width = width;
+            this.canvas.height = height;
+          }
+        }
+
+        render(camera, bob) {
+          const context = this.context;
+          const width = this.canvas.width;
+          const height = this.canvas.height;
+          const horizon = clamp(height * (.5 + camera.pitch * .34 + bob * .06), -height * .25, height * 1.25);
+
+          const sky = context.createLinearGradient(0, 0, 0, Math.max(1, horizon + height * .14));
+          sky.addColorStop(0, '#64a3d6');
+          sky.addColorStop(.7, '#8fc0e0');
+          sky.addColorStop(1, '#b4cfdd');
+          context.fillStyle = sky;
+          context.fillRect(0, 0, width, height);
+
+          const ground = context.createLinearGradient(0, horizon - height * .03, 0, height);
+          ground.addColorStop(0, '#b4cfda');
+          ground.addColorStop(.08, '#edf2f2');
+          ground.addColorStop(.32, '#fafafa');
+          ground.addColorStop(1, '#f3f3f3');
+          context.fillStyle = ground;
+          context.fillRect(0, horizon, width, height - horizon);
+
+          const fog = context.createLinearGradient(0, horizon - height * .08, 0, horizon + height * .13);
+          fog.addColorStop(0, 'rgba(180,207,220,0)');
+          fog.addColorStop(.48, 'rgba(180,207,220,.82)');
+          fog.addColorStop(1, 'rgba(240,245,245,0)');
+          context.fillStyle = fog;
+          context.fillRect(0, horizon - height * .08, width, height * .21);
+        }
+      }
+
+      let renderer = null;
+
+      const initializeBlankRenderer = () => {
         try {
-          renderer = new WebGLRenderer(combatCanvas);
+          renderer = new BlankWebGLRenderer(combatCanvas);
         } catch (webglError) {
-          console.warn('WebGL renderer unavailable; using stable software 3D fallback.', webglError);
-          const replacement = combatCanvas.cloneNode(false);
-          replacement.id = combatCanvas.id;
-          replacement.width = combatCanvas.width;
-          replacement.height = combatCanvas.height;
-          combatCanvas.replaceWith(replacement);
-          combatCanvas = replacement;
-          renderer = new SoftwareRenderer(combatCanvas);
+          console.info('WebGL blank scene unavailable; using stable canvas fallback.', webglError);
+          renderer = new BlankCanvasRenderer(combatCanvas);
         }
         if (rendererModeLabel) rendererModeLabel.textContent = renderer.modeName;
       };
 
-      const resizeGameCanvas = () => {
+      const resizeBlankScene = () => {
         if (!combatCanvas || !gameScreen || !renderer) return;
-        const bounds = gameScreen.getBoundingClientRect();
-        const pixelRatio = Math.min(window.devicePixelRatio || 1, renderer instanceof SoftwareRenderer ? 1.2 : 1.65);
-        const width = Math.max(640, Math.round(bounds.width * pixelRatio));
-        const height = Math.max(360, Math.round(bounds.height * pixelRatio));
-        if (combatCanvas.width !== width || combatCanvas.height !== height) {
-          combatCanvas.width = width;
-          combatCanvas.height = height;
-        }
-        renderer.resize(width, height);
+        const rectangle = gameScreen.getBoundingClientRect();
+        const ratio = Math.min(window.devicePixelRatio || 1, 1.75);
+        renderer.resize(
+          Math.max(640, Math.round(rectangle.width * ratio)),
+          Math.max(360, Math.round(rectangle.height * ratio))
+        );
       };
 
-      const updateGameHud = () => {
-        if (hudHealth) hudHealth.textContent = String(Math.max(0, Math.ceil(game.health)));
-        if (healthBar) healthBar.style.width = `${Math.max(0, game.health)}%`;
-        if (hudScore) hudScore.textContent = String(game.score).padStart(4, '0');
-        if (hudFunding) hudFunding.textContent = String(game.funding).padStart(4, '0');
-        if (ammoDisplay) ammoDisplay.textContent = String(game.ammo).padStart(2, '0');
-        if (reserveDisplay) reserveDisplay.textContent = String(game.reserve).padStart(3, '0');
-        if (hudObjective) hudObjective.textContent = `RESEARCH ${game.research}/${LOGS_REQUIRED} // WAVE ${game.wave}`;
+      const updateReadout = () => {
+        if (positionReadout) positionReadout.textContent = `X ${controller.x.toFixed(1)}  Z ${controller.z.toFixed(1)}`;
       };
 
-      const resetGame = () => {
-        game.running = false;
-        game.paused = false;
-        game.over = false;
-        game.startedAt = performance.now();
-        game.elapsed = 0;
-        game.lastFrame = performance.now();
-        game.score = 0;
-        game.funding = 0;
-        game.health = 100;
-        game.ammo = MAGAZINE_SIZE;
-        game.reserve = 100;
-        game.reloading = false;
-        game.reloadStarted = 0;
-        game.reloadUntil = 0;
-        game.player = { x: 0, y: 1.68, z: 7.5, yaw: 0, pitch: 0 };
-        game.velocity = { x: 0, z: 0 };
-        game.walkCycle = 0;
-        game.muzzle = 0;
-        game.recoil = 0;
-        game.damageFlash = 0;
-        game.wave = 1;
-        game.kills = 0;
-        game.research = 0;
-        game.nextSpawn = 0;
-        game.enemies = [];
-        game.impacts = [];
-        game.logs = [
-          { x: -9, y: .45, z: -6, collected: false, phase: 0 },
-          { x: 8, y: .45, z: -13, collected: false, phase: 2 },
-          { x: 0, y: .45, z: 17, collected: false, phase: 4 }
-        ];
-        game.squad = [
-          { x: -1, z: 8.5, offsetX: -1.35, offsetZ: 1.1, nextShot: 0, flash: 0 },
-          { x: 1, z: 8.7, offsetX: 1.35, offsetZ: 1.35, nextShot: 0, flash: 0 }
-        ];
-        game.keys.clear();
-        if (hudStatus) hudStatus.textContent = 'CLICK PLAY TO BEGIN';
-        if (gameClock) gameClock.textContent = '00:00';
-        updateGameHud();
-      };
-
-      const startGame = () => {
-        if (game.over) resetGame();
-        game.running = true;
-        game.paused = false;
-        game.startedAt = performance.now() - game.elapsed * 1000;
-        game.lastFrame = performance.now();
+      const startBlankScene = () => {
+        controller.running = true;
+        controller.paused = false;
+        controller.lastFrame = performance.now();
         gameStartPanel.hidden = true;
         gamePausePanel.hidden = true;
-        gameOverPanel.hidden = true;
-        if (hudStatus) hudStatus.textContent = 'RECOVER 3 LOGS // SURVIVE EXTRACTION';
         gameScreen.focus();
         gameScreen.requestPointerLock?.();
-        if (audioEnabled) {
-          playTone(210, .07, .022, 'square');
-          window.setTimeout(() => playTone(340, .07, .018, 'square'), 85);
-          window.setTimeout(() => playTone(510, .09, .016, 'square'), 170);
-        }
       };
 
-      const pauseGame = force => {
-        if (!game.running || game.over) return;
-        game.paused = typeof force === 'boolean' ? force : !game.paused;
-        gamePausePanel.hidden = !game.paused;
-        if (hudStatus) hudStatus.textContent = game.paused ? 'OPERATION PAUSED' : 'OPERATION ACTIVE';
-        if (game.paused && document.pointerLockElement === gameScreen) document.exitPointerLock?.();
+      const pauseBlankScene = force => {
+        if (!controller.running) return;
+        controller.paused = typeof force === 'boolean' ? force : !controller.paused;
+        gamePausePanel.hidden = !controller.paused;
+        if (controller.paused && document.pointerLockElement === gameScreen) document.exitPointerLock?.();
+        controller.lastFrame = performance.now();
       };
 
-      const endGame = victory => {
-        game.running = false;
-        game.over = true;
-        game.paused = false;
-        gamePausePanel.hidden = true;
-        gameOverPanel.hidden = false;
-        if (document.pointerLockElement === gameScreen) document.exitPointerLock?.();
-        if (gameOverTitle) gameOverTitle.textContent = victory ? 'Research Secured' : 'Containment Failed';
-        if (gameFinalScore) gameFinalScore.textContent = `Score: ${game.score} // Funding: ${game.funding} // Mutants: ${game.kills} // Research: ${game.research}/${LOGS_REQUIRED}`;
-        if (hudStatus) hudStatus.textContent = victory ? 'EXTRACTION COMPLETE' : 'BIO-SIGNAL OVERRUN';
-        if (audioEnabled) {
-          playTone(victory ? 480 : 105, .22, .024, victory ? 'square' : 'sawtooth');
-          window.setTimeout(() => playTone(victory ? 650 : 68, .28, .02, victory ? 'square' : 'sawtooth'), 160);
-        }
+      const updateBlankController = deltaTime => {
+        if (!controller.running || controller.paused) return;
+        const forwardInput = (controller.keys.has('w') ? 1 : 0) - (controller.keys.has('s') ? 1 : 0);
+        const strafeInput = (controller.keys.has('d') ? 1 : 0) - (controller.keys.has('a') ? 1 : 0);
+        const sprinting = controller.keys.has('shift');
+        const movementSpeed = sprinting ? 9.5 : 5.25;
+
+        const forwardX = Math.sin(controller.yaw);
+        const forwardZ = -Math.cos(controller.yaw);
+        const rightX = Math.cos(controller.yaw);
+        const rightZ = Math.sin(controller.yaw);
+        const desiredX = (forwardX * forwardInput + rightX * strafeInput) * movementSpeed;
+        const desiredZ = (forwardZ * forwardInput + rightZ * strafeInput) * movementSpeed;
+        const smoothing = Math.min(1, deltaTime * 11);
+
+        controller.velocityX += (desiredX - controller.velocityX) * smoothing;
+        controller.velocityZ += (desiredZ - controller.velocityZ) * smoothing;
+        controller.x += controller.velocityX * deltaTime;
+        controller.z += controller.velocityZ * deltaTime;
+
+        const movement = Math.hypot(controller.velocityX, controller.velocityZ);
+        controller.walkCycle += movement * deltaTime * 1.7;
+
+        if (controller.keys.has('arrowleft')) controller.yaw -= 1.55 * deltaTime;
+        if (controller.keys.has('arrowright')) controller.yaw += 1.55 * deltaTime;
+        if (controller.keys.has('arrowup')) controller.pitch = clamp(controller.pitch + 1.1 * deltaTime, -1.28, 1.28);
+        if (controller.keys.has('arrowdown')) controller.pitch = clamp(controller.pitch - 1.1 * deltaTime, -1.28, 1.28);
       };
 
-      const spawnEnemy = now => {
-        const difficulty = 1 + Math.min(2.3, game.elapsed / 70);
-        const roll = Math.random();
-        const kind = roll > .82 ? 'bulwark' : roll > .54 ? 'splitter' : 'drifter';
-        const health = kind === 'bulwark' ? 5 : kind === 'splitter' ? 3 : 2;
-        const angle = Math.random() * Math.PI * 2;
-        const distance = 13 + Math.random() * 8;
-        game.enemies.push({
-          x: clamp(game.player.x + Math.sin(angle) * distance, -ARENA_LIMIT + 2, ARENA_LIMIT - 2),
-          y: 0,
-          z: clamp(game.player.z + Math.cos(angle) * distance, -ARENA_LIMIT + 2, ARENA_LIMIT - 2),
-          speed: (kind === 'bulwark' ? 1.05 : kind === 'splitter' ? 1.65 : 1.35) * difficulty,
-          health,
-          maxHealth: health,
-          kind,
-          phase: Math.random() * Math.PI * 2,
-          hit: 0,
-          growthSide: Math.random() > .5 ? 1 : -1,
-          attackAt: 0
-        });
-        game.nextSpawn = now + Math.max(430, 1150 - game.elapsed * 5.8) + Math.random() * 500;
-      };
-
-      const raySphereDistance = (origin, direction, center, radius) => {
-        const ox = origin[0] - center[0];
-        const oy = origin[1] - center[1];
-        const oz = origin[2] - center[2];
-        const b = ox * direction[0] + oy * direction[1] + oz * direction[2];
-        const c = ox * ox + oy * oy + oz * oz - radius * radius;
-        const discriminant = b * b - c;
-        if (discriminant < 0) return null;
-        const distance = -b - Math.sqrt(discriminant);
-        return distance > 0 ? distance : null;
-      };
-
-      const damageEnemy = (enemy, damage, headshot = false, squadKill = false) => {
-        enemy.health -= damage;
-        enemy.hit = 1;
-        game.score += enemy.health <= 0 ? (enemy.kind === 'bulwark' ? 440 : enemy.kind === 'splitter' ? 290 : 210) + (headshot ? 70 : 0) : (headshot ? 75 : 35);
-        if (enemy.health <= 0) {
-          game.kills += 1;
-          game.funding += enemy.kind === 'bulwark' ? 180 : enemy.kind === 'splitter' ? 125 : 90;
-          game.enemies = game.enemies.filter(candidate => candidate !== enemy);
-          if (game.kills % 7 === 0) {
-            game.wave += 1;
-            game.reserve = Math.min(160, game.reserve + 20);
-            if (hudStatus) hudStatus.textContent = `WAVE ${game.wave} // SUPPLY CACHE +20`;
-          } else if (squadKill && hudStatus) {
-            hudStatus.textContent = 'SQUAD TARGET NEUTRALIZED';
-          }
-        }
-      };
-
-      const shoot = () => {
-        if (!game.running || game.paused || game.over || game.reloading) return;
-        if (game.ammo <= 0) {
-          if (hudStatus) hudStatus.textContent = 'VX-72 EMPTY // PRESS R';
-          playTone(115, .045, .018, 'square');
+      const renderBlankScene = now => {
+        if (!renderer) {
+          window.requestAnimationFrame(renderBlankScene);
           return;
         }
-        game.ammo -= 1;
-        game.muzzle = 1;
-        game.recoil = 1;
-        gameScreen.classList.remove('is-shot');
-        void gameScreen.offsetWidth;
-        gameScreen.classList.add('is-shot');
-        playShotSound();
-
-        const origin = [game.player.x, game.player.y, game.player.z];
-        const direction = cameraForward();
-        let hitEnemy = null;
-        let hitDistance = Infinity;
-        let headshot = false;
-        for (const enemy of game.enemies) {
-          const headDistance = raySphereDistance(origin, direction, [enemy.x, 2.06, enemy.z], enemy.kind === 'bulwark' ? .36 : .29);
-          const bodyDistance = raySphereDistance(origin, direction, [enemy.x, 1.15, enemy.z], enemy.kind === 'bulwark' ? .75 : .60);
-          if (headDistance !== null && headDistance < hitDistance) {
-            hitEnemy = enemy;
-            hitDistance = headDistance;
-            headshot = true;
-          } else if (bodyDistance !== null && bodyDistance < hitDistance) {
-            hitEnemy = enemy;
-            hitDistance = bodyDistance;
-            headshot = false;
-          }
-        }
-        if (hitEnemy) {
-          damageEnemy(hitEnemy, headshot ? 2 : 1, headshot, false);
-          game.impacts.push({
-            x: origin[0] + direction[0] * hitDistance,
-            y: origin[1] + direction[1] * hitDistance,
-            z: origin[2] + direction[2] * hitDistance,
-            life: .32
-          });
-          if (headshot && hudStatus) hudStatus.textContent = 'CRITICAL CELLULAR DISRUPTION';
-        }
-        updateGameHud();
+        resizeBlankScene();
+        const deltaTime = Math.min(.05, Math.max(0, (now - controller.lastFrame) / 1000));
+        controller.lastFrame = now;
+        updateBlankController(deltaTime);
+        const movementAmount = clamp(Math.hypot(controller.velocityX, controller.velocityZ) / 9.5, 0, 1);
+        const bob = Math.sin(controller.walkCycle) * .025 * movementAmount;
+        renderer.render(controller, bob);
+        updateReadout();
+        window.requestAnimationFrame(renderBlankScene);
       };
 
-      const reload = now => {
-        if (!game.running || game.paused || game.reloading || game.ammo >= MAGAZINE_SIZE || game.reserve <= 0) return;
-        game.reloading = true;
-        game.reloadStarted = now;
-        game.reloadUntil = now + 1320;
-        if (hudStatus) hudStatus.textContent = 'VX-72 MAGAZINE CHANGE';
-        if (audioEnabled) {
-          playTone(135, .05, .012, 'square');
-          window.setTimeout(() => playTone(205, .05, .012, 'square'), 410);
-          window.setTimeout(() => playTone(285, .055, .011, 'square'), 930);
-        }
-      };
-
-      const completeReload = () => {
-        const needed = MAGAZINE_SIZE - game.ammo;
-        const loaded = Math.min(needed, game.reserve);
-        game.ammo += loaded;
-        game.reserve -= loaded;
-        game.reloading = false;
-        if (hudStatus) hudStatus.textContent = 'OPERATION ACTIVE';
-        updateGameHud();
-      };
-
-      const boxWorld = (...argumentsList) => renderer.boxWorld(...argumentsList);
-      const sphereWorld = (...argumentsList) => renderer.sphereWorld(...argumentsList);
-      const boxView = (...argumentsList) => renderer.boxView(...argumentsList);
-      const sphereView = (...argumentsList) => renderer.sphereView(...argumentsList);
-
-      const drawArena = time => {
-        boxWorld([0, -.22, 0], [44, .44, 44], [.43, .46, .46]);
-        for (let index = -18; index <= 18; index += 3) {
-          boxWorld([index, .008, 0], [.025, .012, 40], [.21, .23, .23]);
-          boxWorld([0, .01, index], [40, .014, .025], [.21, .23, .23]);
-        }
-        boxWorld([0, 2.5, -21], [42, 5, .7], [.38, .41, .42]);
-        boxWorld([-21, 2.5, 0], [.7, 5, 42], [.40, .43, .44]);
-        boxWorld([21, 2.5, 0], [.7, 5, 42], [.40, .43, .44]);
-        boxWorld([0, 2.5, 21], [42, 5, .7], [.38, .41, .42]);
-        for (const block of arenaBlocks) boxWorld(block.p, block.s, block.c);
-        for (const x of [-15, -5, 5, 15]) {
-          boxWorld([x, 2.6, -18], [.16, 5.2, .16], [.29, .31, .31]);
-          boxWorld([x, 5.1, -18], [1.2, .12, .25], [.27, .29, .29]);
-          sphereWorld([x, 5, -17.82], [.16, .16, .16], [.78, .18, .12], .62 + .25 * Math.sin(time * 3 + x));
-        }
-        for (const x of [-11, 11]) {
-          boxWorld([x, .55, -1], [.18, 1.1, 8], [.73, .57, .16]);
-          for (let z = -4; z <= 2; z += 1.4) boxWorld([x + .01, .57, z], [.205, .28, .5], [.10, .11, .10], [0, 0, .55]);
-        }
-      };
-
-      const drawHumanoid = (entity, time, colors, infected = false, squad = false) => {
-        const dx = game.player.x - entity.x;
-        const dz = game.player.z - entity.z;
-        const yaw = Math.atan2(dx, dz);
-        const stride = Math.sin(time * (squad ? 6 : 7) + (entity.phase || 0));
-        const body = colors.body;
-        const dark = colors.dark;
-        const glow = colors.glow;
-        const base = [entity.x, 0, entity.z];
-        const rotateOffset = (offsetX, offsetZ) => [
-          base[0] + offsetX * Math.cos(yaw) + offsetZ * Math.sin(yaw),
-          base[2] - offsetX * Math.sin(yaw) + offsetZ * Math.cos(yaw)
-        ];
-        const place = (offsetX, y, offsetZ) => {
-          const point = rotateOffset(offsetX, offsetZ);
-          return [point[0], y, point[1]];
-        };
-        boxWorld(place(-.18, .65, 0), [.16, .68, .16], dark, [stride * .22, yaw, .03]);
-        boxWorld(place(.18, .65, 0), [.16, .68, .16], dark, [-stride * .22, yaw, -.03]);
-        boxWorld(place(0, 1.43, 0), infected && entity.kind === 'bulwark' ? [.68, .82, .42] : [.48, .78, .32], body, [0, yaw, infected && entity.kind === 'splitter' ? .08 : 0]);
-        sphereWorld(place(.02, 2.14, 0), [.28, .33, .27], body);
-        boxWorld(place(0, 2.03, -.23), [.23, .08, .18], dark, [.18, yaw, 0]);
-        boxWorld(place(-.48, 1.43, 0), [.14, infected && entity.growthSide < 0 ? .98 : .76, .14], body, [0, yaw, -.34 + stride * .08]);
-        boxWorld(place(.48, 1.43, 0), [.14, infected && entity.growthSide > 0 ? .98 : .76, .14], body, [0, yaw, .34 - stride * .08]);
-        if (infected) {
-          sphereWorld(place(entity.growthSide * .43, 1.85, .03), entity.kind === 'bulwark' ? [.34, .34, .34] : [.23, .23, .23], glow, .82);
-          sphereWorld(place(0, 1.48, -.34), [.12, .16, .08], glow, .88);
-        } else {
-          boxWorld(place(0, 1.52, -.34), [.30, .25, .13], [.13, .16, .14]);
-          boxWorld(place(.20, 1.34, -.38), [.08, .08, .58], [.18, .20, .19], [0, yaw, 0]);
-          if (entity.flash > 0) sphereWorld(place(.20, 1.34, -.73), [.09, .09, .09], [1, .67, .20], 1);
-        }
-      };
-
-      const drawMutant = (enemy, time) => {
-        const colors = {
-          body: enemy.hit > 0 ? [.88, .96, .82] : enemy.kind === 'bulwark' ? [.29, .31, .27] : enemy.kind === 'splitter' ? [.29, .36, .33] : [.31, .36, .29],
-          dark: [.16, .19, .16],
-          glow: enemy.kind === 'splitter' ? [.24, .92, .69] : enemy.kind === 'bulwark' ? [.91, .34, .21] : [.48, .91, .35]
-        };
-        drawHumanoid(enemy, time, colors, true, false);
-      };
-
-      const drawSquad = time => {
-        for (const member of game.squad) {
-          drawHumanoid(member, time, { body: [.24, .29, .25], dark: [.10, .13, .11], glow: [.58, .72, .58] }, false, true);
-        }
-      };
-
-      const drawResearch = time => {
-        for (const log of game.logs) {
-          if (log.collected) continue;
-          const hover = .48 + Math.sin(time * 2.2 + log.phase) * .08;
-          boxWorld([log.x, hover, log.z], [.44, .18, .60], [.50, .62, .55], [0, time * .55, 0], .45);
-          sphereWorld([log.x, hover + .28, log.z], [.09, .09, .09], [.30, 1, .58], .95);
-        }
-      };
-
-      const drawImpacts = () => {
-        for (const impact of game.impacts) {
-          const scale = .06 + impact.life * .24;
-          sphereWorld([impact.x, impact.y, impact.z], [scale, scale, scale], [.31, 1, .61], 1);
-        }
-      };
-
-      const drawViewModel = now => {
-        const movement = clamp(Math.hypot(game.velocity.x, game.velocity.z) * .25, 0, 1);
-        const bobX = Math.sin(game.walkCycle) * .014 * movement;
-        const bobY = Math.abs(Math.cos(game.walkCycle)) * .012 * movement;
-        const recoilBack = game.recoil * .10;
-        let reloadPose = 0;
-        if (game.reloading) {
-          const duration = Math.max(1, game.reloadUntil - game.reloadStarted);
-          reloadPose = Math.sin(clamp((now - game.reloadStarted) / duration, 0, 1) * Math.PI);
-        }
-        const roll = -reloadPose * .58;
-        const pitch = reloadPose * .42;
-        const offset = [bobX, -.27 - bobY, .72 - recoilBack];
-        boxView([offset[0] - .25, offset[1] - .10, offset[2] - .05], [.16, .16, .58], [.25, .30, .25], [0, -.18, -.32 + roll]);
-        boxView([offset[0] + .25, offset[1] - .10, offset[2] - .10], [.16, .16, .54], [.23, .28, .23], [0, .16, .30 + roll]);
-        boxView([offset[0] - .12, offset[1] - .05, offset[2] + .24], [.17, .13, .20], [.08, .10, .09], [0, 0, -.18]);
-        boxView([offset[0] + .14, offset[1] - .06, offset[2] + .13], [.17, .13, .20], [.08, .10, .09], [0, 0, .16]);
-        boxView([offset[0] + .04, offset[1] + .02, offset[2] + .02], [.20, .16, .46], [.20, .23, .22], [pitch, 0, roll]);
-        boxView([offset[0] + .04, offset[1] + .01, offset[2] + .43], [.16, .14, .40], [.39, .26, .15], [pitch, 0, roll]);
-        boxView([offset[0] + .04, offset[1] + .04, offset[2] + .88], [.055, .055, .62], [.10, .12, .11], [pitch, 0, roll]);
-        boxView([offset[0] + .04, offset[1] + .08, offset[2] + 1.20], [.075, .075, .10], [.07, .08, .08], [pitch, 0, roll]);
-        boxView([offset[0] + .04, offset[1], offset[2] - .34], [.20, .16, .30], [.37, .24, .14], [pitch, 0, roll]);
-        boxView([offset[0] + .04, offset[1] - .19, offset[2] - .02], [.11, .28, .12], [.10, .12, .11], [-.22 + pitch, 0, roll]);
-        boxView([offset[0] + .04, offset[1] - .22, offset[2] + .10], [.12, .26, .13], [.12, .14, .13], [-.18 + pitch, 0, roll]);
-        boxView([offset[0] + .04, offset[1] - .40, offset[2] + .03], [.11, .18, .12], [.10, .12, .11], [-.38 + pitch, 0, roll]);
-        boxView([offset[0] + .04, offset[1] + .145, offset[2] + .53], [.04, .11, .04], [.06, .07, .07]);
-        boxView([offset[0] + .04, offset[1] + .13, offset[2] + 1.02], [.035, .14, .035], [.06, .07, .07]);
-        boxView([offset[0] - .09, offset[1] + .13, offset[2] + .20], [.07, .055, .15], [.40, .48, .40]);
-        sphereView([offset[0] - .09, offset[1] + .14, offset[2] + .29], [.025, .025, .025], [.31, 1, .55], .96);
-        if (game.muzzle > 0) {
-          const flashScale = .08 + game.muzzle * .12;
-          sphereView([offset[0] + .04, offset[1] + .08, offset[2] + 1.34], [flashScale, flashScale, flashScale], [1, .62, .17], 1);
-          boxView([offset[0] + .04, offset[1] + .08, offset[2] + 1.43], [.035, .035, .30], [1, .74, .28], [0, 0, 0], 1);
-        }
-      };
-
-      const updateSquad = (now, deltaTime) => {
-        const forwardX = Math.sin(game.player.yaw);
-        const forwardZ = -Math.cos(game.player.yaw);
-        const rightX = Math.cos(game.player.yaw);
-        const rightZ = Math.sin(game.player.yaw);
-        for (const member of game.squad) {
-          const targetX = game.player.x - forwardX * member.offsetZ + rightX * member.offsetX;
-          const targetZ = game.player.z - forwardZ * member.offsetZ + rightZ * member.offsetX;
-          member.x += (targetX - member.x) * Math.min(1, deltaTime * 5);
-          member.z += (targetZ - member.z) * Math.min(1, deltaTime * 5);
-          member.flash = Math.max(0, member.flash - deltaTime * 8);
-          if (now >= member.nextShot && game.enemies.length) {
-            let nearest = null;
-            let nearestDistance = 12;
-            for (const enemy of game.enemies) {
-              const distance = Math.hypot(enemy.x - member.x, enemy.z - member.z);
-              if (distance < nearestDistance) {
-                nearest = enemy;
-                nearestDistance = distance;
-              }
-            }
-            if (nearest) {
-              member.flash = 1;
-              member.nextShot = now + 950 + Math.random() * 500;
-              damageEnemy(nearest, 1, false, true);
-              if (audioEnabled && nearestDistance < 8) playTone(150, .035, .008, 'square');
-            }
-          }
-        }
-      };
-
-      const updateSimulation = (now, deltaTime) => {
-        if (!game.running || game.paused || game.over) return;
-        game.elapsed = (now - game.startedAt) / 1000;
-        const forwardInput = (game.keys.has('w') || game.keys.has('arrowup') ? 1 : 0) - (game.keys.has('s') || game.keys.has('arrowdown') ? 1 : 0);
-        const strafeInput = (game.keys.has('d') ? 1 : 0) - (game.keys.has('a') ? 1 : 0);
-        const speed = 5.6;
-        const forwardX = Math.sin(game.player.yaw);
-        const forwardZ = -Math.cos(game.player.yaw);
-        const rightX = Math.cos(game.player.yaw);
-        const rightZ = Math.sin(game.player.yaw);
-        const desiredX = (forwardX * forwardInput + rightX * strafeInput) * speed;
-        const desiredZ = (forwardZ * forwardInput + rightZ * strafeInput) * speed;
-        game.velocity.x += (desiredX - game.velocity.x) * Math.min(1, deltaTime * 10);
-        game.velocity.z += (desiredZ - game.velocity.z) * Math.min(1, deltaTime * 10);
-        game.player.x = clamp(game.player.x + game.velocity.x * deltaTime, -ARENA_LIMIT + 1.2, ARENA_LIMIT - 1.2);
-        game.player.z = clamp(game.player.z + game.velocity.z * deltaTime, -ARENA_LIMIT + 1.2, ARENA_LIMIT - 1.2);
-        game.walkCycle += Math.hypot(game.velocity.x, game.velocity.z) * deltaTime * 1.7;
-        if (game.keys.has('arrowleft')) game.player.yaw -= 1.65 * deltaTime;
-        if (game.keys.has('arrowright')) game.player.yaw += 1.65 * deltaTime;
-        if (game.keys.has('pageup')) game.player.pitch = clamp(game.player.pitch + 1.2 * deltaTime, -1.3, 1.3);
-        if (game.keys.has('pagedown')) game.player.pitch = clamp(game.player.pitch - 1.2 * deltaTime, -1.3, 1.3);
-
-        if (now >= game.nextSpawn && game.enemies.length < 11) spawnEnemy(now);
-        if (game.reloading && now >= game.reloadUntil) completeReload();
-        updateSquad(now, deltaTime);
-
-        for (const enemy of game.enemies) {
-          const dx = game.player.x - enemy.x;
-          const dz = game.player.z - enemy.z;
-          const distance = Math.hypot(dx, dz) || 1;
-          enemy.x += dx / distance * enemy.speed * deltaTime;
-          enemy.z += dz / distance * enemy.speed * deltaTime;
-          enemy.hit = Math.max(0, enemy.hit - deltaTime * 5);
-          if (distance < 1.25 && now >= enemy.attackAt) {
-            const damage = enemy.kind === 'bulwark' ? 24 : enemy.kind === 'splitter' ? 17 : 13;
-            game.health -= damage;
-            enemy.attackAt = now + 900;
-            enemy.x -= dx / distance * .9;
-            enemy.z -= dz / distance * .9;
-            game.damageFlash = 1;
-            gameScreen.classList.remove('is-hit');
-            void gameScreen.offsetWidth;
-            gameScreen.classList.add('is-hit');
-            if (hudStatus) hudStatus.textContent = 'MUTANT CONTACT // MOVE';
-            playTone(68, .12, .025, 'sawtooth');
-            if (game.health <= 0) endGame(false);
-          }
-        }
-
-        for (const log of game.logs) {
-          if (!log.collected && Math.hypot(log.x - game.player.x, log.z - game.player.z) < 1.15) {
-            log.collected = true;
-            game.research += 1;
-            game.score += 500;
-            game.funding += 300;
-            if (hudStatus) hudStatus.textContent = `CLASSIFIED RESEARCH RECOVERED ${game.research}/${LOGS_REQUIRED}`;
-            if (audioEnabled) {
-              playTone(440, .09, .018, 'square');
-              window.setTimeout(() => playTone(690, .12, .015, 'square'), 85);
-            }
-          }
-        }
-
-        for (const impact of game.impacts) impact.life -= deltaTime;
-        game.impacts = game.impacts.filter(impact => impact.life > 0);
-        game.muzzle = Math.max(0, game.muzzle - deltaTime * 11);
-        game.recoil = Math.max(0, game.recoil - deltaTime * 8.5);
-        game.damageFlash = Math.max(0, game.damageFlash - deltaTime * 3.8);
-        if (game.elapsed >= MISSION_LENGTH && !game.over) endGame(game.research >= LOGS_REQUIRED);
-        updateGameHud();
-      };
-
-      const renderGame = now => {
-        if (!renderer || !combatCanvas) {
-          window.requestAnimationFrame(renderGame);
-          return;
-        }
-        resizeGameCanvas();
-        const deltaTime = Math.min(.05, Math.max(0, (now - game.lastFrame) / 1000));
-        game.lastFrame = now;
-        updateSimulation(now, deltaTime);
-        renderer.begin(game.player);
-        drawArena(now / 1000);
-        drawResearch(now / 1000);
-        drawSquad(now / 1000);
-        for (const enemy of game.enemies) drawMutant(enemy, now / 1000);
-        drawImpacts();
-        renderer.finishWorld();
-        if (renderer.beginView) renderer.beginView();
-        drawViewModel(now);
-        renderer.finishView();
-        renderer.finish(game.damageFlash);
-        if (gameClock) {
-          const elapsed = Math.floor(game.elapsed);
-          gameClock.textContent = `${String(Math.floor(elapsed / 60)).padStart(2, '0')}:${String(elapsed % 60).padStart(2, '0')}`;
-        }
-        window.requestAnimationFrame(renderGame);
-      };
-
-      gamePlayBtn?.addEventListener('click', startGame);
+      gamePlayBtn?.addEventListener('click', startBlankScene);
       gameResumeBtn?.addEventListener('click', () => {
-        game.paused = false;
+        controller.paused = false;
         gamePausePanel.hidden = true;
-        if (hudStatus) hudStatus.textContent = 'OPERATION ACTIVE';
-        game.lastFrame = performance.now();
+        controller.lastFrame = performance.now();
         gameScreen.requestPointerLock?.();
       });
-      gameRestartBtn?.addEventListener('click', () => { resetGame(); startGame(); });
+
       gameHelpBtn?.addEventListener('click', () => {
-        if (game.running && !game.paused) pauseGame(true);
+        if (controller.running && !controller.paused) pauseBlankScene(true);
         gameStartPanel.hidden = false;
         gamePausePanel.hidden = true;
-        if (hudStatus) hudStatus.textContent = 'CAMERA AND TACTICAL CONTROLS';
       });
 
       gameFullscreenBtn?.addEventListener('click', async () => {
         try {
           if (!document.fullscreenElement && gameShell.requestFullscreen) await gameShell.requestFullscreen();
           else if (document.exitFullscreen) await document.exitFullscreen();
-        } catch (error) {
+        } catch (fullscreenError) {
           gameShell.classList.toggle('is-fullscreen');
         }
-        window.setTimeout(resizeGameCanvas, 120);
+        window.setTimeout(resizeBlankScene, 120);
       });
 
       document.addEventListener('fullscreenchange', () => {
         gameShell?.classList.toggle('is-fullscreen', document.fullscreenElement === gameShell);
         if (gameFullscreenBtn) gameFullscreenBtn.textContent = document.fullscreenElement === gameShell ? '×' : '⛶';
-        window.setTimeout(resizeGameCanvas, 100);
+        window.setTimeout(resizeBlankScene, 100);
       });
 
       document.addEventListener('pointerlockchange', () => {
         const locked = document.pointerLockElement === gameScreen;
         gameScreen?.classList.toggle('camera-locked', locked);
-        if (cameraLockHint) cameraLockHint.textContent = locked ? 'FULL CAMERA LOOK ACTIVE' : 'CLICK THE 3D SCENE TO LOCK FULL CAMERA LOOK';
+        if (cameraLockHint) cameraLockHint.textContent = locked ? 'CAMERA LOOK ACTIVE' : 'CLICK THE SCENE TO LOCK CAMERA LOOK';
       });
 
       document.addEventListener('mousemove', event => {
-        if (document.pointerLockElement !== gameScreen || !game.running || game.paused) return;
-        game.player.yaw += event.movementX * .00245;
-        game.player.pitch = clamp(game.player.pitch - event.movementY * .00225, -1.32, 1.32);
+        if (document.pointerLockElement !== gameScreen || !controller.running || controller.paused) return;
+        controller.yaw += event.movementX * .00245;
+        controller.pitch = clamp(controller.pitch - event.movementY * .00225, -1.28, 1.28);
       });
 
       window.addEventListener('keydown', event => {
         const key = event.key.toLowerCase();
-        const controlled = ['w', 'a', 's', 'd', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'pageup', 'pagedown', ' ', 'r', 'escape'];
-        if (controlled.includes(key) && (gameScreen === document.activeElement || gameShell?.contains(document.activeElement) || game.running)) event.preventDefault();
-        game.keys.add(key);
-        if (key === ' ') shoot();
-        if (key === 'r') reload(performance.now());
-        if (key === 'escape' && game.running && !game.paused) pauseGame(true);
+        const controlled = ['w', 'a', 's', 'd', 'shift', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'escape'];
+        if (controlled.includes(key) && (controller.running || gameShell?.contains(document.activeElement))) event.preventDefault();
+        controller.keys.add(key);
+        if (key === 'escape' && controller.running && !controller.paused) pauseBlankScene(true);
       });
-      window.addEventListener('keyup', event => game.keys.delete(event.key.toLowerCase()));
+
+      window.addEventListener('keyup', event => controller.keys.delete(event.key.toLowerCase()));
 
       gameScreen?.addEventListener('mousedown', event => {
-        if (event.button !== 0 || !game.running || game.paused) return;
+        if (event.button !== 0 || !controller.running || controller.paused) return;
         event.preventDefault();
-        if (document.pointerLockElement !== gameScreen) {
-          gameScreen.requestPointerLock?.();
-          return;
-        }
-        shoot();
+        if (document.pointerLockElement !== gameScreen) gameScreen.requestPointerLock?.();
       });
+
       gameScreen?.addEventListener('contextmenu', event => event.preventDefault());
 
       gameScreen?.addEventListener('pointerdown', event => {
         if (event.pointerType !== 'touch' || event.target.closest('[data-touch]')) return;
-        game.touchLook = true;
-        game.touchX = event.clientX;
-        game.touchY = event.clientY;
+        controller.touchLook = true;
+        controller.touchX = event.clientX;
+        controller.touchY = event.clientY;
       });
+
       gameScreen?.addEventListener('pointermove', event => {
-        if (!game.touchLook || event.pointerType !== 'touch') return;
-        const dx = event.clientX - game.touchX;
-        const dy = event.clientY - game.touchY;
-        game.touchX = event.clientX;
-        game.touchY = event.clientY;
-        game.player.yaw += dx * .006;
-        game.player.pitch = clamp(game.player.pitch - dy * .005, -1.25, 1.25);
+        if (!controller.touchLook || event.pointerType !== 'touch') return;
+        const deltaX = event.clientX - controller.touchX;
+        const deltaY = event.clientY - controller.touchY;
+        controller.touchX = event.clientX;
+        controller.touchY = event.clientY;
+        controller.yaw += deltaX * .006;
+        controller.pitch = clamp(controller.pitch - deltaY * .005, -1.22, 1.22);
       });
-      const endTouchLook = () => { game.touchLook = false; };
+
+      const endTouchLook = () => { controller.touchLook = false; };
       gameScreen?.addEventListener('pointerup', endTouchLook);
       gameScreen?.addEventListener('pointercancel', endTouchLook);
 
       document.addEventListener('visibilitychange', () => {
-        if (document.hidden && game.running && !game.paused) pauseGame(true);
+        if (document.hidden && controller.running && !controller.paused) pauseBlankScene(true);
       });
 
       document.querySelectorAll('[data-touch]').forEach(button => {
         const action = button.dataset.touch;
         const down = event => {
           event.preventDefault();
-          if (action === 'shoot') { shoot(); return; }
-          if (action === 'left') game.keys.add('a');
-          if (action === 'right') game.keys.add('d');
-          if (action === 'forward') game.keys.add('w');
+          if (action === 'left') controller.keys.add('a');
+          if (action === 'right') controller.keys.add('d');
+          if (action === 'forward') controller.keys.add('w');
+          if (action === 'back') controller.keys.add('s');
         };
         const up = event => {
           event.preventDefault();
-          if (action === 'left') game.keys.delete('a');
-          if (action === 'right') game.keys.delete('d');
-          if (action === 'forward') game.keys.delete('w');
+          if (action === 'left') controller.keys.delete('a');
+          if (action === 'right') controller.keys.delete('d');
+          if (action === 'forward') controller.keys.delete('w');
+          if (action === 'back') controller.keys.delete('s');
         };
         button.addEventListener('pointerdown', down);
         button.addEventListener('pointerup', up);
@@ -2985,11 +2339,10 @@
         button.addEventListener('pointerleave', up);
       });
 
-      initializeRenderer();
-      resizeGameCanvas();
-      window.addEventListener('resize', resizeGameCanvas, { passive: true });
-      resetGame();
-      window.requestAnimationFrame(renderGame);
+      initializeBlankRenderer();
+      resizeBlankScene();
+      window.addEventListener('resize', resizeBlankScene, { passive: true });
+      window.requestAnimationFrame(renderBlankScene);
 
 
       document.addEventListener('click', event => {
