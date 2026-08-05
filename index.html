@@ -1469,6 +1469,64 @@
       .camera-lock-hint{display:none}
     }
 
+
+    /* Fluid FPS controller refinements */
+    .blank-scene-screen{
+      background:#6ea6d1;
+    }
+
+    .blank-scene-status{
+      align-items:center;
+      color:rgba(237,242,244,.78);
+      text-shadow:0 1px 3px rgba(0,0,0,.85);
+    }
+
+    #movement-state{
+      color:rgba(222,231,225,.9);
+      text-align:center;
+    }
+
+    .blank-scene-screen.is-sprinting .blank-crosshair{
+      opacity:.58;
+      transform:translate(-50%,-50%) scale(1.08);
+    }
+
+    .blank-scene-screen.is-sliding .blank-crosshair{
+      opacity:.5;
+      transform:translate(-50%,-44%) scale(1.16);
+    }
+
+    .blank-scene-screen.is-airborne .blank-crosshair{
+      opacity:.64;
+    }
+
+    .blank-touch-controls{
+      flex-wrap:wrap;
+    }
+
+    .blank-touch-controls button[data-touch="jump"],
+    .blank-touch-controls button[data-touch="crouch"]{
+      width:64px;
+      color:rgba(232,239,235,.9);
+      border-color:rgba(183,194,161,.34);
+    }
+
+    .blank-touch-controls button[data-touch="crouch"]{
+      color:rgba(226,196,140,.94);
+      border-color:rgba(214,170,98,.4);
+    }
+
+    @media(max-width:760px),(pointer:coarse){
+      .blank-scene-status{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        font-size:.46rem;
+      }
+      #renderer-mode{display:none}
+      #movement-state{text-align:left}
+      #position-readout{text-align:right}
+    }
+
   </style>
 </head>
 <body id="top">
@@ -1652,32 +1710,34 @@
 
           <div class="combat-terminal retro-game-shell blank-scene-shell" id="retro-game-shell">
             <div class="combat-header">
-              <span>UNITY-STYLE BLANK 3D SCENE // FPS CONTROLLER</span>
+              <span>UNITY-STYLE BLANK 3D SCENE // FLUID FPS CONTROLLER</span>
               <div class="game-window-actions">
                 <button class="game-icon-btn" id="game-help-btn" type="button" aria-label="Show controller instructions" title="Controls">?</button>
                 <button class="game-icon-btn" id="game-fullscreen-btn" type="button" aria-label="Open scene in fullscreen" title="Fullscreen">⛶</button>
               </div>
             </div>
 
-            <div class="combat-screen game-screen blank-scene-screen" id="game-screen" tabindex="0" aria-label="Playable blank 3D Unity-style FPS controller scene">
+            <div class="combat-screen game-screen blank-scene-screen" id="game-screen" tabindex="0" aria-label="Playable blank 3D Unity-style scene with fluid FPS movement">
               <canvas id="combat-feed" width="960" height="540"></canvas>
               <div class="blank-crosshair" aria-hidden="true"><i></i><i></i><b></b></div>
               <div class="camera-lock-hint" id="camera-lock-hint">CLICK THE SCENE TO LOCK CAMERA LOOK</div>
 
               <div class="blank-scene-status" aria-hidden="true">
                 <span id="renderer-mode">INITIALIZING</span>
-                <span id="position-readout">X 0.0&nbsp;&nbsp;Z 0.0</span>
+                <span id="movement-state">STANDING // 0.0 M/S</span><span id="position-readout">X 0.0&nbsp;&nbsp;Y 0.0&nbsp;&nbsp;Z 0.0</span>
               </div>
 
               <div class="game-start-panel blank-start-panel" id="game-start-panel">
                 <div class="game-title-small">BLANK SCENE</div>
-                <h3>First-Person Controller Test</h3>
-                <p>An endless smooth white plane beneath a clear blue sky, fading naturally into fog. No grid, enemies, weapons, objectives, or scenery.</p>
+                <h3>Fluid First-Person Controller</h3>
+                <p>An endless smooth dark-grey plane beneath a clear blue sky, fading naturally into fog. Test fluid walking, sprinting, jumping, crouching, sliding, air control, and full camera look.</p>
                 <div class="game-controls-list">
-                  <span><b>WASD</b> Move</span>
-                  <span><b>MOUSE</b> Look around</span>
+                  <span><b>WASD</b> Fluid movement</span>
+                  <span><b>MOUSE</b> Full camera look</span>
                   <span><b>SHIFT</b> Sprint</span>
-                  <span><b>ARROWS</b> Alternate look</span>
+                  <span><b>SPACE</b> Jump</span>
+                  <span><b>C / CTRL</b> Crouch or slide</span>
+                  <span><b>ARROWS</b> Alternate camera look</span>
                   <span><b>CLICK SCENE</b> Lock camera</span>
                   <span><b>ESC</b> Pause / release mouse</span>
                 </div>
@@ -1694,10 +1754,12 @@
                 <button type="button" data-touch="forward" aria-label="Move forward">▲</button>
                 <button type="button" data-touch="back" aria-label="Move backward">▼</button>
                 <button type="button" data-touch="right" aria-label="Move right">▶</button>
+                <button type="button" data-touch="jump" aria-label="Jump">JUMP</button>
+                <button type="button" data-touch="crouch" aria-label="Crouch or slide">SLIDE</button>
               </div>
             </div>
 
-            <div class="combat-caption">A minimal Unity-style blank-scene experiment: an unmarked infinite white plane, blue sky, distance fog, first-person movement, full camera look, pause, touch controls, and fullscreen.</div>
+            <div class="combat-caption">A minimal Unity-style movement sandbox: an unmarked infinite dark-grey plane, blue sky, distance fog, acceleration, sprinting, jumping, crouching, sliding, air control, camera bob, landing response, touch controls, and fullscreen.</div>
           </div>
         </div>
       </div>
@@ -1921,6 +1983,7 @@
       const gameHelpBtn = document.getElementById('game-help-btn');
       const rendererModeLabel = document.getElementById('renderer-mode');
       const positionReadout = document.getElementById('position-readout');
+      const movementStateReadout = document.getElementById('movement-state');
       const cameraLockHint = document.getElementById('camera-lock-hint');
 
       const clamp = (value, minimum, maximum) => Math.max(minimum, Math.min(maximum, value));
@@ -1928,14 +1991,47 @@
         running: false,
         paused: false,
         lastFrame: performance.now(),
+
+        // World-space position: x/z are horizontal, feetY is vertical.
         x: 0,
+        feetY: 0,
         y: 1.72,
         z: 0,
+
+        // Smoothed camera orientation.
         yaw: 0,
         pitch: 0,
+        targetYaw: 0,
+        targetPitch: 0,
+        cameraRoll: 0,
+
+        // Velocity and grounded movement.
         velocityX: 0,
+        velocityY: 0,
         velocityZ: 0,
+        grounded: true,
+        coyoteTimer: 0,
+        jumpBuffer: 0,
+
+        // Stance and movement states.
+        standingHeight: 1.72,
+        crouchingHeight: 1.08,
+        currentHeight: 1.72,
+        crouchRequested: false,
+        sprinting: false,
+        sliding: false,
+        slideTimer: 0,
+        slideDuration: .82,
+        slideDirectionX: 0,
+        slideDirectionZ: -1,
+        slideStartSpeed: 0,
+
+        // Camera movement feedback.
         walkCycle: 0,
+        landingKick: 0,
+        fov: Math.PI / 3,
+        movementState: 'STANDING',
+
         keys: new Set(),
         touchLook: false,
         touchX: 0,
@@ -1977,6 +2073,16 @@
           cosine, 0, -sine, 0,
           0, 1, 0, 0,
           sine, 0, cosine, 0,
+          0, 0, 0, 1
+        ]);
+      };
+
+      const mat4RotateZ = angle => {
+        const cosine = Math.cos(angle), sine = Math.sin(angle);
+        return new Float32Array([
+          cosine, sine, 0, 0,
+          -sine, cosine, 0, 0,
+          0, 0, 1, 0,
           0, 0, 0, 1
         ]);
       };
@@ -2032,10 +2138,17 @@
             uniform vec3 uFogColor;
             void main(){
               float distanceToCamera = distance(vWorld.xz, uCamera.xz);
-              float fog = smoothstep(42.0, 155.0, distanceToCamera);
-              float softShade = 0.985 - min(distanceToCamera / 800.0, 0.025);
-              vec3 whiteGround = vec3(softShade);
-              gl_FragColor = vec4(mix(whiteGround, uFogColor, fog), 1.0);
+              float fog = smoothstep(38.0, 150.0, distanceToCamera);
+
+              // Smooth low-frequency material variation. It is not a grid or marking;
+              // it only gives the otherwise featureless plane enough depth for motion.
+              float broadShade = sin(vWorld.x * 0.022 + vWorld.z * 0.015) * 0.018;
+              float distanceShade = min(distanceToCamera / 900.0, 0.035);
+              vec3 ground = vec3(0.205 + broadShade - distanceShade,
+                                 0.218 + broadShade - distanceShade,
+                                 0.225 + broadShade - distanceShade);
+
+              gl_FragColor = vec4(mix(ground, uFogColor, fog), 1.0);
             }
           `;
 
@@ -2052,7 +2165,7 @@
           this.fogLocation = this.gl.getUniformLocation(program, 'uFogColor');
 
           // One enormous, completely unmarked white plane.
-          const size = 1200;
+          const size = 5000;
           const vertices = new Float32Array([
             -size, 0, -size,
              size, 0, -size,
@@ -2076,15 +2189,23 @@
           this.gl.viewport(0, 0, width, height);
         }
 
-        render(camera, bob) {
+        render(camera, motion) {
           const gl = this.gl;
           const aspect = this.canvas.width / Math.max(1, this.canvas.height);
-          const projection = mat4Perspective(Math.PI / 3, aspect, .08, 520);
-          let view = mat4RotateX(-camera.pitch - bob * .15);
-          view = mat4Multiply(view, mat4RotateY(camera.yaw));
-          view = mat4Multiply(view, mat4Translate(-camera.x, -camera.y - bob, -camera.z));
+          const projection = mat4Perspective(camera.fov || Math.PI / 3, aspect, .06, 620);
 
-          gl.clearColor(.43, .67, .86, 1);
+          const rightX = Math.cos(camera.yaw);
+          const rightZ = Math.sin(camera.yaw);
+          const cameraX = camera.x + rightX * motion.bobX;
+          const cameraZ = camera.z + rightZ * motion.bobX;
+          const cameraY = camera.y + motion.bobY - motion.landingKick;
+
+          let view = mat4RotateZ(-motion.roll);
+          view = mat4Multiply(view, mat4RotateX(-camera.pitch));
+          view = mat4Multiply(view, mat4RotateY(camera.yaw));
+          view = mat4Multiply(view, mat4Translate(-cameraX, -cameraY, -cameraZ));
+
+          gl.clearColor(.39, .63, .84, 1);
           gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
           gl.useProgram(this.program);
           gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
@@ -2092,8 +2213,8 @@
           gl.vertexAttribPointer(this.positionLocation, 3, gl.FLOAT, false, 0, 0);
           gl.uniformMatrix4fv(this.projectionLocation, false, projection);
           gl.uniformMatrix4fv(this.viewLocation, false, view);
-          gl.uniform3f(this.cameraLocation, camera.x, camera.y, camera.z);
-          gl.uniform3f(this.fogLocation, .66, .78, .86);
+          gl.uniform3f(this.cameraLocation, cameraX, cameraY, cameraZ);
+          gl.uniform3f(this.fogLocation, .47, .61, .69);
           gl.drawArrays(gl.TRIANGLES, 0, 6);
         }
       }
@@ -2113,33 +2234,56 @@
           }
         }
 
-        render(camera, bob) {
+        render(camera, motion) {
           const context = this.context;
           const width = this.canvas.width;
           const height = this.canvas.height;
-          const horizon = clamp(height * (.5 + camera.pitch * .34 + bob * .06), -height * .25, height * 1.25);
+          const horizon = clamp(
+            height * (.5 + camera.pitch * .34 + motion.bobY * .045 - motion.landingKick * .04),
+            -height * .3,
+            height * 1.3
+          );
 
-          const sky = context.createLinearGradient(0, 0, 0, Math.max(1, horizon + height * .14));
-          sky.addColorStop(0, '#64a3d6');
-          sky.addColorStop(.7, '#8fc0e0');
-          sky.addColorStop(1, '#b4cfdd');
+          context.save();
+          context.translate(width / 2, height / 2);
+          context.rotate(motion.roll);
+          context.translate(-width / 2, -height / 2);
+
+          const overscan = Math.max(width, height) * .22;
+          const sky = context.createLinearGradient(0, -overscan, 0, Math.max(1, horizon + height * .18));
+          sky.addColorStop(0, '#5898cd');
+          sky.addColorStop(.68, '#82b3d8');
+          sky.addColorStop(1, '#a9c5d3');
           context.fillStyle = sky;
-          context.fillRect(0, 0, width, height);
+          context.fillRect(-overscan, -overscan, width + overscan * 2, height + overscan * 2);
 
-          const ground = context.createLinearGradient(0, horizon - height * .03, 0, height);
-          ground.addColorStop(0, '#b4cfda');
-          ground.addColorStop(.08, '#edf2f2');
-          ground.addColorStop(.32, '#fafafa');
-          ground.addColorStop(1, '#f3f3f3');
+          const ground = context.createLinearGradient(0, horizon - height * .04, 0, height + overscan);
+          ground.addColorStop(0, '#71848c');
+          ground.addColorStop(.08, '#3f474a');
+          ground.addColorStop(.38, '#343a3d');
+          ground.addColorStop(1, '#292e30');
           context.fillStyle = ground;
-          context.fillRect(0, horizon, width, height - horizon);
+          context.fillRect(-overscan, horizon, width + overscan * 2, height - horizon + overscan);
 
-          const fog = context.createLinearGradient(0, horizon - height * .08, 0, horizon + height * .13);
-          fog.addColorStop(0, 'rgba(180,207,220,0)');
-          fog.addColorStop(.48, 'rgba(180,207,220,.82)');
-          fog.addColorStop(1, 'rgba(240,245,245,0)');
+          // A broad, smooth lighting wash—not a grid—adds motion readability.
+          const lightCenter = width * (.5 + Math.sin(camera.yaw) * .22);
+          const wash = context.createRadialGradient(
+            lightCenter, horizon + height * .18, 0,
+            lightCenter, horizon + height * .18, width * .62
+          );
+          wash.addColorStop(0, 'rgba(255,255,255,.055)');
+          wash.addColorStop(1, 'rgba(255,255,255,0)');
+          context.fillStyle = wash;
+          context.fillRect(-overscan, horizon, width + overscan * 2, height - horizon + overscan);
+
+          const fog = context.createLinearGradient(0, horizon - height * .035, 0, horizon + height * .18);
+          fog.addColorStop(0, 'rgba(119,157,177,.82)');
+          fog.addColorStop(.5, 'rgba(108,137,151,.55)');
+          fog.addColorStop(1, 'rgba(91,108,115,0)');
           context.fillStyle = fog;
-          context.fillRect(0, horizon - height * .08, width, height * .21);
+          context.fillRect(-overscan, horizon - height * .04, width + overscan * 2, height * .24);
+
+          context.restore();
         }
       }
 
@@ -2166,13 +2310,25 @@
       };
 
       const updateReadout = () => {
-        if (positionReadout) positionReadout.textContent = `X ${controller.x.toFixed(1)}  Z ${controller.z.toFixed(1)}`;
+        const horizontalSpeed = Math.hypot(controller.velocityX, controller.velocityZ);
+        if (positionReadout) {
+          positionReadout.textContent = `X ${controller.x.toFixed(1)}  Y ${controller.feetY.toFixed(1)}  Z ${controller.z.toFixed(1)}`;
+        }
+        if (movementStateReadout) {
+          movementStateReadout.textContent = `${controller.movementState} // ${horizontalSpeed.toFixed(1)} M/S`;
+        }
+
+        gameScreen?.classList.toggle('is-sprinting', controller.sprinting);
+        gameScreen?.classList.toggle('is-sliding', controller.sliding);
+        gameScreen?.classList.toggle('is-airborne', !controller.grounded);
       };
 
       const startBlankScene = () => {
         controller.running = true;
         controller.paused = false;
         controller.lastFrame = performance.now();
+        controller.targetYaw = controller.yaw;
+        controller.targetPitch = controller.pitch;
         gameStartPanel.hidden = true;
         gamePausePanel.hidden = true;
         gameScreen.focus();
@@ -2187,33 +2343,194 @@
         controller.lastFrame = performance.now();
       };
 
+      const queueJump = () => {
+        if (!controller.running || controller.paused) return;
+        controller.jumpBuffer = .14;
+      };
+
+      const requestCrouchOrSlide = () => {
+        if (!controller.running || controller.paused) return;
+        controller.crouchRequested = true;
+
+        const speed = Math.hypot(controller.velocityX, controller.velocityZ);
+        if (
+          controller.grounded &&
+          !controller.sliding &&
+          controller.keys.has('shift') &&
+          speed > 6.1
+        ) {
+          controller.sliding = true;
+          controller.slideTimer = controller.slideDuration;
+          controller.slideStartSpeed = Math.max(10.5, speed * 1.08);
+          const inverseSpeed = speed > .001 ? 1 / speed : 0;
+          controller.slideDirectionX = controller.velocityX * inverseSpeed;
+          controller.slideDirectionZ = controller.velocityZ * inverseSpeed;
+          controller.movementState = 'SLIDING';
+          if (audioEnabled) playTone(105, .09, .012, 'sawtooth');
+        }
+      };
+
+      const releaseCrouch = () => {
+        controller.crouchRequested = false;
+      };
+
       const updateBlankController = deltaTime => {
         if (!controller.running || controller.paused) return;
-        const forwardInput = (controller.keys.has('w') ? 1 : 0) - (controller.keys.has('s') ? 1 : 0);
-        const strafeInput = (controller.keys.has('d') ? 1 : 0) - (controller.keys.has('a') ? 1 : 0);
-        const sprinting = controller.keys.has('shift');
-        const movementSpeed = sprinting ? 9.5 : 5.25;
+
+        controller.jumpBuffer = Math.max(0, controller.jumpBuffer - deltaTime);
+        controller.coyoteTimer = controller.grounded
+          ? .11
+          : Math.max(0, controller.coyoteTimer - deltaTime);
+
+        // Smooth mouse/keyboard look without introducing noticeable input lag.
+        const lookSmoothing = 1 - Math.exp(-deltaTime * 32);
+        controller.yaw += (controller.targetYaw - controller.yaw) * lookSmoothing;
+        controller.pitch += (controller.targetPitch - controller.pitch) * lookSmoothing;
+
+        if (controller.keys.has('arrowleft')) controller.targetYaw -= 1.65 * deltaTime;
+        if (controller.keys.has('arrowright')) controller.targetYaw += 1.65 * deltaTime;
+        if (controller.keys.has('arrowup')) {
+          controller.targetPitch = clamp(controller.targetPitch + 1.15 * deltaTime, -1.3, 1.3);
+        }
+        if (controller.keys.has('arrowdown')) {
+          controller.targetPitch = clamp(controller.targetPitch - 1.15 * deltaTime, -1.3, 1.3);
+        }
+
+        let forwardInput = (controller.keys.has('w') ? 1 : 0) - (controller.keys.has('s') ? 1 : 0);
+        let strafeInput = (controller.keys.has('d') ? 1 : 0) - (controller.keys.has('a') ? 1 : 0);
+        const inputLength = Math.hypot(forwardInput, strafeInput);
+        if (inputLength > 1) {
+          forwardInput /= inputLength;
+          strafeInput /= inputLength;
+        }
+
+        const hasMovementInput = inputLength > .01;
+        const speedBeforeMovement = Math.hypot(controller.velocityX, controller.velocityZ);
+        const wantsSprint =
+          controller.keys.has('shift') &&
+          forwardInput > .1 &&
+          !controller.crouchRequested &&
+          !controller.sliding &&
+          controller.grounded;
+
+        controller.sprinting = wantsSprint;
 
         const forwardX = Math.sin(controller.yaw);
         const forwardZ = -Math.cos(controller.yaw);
         const rightX = Math.cos(controller.yaw);
         const rightZ = Math.sin(controller.yaw);
-        const desiredX = (forwardX * forwardInput + rightX * strafeInput) * movementSpeed;
-        const desiredZ = (forwardZ * forwardInput + rightZ * strafeInput) * movementSpeed;
-        const smoothing = Math.min(1, deltaTime * 11);
 
-        controller.velocityX += (desiredX - controller.velocityX) * smoothing;
-        controller.velocityZ += (desiredZ - controller.velocityZ) * smoothing;
+        if (controller.sliding) {
+          controller.slideTimer = Math.max(0, controller.slideTimer - deltaTime);
+          const progress = 1 - controller.slideTimer / controller.slideDuration;
+          const slideSpeed = controller.slideStartSpeed * (1 - progress * .5);
+
+          // A small amount of steering keeps the slide controllable without feeling arcade-like.
+          const steerX = (forwardX * forwardInput + rightX * strafeInput) * 1.4;
+          const steerZ = (forwardZ * forwardInput + rightZ * strafeInput) * 1.4;
+          controller.slideDirectionX += steerX * deltaTime;
+          controller.slideDirectionZ += steerZ * deltaTime;
+          const slideDirectionLength = Math.hypot(controller.slideDirectionX, controller.slideDirectionZ) || 1;
+          controller.slideDirectionX /= slideDirectionLength;
+          controller.slideDirectionZ /= slideDirectionLength;
+
+          controller.velocityX = controller.slideDirectionX * slideSpeed;
+          controller.velocityZ = controller.slideDirectionZ * slideSpeed;
+
+          if (
+            controller.slideTimer <= 0 ||
+            speedBeforeMovement < 3.7 ||
+            !controller.grounded
+          ) {
+            controller.sliding = false;
+          }
+        } else {
+          const crouched = controller.crouchRequested;
+          const targetSpeed = crouched ? 2.75 : wantsSprint ? 8.8 : 5.15;
+          const desiredX = (forwardX * forwardInput + rightX * strafeInput) * targetSpeed;
+          const desiredZ = (forwardZ * forwardInput + rightZ * strafeInput) * targetSpeed;
+
+          const acceleration = controller.grounded
+            ? (hasMovementInput ? (wantsSprint ? 19 : 24) : 16)
+            : 5.6;
+          const response = 1 - Math.exp(-acceleration * deltaTime);
+
+          controller.velocityX += (desiredX - controller.velocityX) * response;
+          controller.velocityZ += (desiredZ - controller.velocityZ) * response;
+
+          // Ground friction settles the player cleanly without instant stopping.
+          if (controller.grounded && !hasMovementInput) {
+            const friction = Math.exp(-8.5 * deltaTime);
+            controller.velocityX *= friction;
+            controller.velocityZ *= friction;
+          }
+        }
+
+        // Buffered jump plus short coyote time.
+        if (
+          controller.jumpBuffer > 0 &&
+          controller.coyoteTimer > 0 &&
+          !controller.sliding
+        ) {
+          controller.velocityY = 7.65;
+          controller.grounded = false;
+          controller.coyoteTimer = 0;
+          controller.jumpBuffer = 0;
+          controller.landingKick = -.025;
+          if (audioEnabled) playTone(155, .06, .012, 'triangle');
+        }
+
+        const wasGrounded = controller.grounded;
+        const previousVerticalVelocity = controller.velocityY;
+        controller.velocityY -= 22.5 * deltaTime;
+        controller.feetY += controller.velocityY * deltaTime;
+
+        if (controller.feetY <= 0) {
+          controller.feetY = 0;
+          controller.grounded = true;
+          if (!wasGrounded && previousVerticalVelocity < -2.2) {
+            controller.landingKick = Math.min(.16, Math.abs(previousVerticalVelocity) * .012);
+            if (audioEnabled) playTone(82, .055, .01, 'triangle');
+          }
+          controller.velocityY = Math.max(0, controller.velocityY);
+        } else {
+          controller.grounded = false;
+        }
+
+        // Smooth standing/crouching camera height.
+        const targetHeight = (controller.crouchRequested || controller.sliding)
+          ? controller.crouchingHeight
+          : controller.standingHeight;
+        const heightResponse = 1 - Math.exp(-deltaTime * (controller.sliding ? 18 : 12));
+        controller.currentHeight += (targetHeight - controller.currentHeight) * heightResponse;
+        controller.y = controller.feetY + controller.currentHeight;
+
         controller.x += controller.velocityX * deltaTime;
         controller.z += controller.velocityZ * deltaTime;
 
-        const movement = Math.hypot(controller.velocityX, controller.velocityZ);
-        controller.walkCycle += movement * deltaTime * 1.7;
+        const horizontalSpeed = Math.hypot(controller.velocityX, controller.velocityZ);
+        controller.walkCycle += horizontalSpeed * deltaTime * (controller.sprinting ? 2.15 : 1.78);
 
-        if (controller.keys.has('arrowleft')) controller.yaw -= 1.55 * deltaTime;
-        if (controller.keys.has('arrowright')) controller.yaw += 1.55 * deltaTime;
-        if (controller.keys.has('arrowup')) controller.pitch = clamp(controller.pitch + 1.1 * deltaTime, -1.28, 1.28);
-        if (controller.keys.has('arrowdown')) controller.pitch = clamp(controller.pitch - 1.1 * deltaTime, -1.28, 1.28);
+        // Landing compression and camera lean settle smoothly.
+        controller.landingKick += (0 - controller.landingKick) * (1 - Math.exp(-deltaTime * 15));
+        const targetRoll = controller.sliding
+          ? clamp(-strafeInput * .055, -.055, .055)
+          : clamp(-strafeInput * horizontalSpeed * .004, -.038, .038);
+        controller.cameraRoll += (targetRoll - controller.cameraRoll) * (1 - Math.exp(-deltaTime * 10));
+
+        const targetFov = controller.sliding
+          ? Math.PI / 2.82
+          : controller.sprinting
+            ? Math.PI / 2.92
+            : Math.PI / 3;
+        controller.fov += (targetFov - controller.fov) * (1 - Math.exp(-deltaTime * 7));
+
+        if (!controller.grounded) controller.movementState = controller.velocityY > .2 ? 'JUMPING' : 'FALLING';
+        else if (controller.sliding) controller.movementState = 'SLIDING';
+        else if (controller.crouchRequested) controller.movementState = 'CROUCHED';
+        else if (controller.sprinting) controller.movementState = 'SPRINTING';
+        else if (horizontalSpeed > .35) controller.movementState = 'WALKING';
+        else controller.movementState = 'STANDING';
       };
 
       const renderBlankScene = now => {
@@ -2225,9 +2542,18 @@
         const deltaTime = Math.min(.05, Math.max(0, (now - controller.lastFrame) / 1000));
         controller.lastFrame = now;
         updateBlankController(deltaTime);
-        const movementAmount = clamp(Math.hypot(controller.velocityX, controller.velocityZ) / 9.5, 0, 1);
-        const bob = Math.sin(controller.walkCycle) * .025 * movementAmount;
-        renderer.render(controller, bob);
+        const horizontalSpeed = Math.hypot(controller.velocityX, controller.velocityZ);
+        const movementAmount = clamp(horizontalSpeed / 8.8, 0, 1);
+        const bobStrength = controller.grounded && !controller.sliding
+          ? (controller.sprinting ? .044 : controller.crouchRequested ? .012 : .026)
+          : 0;
+        const motion = {
+          bobX: Math.cos(controller.walkCycle * .5) * bobStrength * movementAmount,
+          bobY: Math.abs(Math.sin(controller.walkCycle)) * bobStrength * movementAmount,
+          roll: controller.cameraRoll,
+          landingKick: Math.max(0, controller.landingKick)
+        };
+        renderer.render(controller, motion);
         updateReadout();
         window.requestAnimationFrame(renderBlankScene);
       };
@@ -2270,19 +2596,33 @@
 
       document.addEventListener('mousemove', event => {
         if (document.pointerLockElement !== gameScreen || !controller.running || controller.paused) return;
-        controller.yaw += event.movementX * .00245;
-        controller.pitch = clamp(controller.pitch - event.movementY * .00225, -1.28, 1.28);
+        controller.targetYaw += event.movementX * .00245;
+        controller.targetPitch = clamp(controller.targetPitch - event.movementY * .00225, -1.3, 1.3);
       });
 
       window.addEventListener('keydown', event => {
         const key = event.key.toLowerCase();
-        const controlled = ['w', 'a', 's', 'd', 'shift', 'arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'escape'];
-        if (controlled.includes(key) && (controller.running || gameShell?.contains(document.activeElement))) event.preventDefault();
+        const controlled = [
+          'w', 'a', 's', 'd', 'shift', ' ', 'spacebar', 'c', 'control',
+          'arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'escape'
+        ];
+        if (controlled.includes(key) && (controller.running || gameShell?.contains(document.activeElement))) {
+          event.preventDefault();
+        }
+
+        const wasDown = controller.keys.has(key);
         controller.keys.add(key);
+
+        if (!wasDown && (key === ' ' || key === 'spacebar')) queueJump();
+        if (!wasDown && (key === 'c' || key === 'control')) requestCrouchOrSlide();
         if (key === 'escape' && controller.running && !controller.paused) pauseBlankScene(true);
       });
 
-      window.addEventListener('keyup', event => controller.keys.delete(event.key.toLowerCase()));
+      window.addEventListener('keyup', event => {
+        const key = event.key.toLowerCase();
+        controller.keys.delete(key);
+        if (key === 'c' || key === 'control') releaseCrouch();
+      });
 
       gameScreen?.addEventListener('mousedown', event => {
         if (event.button !== 0 || !controller.running || controller.paused) return;
@@ -2305,8 +2645,8 @@
         const deltaY = event.clientY - controller.touchY;
         controller.touchX = event.clientX;
         controller.touchY = event.clientY;
-        controller.yaw += deltaX * .006;
-        controller.pitch = clamp(controller.pitch - deltaY * .005, -1.22, 1.22);
+        controller.targetYaw += deltaX * .006;
+        controller.targetPitch = clamp(controller.targetPitch - deltaY * .005, -1.22, 1.22);
       });
 
       const endTouchLook = () => { controller.touchLook = false; };
@@ -2321,6 +2661,14 @@
         const action = button.dataset.touch;
         const down = event => {
           event.preventDefault();
+          if (action === 'jump') {
+            queueJump();
+            return;
+          }
+          if (action === 'crouch') {
+            requestCrouchOrSlide();
+            return;
+          }
           if (action === 'left') controller.keys.add('a');
           if (action === 'right') controller.keys.add('d');
           if (action === 'forward') controller.keys.add('w');
@@ -2328,6 +2676,7 @@
         };
         const up = event => {
           event.preventDefault();
+          if (action === 'crouch') releaseCrouch();
           if (action === 'left') controller.keys.delete('a');
           if (action === 'right') controller.keys.delete('d');
           if (action === 'forward') controller.keys.delete('w');
