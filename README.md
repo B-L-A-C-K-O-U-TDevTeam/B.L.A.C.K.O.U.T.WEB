@@ -64,13 +64,13 @@ Current focus:
 
 Engine
 
-* Unity 6.3 LTS
+* Unity 6.5 
 
 
 
 Repository Goals
 
-This repository contains the source code, assets, tools, documentation, and game systems used to develop B.L.A.C.K.O.U.T. Contributors should follow project standards, maintain clean commits, and use feature branches for new work.
+This repository contains INFO about the game.
 
 
 
