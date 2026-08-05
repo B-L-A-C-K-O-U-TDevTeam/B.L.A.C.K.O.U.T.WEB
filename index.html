@@ -1047,6 +1047,15 @@
       .doom-screen:after,.doom-rec,.doom-menu:before,.doom-screen.damaged{animation:none!important}
     }
 
+
+    /* Clean no-viewmodel presentation */
+    .doom-screen.no-viewmodel #doom-canvas{
+      filter:saturate(.76) contrast(1.13) sepia(.035);
+    }
+    .doom-screen.no-viewmodel .doom-crosshair{
+      filter:drop-shadow(0 1px 2px #000) drop-shadow(0 0 4px rgba(183,194,161,.18));
+    }
+
   </style>
 </head>
 <body id="top">
@@ -1237,7 +1246,7 @@
               </div>
             </div>
 
-            <div class="doom-screen" id="doom-screen" tabindex="0" aria-label="Playable Doom-style B.L.A.C.K.O.U.T. corridor shooter">
+            <div class="doom-screen no-viewmodel" id="doom-screen" tabindex="0" aria-label="Playable Doom-style B.L.A.C.K.O.U.T. corridor shooter">
               <canvas id="doom-canvas" width="960" height="540"></canvas>
 
               <div class="doom-hud" aria-hidden="true">
@@ -1286,7 +1295,7 @@
                 </div>
 
                 <div class="doom-controls" id="doom-controls" hidden>
-                  <span><b>WASD</b> Move</span><span><b>MOUSE</b> Automatic camera look</span>
+                  <span><b>WASD</b> Move</span><span><b>MOUSE</b> Standard modern camera look</span>
                   <span><b>CLICK / SPACE</b> Fire</span><span><b>R</b> Reload</span>
                   <span><b>E</b> Interact</span><span><b>SHIFT</b> Sprint</span>
                   <span><b>ESC</b> Pause</span><span><b>⛶</b> Fullscreen</span>
@@ -1329,7 +1338,7 @@
               </div>
             </div>
 
-            <div class="combat-caption">A complete Doom-style B.L.A.C.K.O.U.T. corridor mission with a centered forward-facing rifle and automatic mouse camera look.</div>
+            <div class="combat-caption">A complete Doom-style B.L.A.C.K.O.U.T. corridor mission with a clean unobstructed view and standard fluid modern FPS controls.</div>
           </div>
         </div>
       </div>
@@ -1869,11 +1878,12 @@
 
         doomGame.weaponCooldown = now + 155;
         doomGame.ammo -= 1;
-        doomGame.muzzle = 1;
-        doomGame.recoil = 1;
+        doomGame.muzzle = 0;
+        doomGame.recoil = 0;
         doomScreen.classList.remove('firing');
         void doomScreen.offsetWidth;
         doomScreen.classList.add('firing');
+        window.setTimeout(() => doomScreen.classList.remove('firing'), 90);
         playShotSound();
 
         let target = null;
@@ -1914,7 +1924,7 @@
           }
         }
 
-        doomGame.casing = { x: .71, y: .73, vx: .006, vy: -.010, rotation: 0 };
+        doomGame.casing = null;
         doomUpdateHud();
       };
 
@@ -1990,22 +2000,32 @@
         const strafeInput = (doomGame.keys.has('d') ? 1 : 0) - (doomGame.keys.has('a') ? 1 : 0);
         const inputLength = Math.hypot(forwardInput, strafeInput) || 1;
         const sprinting = doomGame.keys.has('shift') && forwardInput > 0;
-        const speed = sprinting ? 3.0 : 1.95;
+        const speed = sprinting ? 3.35 : 2.15;
+
+        // Standard modern FPS movement vectors.
+        const forwardX = Math.cos(doomGame.player.angle);
+        const forwardY = Math.sin(doomGame.player.angle);
+        const rightX = -Math.sin(doomGame.player.angle);
+        const rightY = Math.cos(doomGame.player.angle);
 
         const desiredX = (
-          Math.cos(doomGame.player.angle) * forwardInput / inputLength +
-          Math.cos(doomGame.player.angle + Math.PI / 2) * strafeInput / inputLength
+          forwardX * forwardInput / inputLength +
+          rightX * strafeInput / inputLength
         ) * speed;
         const desiredY = (
-          Math.sin(doomGame.player.angle) * forwardInput / inputLength +
-          Math.sin(doomGame.player.angle + Math.PI / 2) * strafeInput / inputLength
+          forwardY * forwardInput / inputLength +
+          rightY * strafeInput / inputLength
         ) * speed;
-        const response = 1 - Math.exp(-deltaTime * 13);
+
+        // Smooth acceleration and deceleration without delayed or floaty input.
+        const accelerating = Math.abs(forwardInput) + Math.abs(strafeInput) > 0;
+        const responseRate = accelerating ? (sprinting ? 15 : 18) : 12;
+        const response = 1 - Math.exp(-deltaTime * responseRate);
         doomGame.velocity.x += (desiredX - doomGame.velocity.x) * response;
         doomGame.velocity.y += (desiredY - doomGame.velocity.y) * response;
 
-        if (!forwardInput && !strafeInput) {
-          const friction = Math.exp(-deltaTime * 9);
+        if (!accelerating) {
+          const friction = Math.exp(-deltaTime * 10.5);
           doomGame.velocity.x *= friction;
           doomGame.velocity.y *= friction;
         }
@@ -2255,175 +2275,6 @@
         context.restore();
       };
 
-      const doomDrawWeapon = (context, width, height, movement) => {
-        const recoilBack = doomGame.recoil * height * .032;
-        const bobX = Math.sin(doomGame.walkCycle) * width * .0045 * movement;
-        const bobY = Math.abs(Math.cos(doomGame.walkCycle)) * height * .008 * movement;
-
-        let reloadPose = 0;
-        if (doomGame.reloading) {
-          const progress = doomClamp((performance.now() - doomGame.reloadStarted) / 1120, 0, 1);
-          reloadPose = Math.sin(progress * Math.PI);
-        }
-
-        const centerX = width * .5 + bobX;
-        const baseY = height + bobY + recoilBack + reloadPose * height * .12;
-
-        context.save();
-        context.translate(centerX, baseY);
-        context.rotate(reloadPose * .12);
-
-        // Symmetrical olive-drab sleeves.
-        context.fillStyle = '#465044';
-        context.beginPath();
-        context.moveTo(-width * .33, 0);
-        context.lineTo(-width * .17, -height * .22);
-        context.lineTo(-width * .085, -height * .20);
-        context.lineTo(-width * .14, 0);
-        context.closePath();
-        context.fill();
-
-        context.beginPath();
-        context.moveTo(width * .33, 0);
-        context.lineTo(width * .17, -height * .22);
-        context.lineTo(width * .085, -height * .20);
-        context.lineTo(width * .14, 0);
-        context.closePath();
-        context.fill();
-
-        // Gloves supporting the centered rifle.
-        context.fillStyle = '#1b211d';
-        context.beginPath();
-        context.ellipse(-width * .09, -height * .22, width * .045, height * .036, -.18, 0, Math.PI * 2);
-        context.fill();
-        context.beginPath();
-        context.ellipse(width * .09, -height * .22, width * .045, height * .036, .18, 0, Math.PI * 2);
-        context.fill();
-
-        // Wooden stock.
-        context.fillStyle = '#68482d';
-        context.beginPath();
-        context.moveTo(-width * .11, 0);
-        context.lineTo(-width * .085, -height * .18);
-        context.lineTo(width * .085, -height * .18);
-        context.lineTo(width * .11, 0);
-        context.closePath();
-        context.fill();
-
-        // Main receiver centered toward the crosshair.
-        context.fillStyle = '#29312d';
-        context.strokeStyle = 'rgba(181,193,169,.28)';
-        context.lineWidth = Math.max(1, width * .0014);
-        context.beginPath();
-        context.moveTo(-width * .105, -height * .15);
-        context.lineTo(-width * .075, -height * .33);
-        context.lineTo(width * .075, -height * .33);
-        context.lineTo(width * .105, -height * .15);
-        context.closePath();
-        context.fill();
-        context.stroke();
-
-        // Centered wood handguard.
-        context.fillStyle = '#735035';
-        context.beginPath();
-        context.moveTo(-width * .075, -height * .30);
-        context.lineTo(-width * .045, -height * .48);
-        context.lineTo(width * .045, -height * .48);
-        context.lineTo(width * .075, -height * .30);
-        context.closePath();
-        context.fill();
-
-        // Receiver cover and experimental module.
-        context.fillStyle = '#151b18';
-        context.fillRect(-width * .055, -height * .36, width * .11, height * .055);
-        context.fillStyle = '#748773';
-        context.fillRect(-width * .052, -height * .405, width * .104, height * .026);
-        context.fillStyle = '#7fe09b';
-        context.fillRect(-width * .011, -height * .399, width * .022, height * .010);
-
-        // Straight barrel and gas tube.
-        context.fillStyle = '#171d1a';
-        context.fillRect(-width * .022, -height * .61, width * .044, height * .18);
-        context.fillStyle = '#0c110f';
-        context.fillRect(-width * .013, -height * .70, width * .026, height * .105);
-
-        // Iron sights centered on the crosshair.
-        context.strokeStyle = '#090d0b';
-        context.lineWidth = Math.max(2, width * .003);
-        context.beginPath();
-        context.moveTo(-width * .027, -height * .47);
-        context.lineTo(-width * .027, -height * .53);
-        context.lineTo(width * .027, -height * .53);
-        context.lineTo(width * .027, -height * .47);
-        context.stroke();
-
-        context.beginPath();
-        context.moveTo(0, -height * .67);
-        context.lineTo(0, -height * .735);
-        context.stroke();
-
-        // Centered curved magazine.
-        context.fillStyle = '#202724';
-        context.beginPath();
-        context.moveTo(-width * .052, -height * .16);
-        context.lineTo(width * .052, -height * .16);
-        context.quadraticCurveTo(width * .065, -height * .04, width * .030, height * .025);
-        context.lineTo(-width * .030, height * .025);
-        context.quadraticCurveTo(-width * .065, -height * .04, -width * .052, -height * .16);
-        context.closePath();
-        context.fill();
-
-        if (doomGame.reloading && reloadPose > .28) {
-          context.save();
-          context.translate(-width * .15, -height * .06 + reloadPose * height * .09);
-          context.rotate(-.58);
-          context.fillStyle = '#202724';
-          context.fillRect(-width * .035, -height * .11, width * .070, height * .22);
-          context.restore();
-        }
-
-        context.restore();
-
-        if (doomGame.muzzle > 0) {
-          const muzzleX = centerX;
-          const muzzleY = baseY - height * .745;
-          const radius = width * (.026 + doomGame.muzzle * .032);
-          const flash = context.createRadialGradient(muzzleX, muzzleY, 0, muzzleX, muzzleY, radius);
-          flash.addColorStop(0, `rgba(255,251,222,${doomGame.muzzle})`);
-          flash.addColorStop(.22, `rgba(245,190,91,${doomGame.muzzle * .86})`);
-          flash.addColorStop(1, 'rgba(207,78,39,0)');
-          context.fillStyle = flash;
-          context.fillRect(muzzleX - radius, muzzleY - radius, radius * 2, radius * 2);
-
-          context.fillStyle = `rgba(255,221,142,${doomGame.muzzle * .78})`;
-          context.beginPath();
-          for (let index = 0; index < 10; index++) {
-            const angle = index * Math.PI / 5;
-            const distance = index % 2 ? radius * .35 : radius;
-            const x = muzzleX + Math.cos(angle) * distance;
-            const y = muzzleY + Math.sin(angle) * distance;
-            if (index === 0) context.moveTo(x, y);
-            else context.lineTo(x, y);
-          }
-          context.closePath();
-          context.fill();
-        }
-
-        if (doomGame.casing) {
-          doomGame.casing.x += doomGame.casing.vx;
-          doomGame.casing.y += doomGame.casing.vy;
-          doomGame.casing.vy += .00055;
-          doomGame.casing.rotation += .18;
-          context.save();
-          context.translate(width * doomGame.casing.x, height * doomGame.casing.y);
-          context.rotate(doomGame.casing.rotation);
-          context.fillStyle = '#b69a58';
-          context.fillRect(-width * .005, -height * .002, width * .010, height * .004);
-          context.restore();
-          if (doomGame.casing.y > 1.1) doomGame.casing = null;
-        }
-      };
-
       const doomRenderFrame = now => {
         if (!doomContext || !doomRender || !doomCanvas) return;
         const deltaTime = Math.min(.05, Math.max(0, (now - doomGame.lastFrame) / 1000));
@@ -2467,7 +2318,6 @@
           else doomDrawObject(context, width, height, horizon, sprite.entity, now / 1000);
         }
 
-        doomDrawWeapon(context, width, height, movement);
 
         if (doomGame.damageFlash > 0) {
           const damage = context.createRadialGradient(width / 2, height / 2, width * .12, width / 2, height / 2, width * .72);
@@ -2546,7 +2396,7 @@
 
         if (document.pointerLockElement === doomScreen) {
           doomGame.player.angle += event.movementX * .00245;
-          doomGame.player.pitch = doomClamp(doomGame.player.pitch + event.movementY * .0020, -.62, .62);
+          doomGame.player.pitch = doomClamp(doomGame.player.pitch - event.movementY * .0020, -.62, .62);
           return;
         }
 
@@ -2554,7 +2404,7 @@
         // No mouse button needs to be held.
         if (doomScreen?.matches(':hover')) {
           doomGame.player.angle += event.movementX * .0033;
-          doomGame.player.pitch = doomClamp(doomGame.player.pitch + event.movementY * .0028, -.62, .62);
+          doomGame.player.pitch = doomClamp(doomGame.player.pitch - event.movementY * .0028, -.62, .62);
         }
       });
       document.addEventListener('mouseup', event => {
@@ -2594,7 +2444,7 @@
         const dy = event.clientY - doomGame.touchY;
         doomGame.touchX = event.clientX; doomGame.touchY = event.clientY;
         doomGame.player.angle += dx * .006;
-        doomGame.player.pitch = doomClamp(doomGame.player.pitch + dy * .005, -.60, .60);
+        doomGame.player.pitch = doomClamp(doomGame.player.pitch - dy * .005, -.60, .60);
       });
       const doomEndTouchLook = () => { doomGame.touchLooking = false; };
       doomScreen?.addEventListener('pointerup', doomEndTouchLook);
