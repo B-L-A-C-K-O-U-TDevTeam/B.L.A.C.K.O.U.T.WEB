@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="referrer" content="no-referrer" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; child-src 'none'; worker-src 'none'; connect-src 'none'; font-src 'none'; media-src 'none'; manifest-src 'none'; img-src data:; style-src 'sha256-6ucmaO2TqiPSpllbHRETG/Rz3X1DSPxTb/og46k7yd4='; script-src 'sha256-PJH3LHl6rexut17rdYS/Kc6zlDoFQ+j34MyTGvrnx3I=' 'sha256-C3ZX4C+IaN+l9bxrDjuBWBe4jzBQfPxv+yS89GnSSDQ='; require-trusted-types-for 'script'; upgrade-insecure-requests" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'; frame-src 'none'; child-src 'none'; worker-src 'none'; connect-src 'none'; font-src data:; media-src 'none'; manifest-src 'none'; img-src data:; style-src 'sha256-5J6vs/4qBHzCfJB8GqPrIN2iC/POrf7KiGywnGrjszA='; script-src 'sha256-PJH3LHl6rexut17rdYS/Kc6zlDoFQ+j34MyTGvrnx3I=' 'sha256-C3ZX4C+IaN+l9bxrDjuBWBe4jzBQfPxv+yS89GnSSDQ='; require-trusted-types-for 'script'; upgrade-insecure-requests" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%2305070a'/%3E%3Cpath d='M14 15h21c10 0 16 5 16 13 0 5-3 9-8 11 6 2 9 6 9 11H39c0-4-2-6-7-6h-5v6H14V15zm13 10v9h7c3 0 5-2 5-5s-2-4-5-4h-7z' fill='%23c7d3dc'/%3E%3C/svg%3E" />
   <meta name="theme-color" content="#05070a" />
   <meta name="description" content="B.L.A.C.K.O.U.T. is a single-player tactical FPS blending 1970s Cold War aesthetics, science fiction, and survival horror." />
@@ -1066,11 +1066,227 @@
     .gallery figure.image-unavailable:before{content:"ARCHIVE IMAGE UNAVAILABLE";position:absolute;inset:0;display:grid;place-items:center;color:rgba(183,194,161,.55);font:700 .65rem/1.4 "Courier New",monospace;letter-spacing:.16em;z-index:1}
 
 
+
+    /* =========================================================
+       BLACKOUT CIPHER — TYPEFACE + CHAMFER DESIGN LANGUAGE
+       A display face drawn specifically for this project, and
+       the geometry it implies: every corner in the interface is
+       cut at 45 degrees, the way the letterforms are.
+       No palette tokens are redefined here. Form only.
+       ========================================================= */
+    @font-face{
+      font-family:"Blackout Cipher";
+      src:url(data:font/woff;base64,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) format("woff");
+      font-weight:400;font-style:normal;font-display:swap;
+    }
+    @font-face{
+      font-family:"Blackout Cipher";
+      src:url(data:font/woff;base64,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) format("woff");
+      font-weight:700;font-style:normal;font-display:swap;
+    }
+
+    :root{
+      --display:"Blackout Cipher","Arial Narrow","Roboto Condensed",Impact,sans-serif;
+      --utility:"Courier New",Courier,monospace;
+      --cut:13px;      /* panel chamfer */
+      --cut-sm:9px;    /* control chamfer */
+      --hair:rgba(183,194,161,.15);
+    }
+
+    /* ---------- 1. Two voices: cut-metal display, teleprinter data ---------- */
+    h1,h2,.card h3,.doom-menu h3,.brand,.tagline,.eyebrow,.kicker,.links,
+    .btn,.pillar,.num,.status-box strong,.time-unit strong,.transition-mark,.doom-actions button{
+      font-family:var(--display);
+      font-weight:400;
+      font-synthesis:none;
+    }
+    h1,h2,.card h3,.doom-menu h3,.brand,.transition-mark,.time-unit strong,.num{
+      font-weight:700;
+    }
+
+    .console-topline,.combat-header,.release-meta,.combat-caption,.status-box span,
+    .time-unit span,.gallery figcaption,.feature-dropdown summary,.doom-stamp,
+    .doom-briefing,.doom-controls,.doom-menu-footer,.doom-hud,.signal-ticker,
+    .sound-toggle,.legal{
+      font-family:var(--utility);
+    }
+
+    /* The face is drawn as capitals only, so every role that uses it is set
+       in capitals rather than relying on the browser to fake a lowercase. */
+    h1,h2,.card h3,.doom-menu h3,.status-box strong,.pillar{text-transform:uppercase}
+
+    h1{letter-spacing:.012em;line-height:.92;font-weight:700}
+    h2{letter-spacing:.016em;line-height:1.06}
+    .card h3{letter-spacing:.05em;font-size:1.02rem}
+    .doom-menu h3{letter-spacing:.03em}
+    .brand{letter-spacing:.2em;font-size:1.02rem}
+    .tagline{letter-spacing:.34em}
+    .btn{letter-spacing:.14em;font-size:.78rem}
+    .pillar{letter-spacing:.1em}
+    .links{letter-spacing:.16em;font-size:.78rem}
+    .eyebrow,.kicker{letter-spacing:.24em}
+
+    /* ---------- 2. Signature: one-time-pad tape running down the gutter ----- */
+    .tape-rail{
+      position:fixed;z-index:12;left:0;top:0;bottom:0;width:30px;
+      pointer-events:none;
+      background-color:rgba(3,5,3,.72);
+      border-right:1px solid rgba(183,194,161,.13);
+      background-image:
+        radial-gradient(circle at 7px 6px,rgba(183,194,161,.46) 0 1.7px,transparent 2.1px),
+        radial-gradient(circle at 13px 6px,rgba(183,194,161,.46) 0 1.7px,transparent 2.1px),
+        radial-gradient(circle at 19px 6px,rgba(183,194,161,.46) 0 1.7px,transparent 2.1px),
+        radial-gradient(circle at 24.5px 5px,rgba(183,194,161,.8) 0 1.05px,transparent 1.4px);
+      background-size:30px 43px,30px 29px,30px 23px,30px 11px;
+      animation:tape-feed 30s linear infinite;
+    }
+    .tape-rail:after{
+      content:"";position:absolute;inset:0;
+      background:linear-gradient(180deg,rgba(5,7,10,.95) 0 6%,transparent 26% 74%,rgba(5,7,10,.95) 94% 100%);
+    }
+    @keyframes tape-feed{to{background-position:0 -43px,0 -29px,0 -23px,0 -11px}}
+
+    /* ---------- 3. Section heads: coded rule instead of a floating bar ------ */
+    .section-head:before{display:none}
+    .kicker{
+      display:flex;align-items:center;gap:13px;
+      color:rgba(183,194,161,.72);font-size:.66rem;
+    }
+    .kicker:before{
+      content:"";flex:0 0 22px;height:7px;
+      background:var(--phosphor);opacity:.55;
+      clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%);
+    }
+    .kicker:after{
+      content:"";flex:1 1 auto;height:1px;
+      background:repeating-linear-gradient(90deg,rgba(183,194,161,.6) 0 3px,transparent 3px 8px);
+      opacity:.4;
+    }
+
+    /* Headings arrive redacted, then declassify as the section is reached. */
+    .section-head h2,.story-text h2{position:relative;display:inline-block}
+    .reveal h2:after{
+      content:"";position:absolute;pointer-events:none;
+      left:-.14em;right:-.14em;top:.04em;bottom:.08em;
+      background:#0b0f14;
+      box-shadow:inset 0 0 0 1px rgba(214,170,98,.16);
+      transform:scaleX(1);transform-origin:100% 50%;
+      transition:transform .8s var(--ease) .24s;
+    }
+    .reveal.is-visible h2:after{transform:scaleX(0)}
+
+    section + section{border-top:1px solid rgba(183,194,161,.06)}
+
+    /* ---------- 4. Chamfer language across every control and panel --------- */
+    .btn,.sound-toggle,.doom-icon-button,.doom-actions button{
+      clip-path:polygon(0 0,calc(100% - var(--cut-sm)) 0,100% var(--cut-sm),
+                        100% 100%,var(--cut-sm) 100%,0 calc(100% - var(--cut-sm)));
+    }
+    .doom-icon-button{--cut-sm:6px}
+    .btn{padding:14px 20px}
+    .btn:before{inset:4px;transform:none;border-color:rgba(183,194,161,.3)}
+    .btn.primary:before{animation:blkt-ring 2.35s ease-in-out infinite;border-color:rgba(10,12,15,.35)}
+    @keyframes blkt-ring{0%,100%{opacity:0}50%{opacity:.9}}
+
+    .card,.status-box,.story-panel,.gallery figure{
+      clip-path:polygon(0 0,calc(100% - var(--cut)) 0,100% var(--cut),
+                        100% 100%,var(--cut) 100%,0 calc(100% - var(--cut)));
+    }
+
+    /* Fiducials on two opposing corners — the marks a scanner aligns to. */
+    .card:after,.status-box:after{
+      content:"";position:absolute;z-index:2;inset:10px;pointer-events:none;opacity:.3;
+      background:
+        linear-gradient(var(--phosphor),var(--phosphor)) 0 0/1px 13px no-repeat,
+        linear-gradient(var(--phosphor),var(--phosphor)) 0 0/13px 1px no-repeat,
+        linear-gradient(var(--phosphor),var(--phosphor)) 100% 100%/1px 13px no-repeat,
+        linear-gradient(var(--phosphor),var(--phosphor)) 100% 100%/13px 1px no-repeat;
+    }
+
+    /* ---------- 5. Feature cards: the index number becomes the artwork ----- */
+    .feature-card{display:flex;flex-direction:column;padding:26px 24px 20px}
+    .feature-card .num{
+      position:absolute;z-index:1;right:18px;top:12px;
+      font-size:3.1rem;line-height:1;letter-spacing:.01em;
+      color:var(--phosphor);opacity:.13;
+    }
+    .feature-card h3{margin:0 0 16px;padding-right:62px}
+    .feature-card:hover .num{opacity:.22}
+    .feature-card .num{transition:opacity .3s var(--ease)}
+
+    /* ---------- 6. Navigation ---------------------------------------------- */
+    .links a{position:relative}
+    .links a:before{
+      content:"";position:absolute;left:-13px;top:50%;width:7px;height:1px;
+      background:var(--phosphor);opacity:0;transform:translateX(-5px);
+      transition:opacity .25s var(--ease),transform .25s var(--ease);
+    }
+    .links a:hover:before,.links a:focus-visible:before{opacity:.95;transform:none}
+
+    /* ---------- 7. Hero ----------------------------------------------------- */
+    .hero-content:before{
+      font-family:var(--display);font-weight:700;font-size:.66rem;letter-spacing:.2em;
+      padding:7px 11px;
+    }
+    .tagline{color:rgba(183,194,161,.82)}
+    .lead{max-width:640px;line-height:1.72}
+
+    /* ---------- 8. Countdown: seven-segment digits, as drawn ---------------- */
+    .time-unit strong{letter-spacing:.02em;font-variant-numeric:tabular-nums}
+    .time-divider{font-family:var(--display);font-size:1.5rem;transform:translateY(-16px)}
+
+    /* ---------- 9. Pillars -------------------------------------------------- */
+    .pillar{
+      display:flex;align-items:center;gap:14px;
+      border-top-color:rgba(183,194,161,.2);
+    }
+    .pillar:before{
+      content:"";flex:0 0 9px;height:9px;background:var(--phosphor);opacity:.45;
+      clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%);
+      transition:opacity .3s var(--ease);
+    }
+    .pillar:hover:before{opacity:1}
+
+    /* ---------- 10. Footer -------------------------------------------------- */
+    footer .brand{font-size:1.15rem}
+    .legal{font-size:.74rem;line-height:1.8;letter-spacing:.02em;color:rgba(155,168,180,.78)}
+
+    /* ---------- 11. Quality floor ------------------------------------------ */
+    a:focus-visible,button:focus-visible,summary:focus-visible{
+      outline:2px solid rgba(183,194,161,.65);outline-offset:3px;
+    }
+    /* clip-path crops an outline, so chamfered controls ring themselves inward */
+    .btn:focus-visible,.sound-toggle:focus-visible,
+    .doom-icon-button:focus-visible,.doom-actions button:focus-visible{
+      outline:none;box-shadow:inset 0 0 0 2px rgba(183,194,161,.9);
+    }
+
+    @media(max-width:1240px){.tape-rail{display:none}}
+    @media(max-width:900px){
+      .kicker:after{display:none}
+      .feature-card .num{font-size:2.5rem}
+    }
+    @media(max-width:600px){
+      h1{letter-spacing:.02em}
+      .tagline{letter-spacing:.2em}
+      .brand{letter-spacing:.14em}
+      .feature-card{padding:22px 20px 18px}
+      .feature-card h3{padding-right:52px}
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      .tape-rail{animation:none!important}
+      .reveal h2:after{display:none!important}
+      .btn.primary:before{animation:none!important;opacity:.6}
+      .feature-card .num,.links a:before,.pillar:before{transition:none!important}
+    }
+
   </style>
 </head>
 <body id="top">
   <div class="page-transition" aria-hidden="true"><div class="transition-mark" data-text="B.L.A.C.K.O.U.T.">B.L.A.C.K.O.U.T.</div></div>
   <div class="noise"></div>
+  <div class="tape-rail" aria-hidden="true"></div>
   <div class="film-dust" aria-hidden="true"></div>
   <div class="crt-vignette" aria-hidden="true"></div>
   <div class="radar-sweep" aria-hidden="true"></div>

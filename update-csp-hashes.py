@@ -41,7 +41,7 @@ csp = "; ".join([
     "child-src 'none'",
     "worker-src 'none'",
     "connect-src 'none'",
-    "font-src 'none'",
+    "font-src data:",
     "media-src 'none'",
     "manifest-src 'none'",
     "img-src data:",
