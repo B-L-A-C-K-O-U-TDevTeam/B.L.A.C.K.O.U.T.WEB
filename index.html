@@ -1065,9 +1065,152 @@
     .gallery figure.image-unavailable{min-height:260px;background:radial-gradient(circle at 65% 38%,rgba(183,194,161,.18),transparent 28%),repeating-linear-gradient(0deg,transparent 0 5px,rgba(255,255,255,.035) 5px 6px),#070a0d}
     .gallery figure.image-unavailable:before{content:"ARCHIVE IMAGE UNAVAILABLE";position:absolute;inset:0;display:grid;place-items:center;color:rgba(183,194,161,.55);font:700 .65rem/1.4 "Courier New",monospace;letter-spacing:.16em;z-index:1}
 
+
+
+    /* =========================================================
+       LOCAL ENCRYPTED ACCOUNT GATE V2
+       Custom username + generated 256-bit password.
+       The password never enters persistent storage.
+       ========================================================= */
+    .account-section{
+      position:relative;overflow:hidden;
+      background:
+        radial-gradient(circle at 78% 22%,rgba(183,194,161,.085),transparent 31%),
+        linear-gradient(180deg,#05070a,#080c0a 50%,#05070a);
+    }
+    .account-section:before{
+      content:"";position:absolute;inset:0;pointer-events:none;opacity:.32;
+      background:
+        repeating-linear-gradient(90deg,transparent 0 95px,rgba(183,194,161,.022) 95px 96px),
+        repeating-linear-gradient(0deg,transparent 0 95px,rgba(183,194,161,.022) 95px 96px);
+    }
+    .account-grid{position:relative;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:18px;align-items:start}
+    .account-console,.account-security-card,.account-gate-shell{
+      position:relative;border:1px solid rgba(183,194,161,.19);
+      background:linear-gradient(145deg,rgba(13,18,16,.98),rgba(5,8,6,.98));
+      box-shadow:inset 0 0 42px rgba(0,0,0,.44),0 24px 70px rgba(0,0,0,.28);
+      clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px));
+    }
+    .account-console:before,.account-gate-shell:before{
+      content:"";position:absolute;inset:0;pointer-events:none;opacity:.3;
+      background:linear-gradient(105deg,transparent 32%,rgba(183,194,161,.09) 49%,transparent 66%);
+      background-size:280% 100%;animation:account-panel-scan 9s linear infinite;
+    }
+    .account-console > *,.account-gate-shell > *{position:relative;z-index:1}
+    .account-console-header,.account-gate-header{
+      display:flex;align-items:center;justify-content:space-between;gap:15px;padding:16px 18px;
+      border-bottom:1px solid rgba(183,194,161,.15);color:rgba(199,211,220,.68);
+      font:700 .61rem/1.4 "Courier New",monospace;letter-spacing:.14em;text-transform:uppercase;
+    }
+    .account-state{display:inline-flex;align-items:center;gap:8px;color:rgba(183,194,161,.88);white-space:nowrap}
+    .account-state i{width:8px;height:8px;border-radius:50%;background:var(--phosphor);box-shadow:0 0 12px rgba(183,194,161,.55);animation:account-led 1.65s ease-in-out infinite}
+    .account-body{padding:22px}
+    .account-body h3,.account-gate-panel h2{margin:0 0 8px;text-transform:uppercase;letter-spacing:.045em}
+    .account-body > p,.account-gate-panel > p{margin:0 0 19px;color:#9ca8a1;font-size:.9rem}
+    .account-profile{
+      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:18px 0;
+    }
+    .account-profile div{padding:12px;border:1px solid rgba(183,194,161,.13);background:rgba(183,194,161,.026)}
+    .account-profile span{display:block;color:rgba(183,194,161,.48);font:700 .51rem/1.3 "Courier New",monospace;letter-spacing:.12em;text-transform:uppercase}
+    .account-profile b{display:block;margin-top:6px;color:#edf2e8;font:700 .72rem/1.4 "Courier New",monospace;overflow-wrap:anywhere}
+    .account-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
+    .account-actions .btn{cursor:pointer}
+    .account-danger{margin-top:15px;padding:14px;border:1px solid rgba(176,58,58,.3);background:rgba(176,58,58,.045)}
+    .account-danger[hidden]{display:none}
+    .account-danger p{margin:0 0 12px;color:#c7aaa3;font-size:.78rem}
+    .account-security-stack{display:grid;gap:12px}
+    .account-security-card{padding:19px;box-shadow:inset 0 0 30px rgba(0,0,0,.28)}
+    .account-security-card .num{font:700 .55rem/1 "Courier New",monospace;color:rgba(183,194,161,.42);letter-spacing:.14em}
+    .account-security-card h3{margin:12px 0 6px;font-size:.9rem;text-transform:uppercase;letter-spacing:.075em}
+    .account-security-card p{margin:0;color:#8f9c95;font-size:.79rem}
+    .account-security-card strong{color:#dfe7db}
+    .account-security-card.boundary{border-color:rgba(214,170,98,.24);background:rgba(214,170,98,.035)}
+
+    .account-chip{
+      position:fixed;z-index:31;right:18px;bottom:79px;display:flex;align-items:center;gap:8px;min-height:35px;padding:0 12px;
+      border:1px solid rgba(183,194,161,.22);background:rgba(3,5,3,.91);color:rgba(199,211,220,.7);
+      font:700 .56rem/1 "Courier New",monospace;letter-spacing:.11em;text-transform:uppercase;backdrop-filter:blur(8px);
+      transition:border-color .2s ease,color .2s ease,transform .2s ease;
+    }
+    .account-chip:hover,.account-chip:focus-visible{color:#fff;border-color:rgba(183,194,161,.5);outline:none;transform:translateY(-1px)}
+    .account-chip i{width:7px;height:7px;border-radius:50%;background:#8d6951;box-shadow:0 0 8px rgba(214,170,98,.24)}
+    .account-chip.authenticated i{background:var(--phosphor);box-shadow:0 0 11px rgba(183,194,161,.55)}
+
+    .account-gate{
+      position:fixed;z-index:12000;inset:0;display:grid;place-items:center;padding:20px;overflow:auto;
+      background:
+        linear-gradient(rgba(2,3,3,.9),rgba(2,3,3,.96)),
+        repeating-linear-gradient(0deg,transparent 0 4px,rgba(183,194,161,.04) 4px 5px);
+      backdrop-filter:blur(13px);overscroll-behavior:contain;
+    }
+    .account-gate[hidden]{display:none}
+    .account-gate-shell{width:min(760px,100%);max-height:min(900px,calc(100vh - 40px));overflow:auto}
+    .account-gate-header strong{color:#eef2e9;font-size:.68rem}
+    .account-gate-classification{color:rgba(214,170,98,.85)}
+    .account-gate-title{padding:24px 24px 17px}
+    .account-gate-title .kicker{margin-bottom:8px}
+    .account-gate-title h1{font-size:clamp(2rem,7vw,4.2rem);line-height:.94;letter-spacing:-.035em}
+    .account-gate-title p{max-width:650px;margin:14px 0 0;color:#a4afa8;font-size:.9rem}
+    .account-tabs{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid rgba(183,194,161,.13);border-bottom:1px solid rgba(183,194,161,.13)}
+    .account-tab{
+      min-height:48px;border:0;border-right:1px solid rgba(183,194,161,.12);background:rgba(183,194,161,.025);
+      color:rgba(199,211,220,.58);font:700 .61rem/1 "Courier New",monospace;letter-spacing:.13em;text-transform:uppercase;cursor:pointer;
+      transition:background .22s ease,color .22s ease,box-shadow .22s ease;
+    }
+    .account-tab:last-child{border-right:0}
+    .account-tab:hover,.account-tab:focus-visible{color:#fff;background:rgba(183,194,161,.07);outline:none}
+    .account-tab[aria-selected="true"]{color:#eef2e9;background:rgba(183,194,161,.095);box-shadow:inset 0 -2px 0 rgba(183,194,161,.56)}
+    .account-gate-panel{padding:23px 24px 25px}
+    .account-gate-panel[hidden]{display:none}
+    .account-form{display:grid;gap:13px}
+    .account-field{display:grid;gap:7px}
+    .account-field label{
+      color:rgba(183,194,161,.58);font:700 .57rem/1.3 "Courier New",monospace;letter-spacing:.14em;text-transform:uppercase;
+    }
+    .account-field input{
+      width:100%;min-width:0;border:1px solid rgba(183,194,161,.21);background:rgba(2,4,3,.76);color:#edf2e8;
+      padding:12px 13px;border-radius:0;font:700 .78rem/1.45 "Courier New",monospace;letter-spacing:.05em;
+      outline:none;box-shadow:inset 0 0 18px rgba(0,0,0,.34);transition:border-color .2s ease,box-shadow .2s ease;
+    }
+    .account-field input:focus{border-color:rgba(183,194,161,.54);box-shadow:inset 0 0 18px rgba(0,0,0,.34),0 0 0 2px rgba(183,194,161,.07)}
+    .account-inline{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:stretch}
+    .account-mini-button{
+      min-width:88px;border:1px solid rgba(183,194,161,.23);background:rgba(183,194,161,.055);color:#dce5d7;
+      font:700 .55rem/1 "Courier New",monospace;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;padding:0 12px;
+    }
+    .account-mini-button:hover,.account-mini-button:focus-visible{color:#fff;border-color:rgba(183,194,161,.5);outline:none;background:rgba(183,194,161,.11)}
+    .account-password-box{padding:14px;border:1px solid rgba(214,170,98,.28);background:rgba(214,170,98,.035)}
+    .account-password-box[hidden]{display:none}
+    .account-warning{display:flex;gap:9px;margin-bottom:12px;color:rgba(241,211,158,.88);font:700 .6rem/1.55 "Courier New",monospace;letter-spacing:.06em;text-transform:uppercase}
+    .account-confirm{display:flex;align-items:flex-start;gap:9px;margin:12px 0;color:#aeb8b1;font-size:.78rem;cursor:pointer}
+    .account-confirm input{margin-top:4px;accent-color:#b7c2a1}
+    .account-note{
+      margin-top:15px;padding:12px 13px;border-left:2px solid rgba(183,194,161,.36);background:rgba(183,194,161,.026);
+      color:rgba(174,184,177,.74);font:700 .58rem/1.55 "Courier New",monospace;letter-spacing:.05em;text-transform:uppercase;
+    }
+    .account-message{min-height:23px;margin-top:13px;color:rgba(183,194,161,.8);font:700 .59rem/1.55 "Courier New",monospace;letter-spacing:.075em;text-transform:uppercase}
+    .account-message.error{color:#e2a092}.account-message.success{color:#cbd8c4}
+    .account-submit:disabled,.account-mini-button:disabled{opacity:.38;cursor:not-allowed;filter:none;transform:none;box-shadow:none}
+    .account-gate-footer{padding:0 24px 22px;color:rgba(183,194,161,.42);font:700 .5rem/1.5 "Courier New",monospace;letter-spacing:.08em;text-transform:uppercase}
+
+    body.account-locked{overflow:hidden}
+    body.account-locked main,body.account-locked > .nav,body.account-locked > footer,body.account-locked > .sound-toggle,body.account-locked > .account-chip{
+      pointer-events:none;user-select:none;filter:blur(8px) brightness(.48);transform:scale(1.008);
+    }
+
+    @keyframes account-panel-scan{to{background-position:-280% 0}}
+    @keyframes account-led{0%,100%{opacity:.56;transform:scale(.82)}50%{opacity:1;transform:scale(1.14)}}
+    @media(max-width:900px){.account-grid{grid-template-columns:1fr}.account-security-stack{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:600px){
+      .account-grid,.account-security-stack,.account-profile{grid-template-columns:1fr}.account-body,.account-gate-panel{padding:18px}.account-gate-title{padding:20px 18px 14px}
+      .account-gate-footer{padding:0 18px 18px}.account-inline{grid-template-columns:1fr}.account-mini-button{min-height:39px}.account-chip{right:10px;bottom:70px}
+      .account-gate{padding:10px}.account-gate-shell{max-height:calc(100vh - 20px)}
+    }
+    @media(prefers-reduced-motion:reduce){.account-console:before,.account-gate-shell:before,.account-state i{animation:none!important}}
+
   </style>
 </head>
-<body id="top">
+<body id="top" class="account-locked">
   <div class="page-transition" aria-hidden="true"><div class="transition-mark" data-text="B.L.A.C.K.O.U.T.">B.L.A.C.K.O.U.T.</div></div>
   <div class="noise"></div>
   <div class="film-dust" aria-hidden="true"></div>
@@ -1076,6 +1219,83 @@
   <div class="signal-ticker" aria-hidden="true">
     <span>SECURE CHANNEL // CLASSIFIED SIGNAL // OPERATION ACTIVE // SECURE CHANNEL // CLASSIFIED SIGNAL // OPERATION ACTIVE //</span>
   </div>
+
+  
+  <div class="account-gate" id="account-gate" role="dialog" aria-modal="true" aria-labelledby="account-gate-title">
+    <div class="account-gate-shell">
+      <div class="account-gate-header">
+        <strong>LOCAL ACCOUNT ACCESS // OFFLINE CLIENT</strong>
+        <span class="account-gate-classification">NO NETWORK AUTHORITY</span>
+      </div>
+      <div class="account-gate-title">
+        <div class="kicker">B.L.A.C.K.O.U.T. Secure Entry</div>
+        <h1 id="account-gate-title">Operator Login</h1>
+        <p>Create a browser-local account with a custom username and a cryptographically generated 256-bit password, or log in to an existing account stored on this browser profile.</p>
+      </div>
+      <div class="account-tabs" role="tablist" aria-label="Account access options">
+        <button class="account-tab" id="account-tab-login" type="button" role="tab" aria-selected="true" aria-controls="account-login-panel">Log in</button>
+        <button class="account-tab" id="account-tab-create" type="button" role="tab" aria-selected="false" aria-controls="account-create-panel">Create account</button>
+      </div>
+
+      <div class="account-gate-panel" id="account-login-panel" role="tabpanel" aria-labelledby="account-tab-login">
+        <h2>Authenticate locally</h2>
+        <p>The password is used only in memory to decrypt this account’s isolated local container.</p>
+        <form class="account-form" id="account-login-form" autocomplete="off">
+          <div class="account-field">
+            <label for="account-login-username">Custom username</label>
+            <input id="account-login-username" name="blackout-username" type="text" required minlength="3" maxlength="24" pattern="[A-Za-z0-9_-]{3,24}" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="YOUR_USERNAME" />
+          </div>
+          <div class="account-field">
+            <label for="account-login-password">Generated password</label>
+            <div class="account-inline">
+              <input id="account-login-password" name="blackout-password" type="password" required autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="BLK2.…" />
+              <button class="account-mini-button" id="account-login-toggle" type="button" aria-pressed="false">Show</button>
+            </div>
+          </div>
+          <div class="account-actions">
+            <button class="btn primary account-submit" id="account-login-submit" type="submit">Log into website</button>
+          </div>
+        </form>
+        <div class="account-note">No password reset exists because no server receives or stores the password. Losing it permanently prevents login.</div>
+      </div>
+
+      <div class="account-gate-panel" id="account-create-panel" role="tabpanel" aria-labelledby="account-tab-create" hidden>
+        <h2>Create isolated account</h2>
+        <p>Choose a non-personal username. The site generates the password locally using the browser cryptographic random-number generator.</p>
+        <form class="account-form" id="account-create-form" autocomplete="off">
+          <div class="account-field">
+            <label for="account-create-username">Custom username</label>
+            <input id="account-create-username" name="new-blackout-username" type="text" required minlength="3" maxlength="24" pattern="[A-Za-z0-9_-]{3,24}" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="3–24 LETTERS, NUMBERS, _ OR -" />
+          </div>
+          <div class="account-actions">
+            <button class="btn primary" id="account-generate-password" type="button">Generate secure password</button>
+          </div>
+          <div class="account-password-box" id="account-password-box" hidden>
+            <div class="account-warning"><b>!</b><span>This 256-bit password is shown only during creation. Save it before continuing.</span></div>
+            <div class="account-field">
+              <label for="account-generated-password">Generated password</label>
+              <div class="account-inline">
+                <input id="account-generated-password" type="text" readonly autocomplete="off" autocapitalize="off" spellcheck="false" />
+                <button class="account-mini-button" id="account-copy-password" type="button">Copy</button>
+              </div>
+            </div>
+            <label class="account-confirm"><input id="account-password-saved" type="checkbox" /> <span>I saved this password. I understand the site cannot recover or reset it.</span></label>
+            <div class="account-actions">
+              <button class="btn primary account-submit" id="account-create-submit" type="submit" disabled>Create and enter</button>
+              <button class="btn" id="account-regenerate-password" type="button">Regenerate</button>
+            </div>
+          </div>
+        </form>
+        <div class="account-note">The raw password is never written to IndexedDB, localStorage, cookies, logs, or network requests.</div>
+      </div>
+
+      <div class="account-message" id="account-gate-message" role="status" aria-live="polite"></div>
+      <div class="account-gate-footer">Account persistence requires one encrypted local record. Clearing browser/site storage, using private browsing, or changing devices can erase access. This is local access control, not server-side authentication or an anonymity service.</div>
+      <noscript><div class="account-message error">JavaScript and Web Crypto are required for local encrypted accounts.</div></noscript>
+    </div>
+  </div>
+
+<a class="account-chip" id="account-chip" href="#account" aria-label="Open local account controls"><i aria-hidden="true"></i><span id="account-chip-label">Account: Sign in</span></a>
   <button class="sound-toggle" type="button" aria-pressed="false" aria-label="Enable interface sound">
     <span class="sound-dot" aria-hidden="true"></span>
     <span class="sound-label">Sound: Off</span>
@@ -1084,7 +1304,7 @@
     <div class="nav-inner">
       <a class="brand" href="#top">B.L.A.C.K.<span>O.U.T.</span></a>
       <nav class="links" aria-label="Primary navigation">
-        <a href="#about">About</a><a href="#features">Features</a><a href="#story">Story</a><a href="#gallery">Gallery</a><a href="#release">Release</a><a href="#status">Status</a>
+        <a href="#about">About</a><a href="#features">Features</a><a href="#story">Story</a><a href="#gallery">Gallery</a><a href="#release">Release</a><a href="#account">Account</a><a href="#status">Status</a>
       </nav>
     </div>
   </header>
@@ -1098,6 +1318,7 @@
         <p class="lead">A grounded tactical FPS where 1970s Cold War paranoia collides with retro-futuristic science fiction and survival horror.</p>
         <div class="cta-row">
           <a class="btn primary" href="#about">Enter the operation</a>
+          <a class="btn" href="#access">Create local account</a>
           <a class="btn" href="#status">Development status</a>
         </div>
       </div>
@@ -1353,9 +1574,70 @@
       </div>
     </section>
 
+
+
+
+    <section id="account" class="account-section">
+      <div class="wrap">
+        <div class="section-head">
+          <div><div class="kicker">07 / Account</div><h2>Local account control</h2></div>
+          <p class="section-copy">Your active account is decrypted only for this tab. The generated password is never stored, transmitted, or retained after authentication.</p>
+        </div>
+        <div class="account-grid">
+          <div class="account-console" id="account-console">
+            <div class="account-console-header">
+              <span>ENCRYPTED PROFILE CONTAINER // CURRENT SESSION</span>
+              <span class="account-state"><i aria-hidden="true"></i><b id="account-state-label">AUTHENTICATED</b></span>
+            </div>
+            <div class="account-body">
+              <h3>Operator session</h3>
+              <p id="account-session-copy">Log in to display the current browser-local account.</p>
+              <div class="account-profile">
+                <div><span>Username</span><b id="account-session-username">LOCKED</b></div>
+                <div><span>Account ID</span><b id="account-session-id">—</b></div>
+                <div><span>Created</span><b id="account-session-created">—</b></div>
+                <div><span>Storage</span><b>ENCRYPTED INDEXEDDB</b></div>
+              </div>
+              <div class="account-actions">
+                <button class="btn primary" id="account-logout" type="button">Log out</button>
+                <button class="btn" id="account-delete-start" type="button">Delete account</button>
+              </div>
+              <div class="account-danger" id="account-delete-panel" hidden>
+                <p>Permanent deletion removes this account’s encrypted browser-local record. This cannot be undone.</p>
+                <form class="account-form" id="account-delete-form" autocomplete="off">
+                  <div class="account-field">
+                    <label for="account-delete-username">Type the exact username</label>
+                    <input id="account-delete-username" type="text" required autocomplete="off" autocapitalize="none" spellcheck="false" />
+                  </div>
+                  <div class="account-field">
+                    <label for="account-delete-password">Enter the generated password</label>
+                    <input id="account-delete-password" type="password" required autocomplete="off" autocapitalize="off" spellcheck="false" />
+                  </div>
+                  <div class="account-actions">
+                    <button class="btn" id="account-delete-confirm" type="submit">Permanently delete</button>
+                    <button class="btn" id="account-delete-cancel" type="button">Cancel</button>
+                  </div>
+                </form>
+              </div>
+              <div class="account-message" id="account-manage-message" role="status" aria-live="polite"></div>
+            </div>
+          </div>
+
+          <aside class="account-security-stack" aria-label="Local account security architecture">
+            <article class="account-security-card"><div class="num">LAYER 01</div><h3>Network blocked</h3><p>The site keeps <strong>connect-src 'none'</strong>, preventing fetch, XHR, WebSocket, EventSource, beacon, and normal outbound application connections.</p></article>
+            <article class="account-security-card"><div class="num">LAYER 02</div><h3>256-bit secret</h3><p>Every password contains <strong>256 cryptographically random bits</strong> and derives an AES-GCM-256 key using HKDF-SHA-256 and a unique salt.</p></article>
+            <article class="account-security-card"><div class="num">LAYER 03</div><h3>Separated records</h3><p>Each username maps to its own authenticated ciphertext record. A password for one account cannot decrypt another account’s container.</p></article>
+            <article class="account-security-card"><div class="num">LAYER 04</div><h3>No plaintext password</h3><p>Only ciphertext, random salt, random IV, version data, and a one-way username index persist locally. The raw password is never stored.</p></article>
+            <article class="account-security-card boundary"><div class="num">SECURITY BOUNDARY</div><h3>Browser-local only</h3><p>A static webpage cannot create true server accounts, hide an IP from the host serving the page, or survive cleared browser storage. The login gate protects local state, not public HTML source. Use a real backend for cross-device accounts or protected online content.</p></article>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+
     <section id="status">
       <div class="wrap">
-        <div class="section-head"><div><div class="kicker">07 / Development</div><h2>Pre-production</h2></div><p class="section-copy">Current work focuses on story and worldbuilding, core mechanics, enemy AI, tactical squad systems, mission framework, environment production, and development tooling.</p></div>
+        <div class="section-head"><div><div class="kicker">08 / Development</div><h2>Pre-production</h2></div><p class="section-copy">Current work focuses on story and worldbuilding, core mechanics, enemy AI, tactical squad systems, mission framework, environment production, and development tooling.</p></div>
         <div class="status"><div class="status-box"><span>Engine</span><strong>Unity 6.5</strong></div><div class="status-box"><span>Format</span><strong>Single Player</strong></div><div class="status-box"><span>Genre</span><strong>Tactical Horror FPS</strong></div></div>
       </div>
     </section>
@@ -2726,6 +3008,485 @@
       });
     })();
   </script>
+
+
+
+  <script nonce="BLACKOUT-LOCAL-2026">
+    (() => {
+      'use strict';
+
+      const ACCOUNT_VERSION = 2;
+      const DB_NAME = 'BLACKOUT_ACCOUNT_GATE_V2';
+      const STORE_NAME = 'accounts';
+      const OLD_DB_NAME = 'BLACKOUT_LOCAL_ACCESS_V1';
+      const OLD_FALLBACK_KEY = 'BLACKOUT_LOCAL_ACCESS_RECORDS_V1';
+      const PASSWORD_PREFIX = 'BLK2.';
+      const PENDING_PASSWORD_LIFETIME = 5 * 60 * 1000;
+      const encoder = new TextEncoder();
+      const decoder = new TextDecoder();
+      const byId = id => document.getElementById(id);
+
+      const ui = {
+        body: document.body,
+        main: document.querySelector('main'),
+        nav: document.querySelector('.nav'),
+        footer: document.querySelector('footer'),
+        gate: byId('account-gate'),
+        gateMessage: byId('account-gate-message'),
+        loginTab: byId('account-tab-login'),
+        createTab: byId('account-tab-create'),
+        loginPanel: byId('account-login-panel'),
+        createPanel: byId('account-create-panel'),
+        loginForm: byId('account-login-form'),
+        loginUsername: byId('account-login-username'),
+        loginPassword: byId('account-login-password'),
+        loginToggle: byId('account-login-toggle'),
+        loginSubmit: byId('account-login-submit'),
+        createForm: byId('account-create-form'),
+        createUsername: byId('account-create-username'),
+        generatePassword: byId('account-generate-password'),
+        regeneratePassword: byId('account-regenerate-password'),
+        passwordBox: byId('account-password-box'),
+        generatedPassword: byId('account-generated-password'),
+        copyPassword: byId('account-copy-password'),
+        passwordSaved: byId('account-password-saved'),
+        createSubmit: byId('account-create-submit'),
+        chip: byId('account-chip'),
+        chipLabel: byId('account-chip-label'),
+        stateLabel: byId('account-state-label'),
+        sessionCopy: byId('account-session-copy'),
+        sessionUsername: byId('account-session-username'),
+        sessionId: byId('account-session-id'),
+        sessionCreated: byId('account-session-created'),
+        logout: byId('account-logout'),
+        deleteStart: byId('account-delete-start'),
+        deletePanel: byId('account-delete-panel'),
+        deleteForm: byId('account-delete-form'),
+        deleteUsername: byId('account-delete-username'),
+        deletePassword: byId('account-delete-password'),
+        deleteCancel: byId('account-delete-cancel'),
+        manageMessage: byId('account-manage-message')
+      };
+
+      let dbPromise = null;
+      let pendingPasswordBytes = null;
+      let pendingPasswordTimer = 0;
+      let session = null;
+      let failedLogins = 0;
+
+      const randomBytes = length => {
+        const bytes = new Uint8Array(length);
+        crypto.getRandomValues(bytes);
+        return bytes;
+      };
+
+      const toBase64Url = bytes => {
+        let binary = '';
+        const data = new Uint8Array(bytes);
+        for (let index = 0; index < data.length; index += 0x8000) {
+          binary += String.fromCharCode(...data.subarray(index, index + 0x8000));
+        }
+        return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+      };
+
+      const fromBase64Url = value => {
+        const normalized = String(value).replace(/-/g, '+').replace(/_/g, '/');
+        const padded = normalized + '='.repeat((4 - normalized.length % 4) % 4);
+        const binary = atob(padded);
+        return Uint8Array.from(binary, character => character.charCodeAt(0));
+      };
+
+      const normalizeUsername = value => String(value || '').trim().toLowerCase();
+      const displayUsername = value => String(value || '').trim();
+      const validUsername = value => /^[A-Za-z0-9_-]{3,24}$/.test(displayUsername(value));
+      const normalizePassword = value => String(value || '').replace(/\s+/g, '');
+      const hashHex = async value => [...new Uint8Array(await crypto.subtle.digest('SHA-256', encoder.encode(value)))].map(byte => byte.toString(16).padStart(2, '0')).join('');
+      const safeDate = value => {
+        const date = new Date(value);
+        return Number.isFinite(date.getTime()) ? date.toLocaleString() : 'UNKNOWN';
+      };
+
+      const setMessage = (target, text = '', type = '') => {
+        if (!target) return;
+        target.textContent = text;
+        target.className = `account-message${type ? ` ${type}` : ''}`;
+      };
+
+      const clearPendingPassword = () => {
+        window.clearTimeout(pendingPasswordTimer);
+        pendingPasswordBytes?.fill(0);
+        pendingPasswordBytes = null;
+        if (ui.generatedPassword) ui.generatedPassword.value = '';
+        if (ui.passwordSaved) ui.passwordSaved.checked = false;
+        if (ui.createSubmit) ui.createSubmit.disabled = true;
+        if (ui.passwordBox) ui.passwordBox.hidden = true;
+      };
+
+      const setAccessTab = name => {
+        const loginSelected = name === 'login';
+        ui.loginTab?.setAttribute('aria-selected', String(loginSelected));
+        ui.createTab?.setAttribute('aria-selected', String(!loginSelected));
+        if (ui.loginPanel) ui.loginPanel.hidden = !loginSelected;
+        if (ui.createPanel) ui.createPanel.hidden = loginSelected;
+        setMessage(ui.gateMessage);
+        window.setTimeout(() => (loginSelected ? ui.loginUsername : ui.createUsername)?.focus({ preventScroll: true }), 0);
+      };
+
+      const openDatabase = () => {
+        if (dbPromise) return dbPromise;
+        dbPromise = new Promise((resolve, reject) => {
+          if (!('indexedDB' in window)) return reject(new Error('Encrypted local storage is unavailable in this browser.'));
+          const request = indexedDB.open(DB_NAME, 1);
+          request.onupgradeneeded = () => {
+            const database = request.result;
+            if (!database.objectStoreNames.contains(STORE_NAME)) database.createObjectStore(STORE_NAME, { keyPath: 'usernameHash' });
+          };
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error || new Error('Could not open encrypted local storage.'));
+          request.onblocked = () => reject(new Error('Encrypted local storage is blocked by another tab.'));
+        });
+        return dbPromise;
+      };
+
+      const getRecord = async usernameHash => {
+        const database = await openDatabase();
+        return new Promise((resolve, reject) => {
+          const transaction = database.transaction(STORE_NAME, 'readonly');
+          const request = transaction.objectStore(STORE_NAME).get(usernameHash);
+          request.onsuccess = () => resolve(request.result || null);
+          request.onerror = () => reject(request.error || new Error('Could not read the encrypted account.'));
+        });
+      };
+
+      const putRecord = async record => {
+        const database = await openDatabase();
+        await new Promise((resolve, reject) => {
+          const transaction = database.transaction(STORE_NAME, 'readwrite');
+          transaction.objectStore(STORE_NAME).add(record);
+          transaction.oncomplete = resolve;
+          transaction.onerror = () => reject(transaction.error || new Error('Could not save the encrypted account.'));
+          transaction.onabort = () => reject(transaction.error || new Error('Encrypted account creation was aborted.'));
+        });
+      };
+
+      const removeRecord = async usernameHash => {
+        const database = await openDatabase();
+        await new Promise((resolve, reject) => {
+          const transaction = database.transaction(STORE_NAME, 'readwrite');
+          transaction.objectStore(STORE_NAME).delete(usernameHash);
+          transaction.oncomplete = resolve;
+          transaction.onerror = () => reject(transaction.error || new Error('Could not delete the encrypted account.'));
+        });
+      };
+
+      const countRecords = async () => {
+        const database = await openDatabase();
+        return new Promise((resolve, reject) => {
+          const transaction = database.transaction(STORE_NAME, 'readonly');
+          const request = transaction.objectStore(STORE_NAME).count();
+          request.onsuccess = () => resolve(request.result || 0);
+          request.onerror = () => reject(request.error || new Error('Could not inspect encrypted local storage.'));
+        });
+      };
+
+      const decodePassword = value => {
+        const normalized = normalizePassword(value);
+        if (!normalized.startsWith(PASSWORD_PREFIX)) throw new Error('Password format is invalid.');
+        const bytes = fromBase64Url(normalized.slice(PASSWORD_PREFIX.length));
+        if (bytes.byteLength !== 32) throw new Error('Password must contain 256 random bits.');
+        return bytes;
+      };
+
+      const deriveKey = async (passwordBytes, salt, usernameHash) => {
+        const material = await crypto.subtle.importKey('raw', passwordBytes, 'HKDF', false, ['deriveKey']);
+        return crypto.subtle.deriveKey({
+          name: 'HKDF',
+          hash: 'SHA-256',
+          salt,
+          info: encoder.encode(`B.L.A.C.K.O.U.T./ACCOUNT-GATE/V2/${usernameHash}`)
+        }, material, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+      };
+
+      const createRecord = async (username, passwordBytes) => {
+        const normalized = normalizeUsername(username);
+        const usernameHash = await hashHex(normalized);
+        if (await getRecord(usernameHash)) throw new Error('That username already exists in this browser profile.');
+
+        const salt = randomBytes(16);
+        const iv = randomBytes(12);
+        const profile = {
+          version: ACCOUNT_VERSION,
+          username: displayUsername(username),
+          normalizedUsername: normalized,
+          accountId: toBase64Url(randomBytes(16)),
+          createdAt: new Date().toISOString(),
+          scope: 'browser-local'
+        };
+        const key = await deriveKey(passwordBytes, salt, usernameHash);
+        const additionalData = encoder.encode(`BLACKOUT-ACCOUNT-V2:${usernameHash}`);
+        const ciphertext = await crypto.subtle.encrypt({ name: 'AES-GCM', iv, additionalData, tagLength: 128 }, key, encoder.encode(JSON.stringify(profile)));
+
+        const record = {
+          version: ACCOUNT_VERSION,
+          usernameHash,
+          kdf: 'HKDF-SHA-256',
+          cipher: 'AES-GCM-256',
+          salt: toBase64Url(salt),
+          iv: toBase64Url(iv),
+          ciphertext: toBase64Url(ciphertext)
+        };
+        await putRecord(record);
+        return { profile, record };
+      };
+
+      const decryptRecord = async (record, passwordBytes, expectedUsername) => {
+        if (!record || record.version !== ACCOUNT_VERSION || record.kdf !== 'HKDF-SHA-256' || record.cipher !== 'AES-GCM-256') {
+          throw new Error('The encrypted account format is unsupported or damaged.');
+        }
+        const salt = fromBase64Url(record.salt);
+        const iv = fromBase64Url(record.iv);
+        if (salt.byteLength !== 16 || iv.byteLength !== 12) throw new Error('The encrypted account parameters are invalid.');
+        const key = await deriveKey(passwordBytes, salt, record.usernameHash);
+        const additionalData = encoder.encode(`BLACKOUT-ACCOUNT-V2:${record.usernameHash}`);
+        const plaintext = await crypto.subtle.decrypt({ name: 'AES-GCM', iv, additionalData, tagLength: 128 }, key, fromBase64Url(record.ciphertext));
+        const profile = JSON.parse(decoder.decode(plaintext));
+        if (profile.version !== ACCOUNT_VERSION || profile.normalizedUsername !== normalizeUsername(expectedUsername)) {
+          throw new Error('Encrypted account identity validation failed.');
+        }
+        return profile;
+      };
+
+      const renderSession = () => {
+        const authenticated = Boolean(session);
+        ui.body.classList.toggle('account-locked', !authenticated);
+        if (ui.main) ui.main.inert = !authenticated;
+        if (ui.nav) ui.nav.inert = !authenticated;
+        if (ui.footer) ui.footer.inert = !authenticated;
+        if (ui.gate) ui.gate.hidden = authenticated;
+        ui.chip?.classList.toggle('authenticated', authenticated);
+        if (ui.chipLabel) ui.chipLabel.textContent = authenticated ? `Account: ${session.profile.username}` : 'Account: Sign in';
+        if (ui.stateLabel) ui.stateLabel.textContent = authenticated ? 'AUTHENTICATED' : 'LOCKED';
+        if (ui.sessionCopy) ui.sessionCopy.textContent = authenticated ? 'This account is decrypted only for the current tab. The password is not retained.' : 'Log in to display the current browser-local account.';
+        if (ui.sessionUsername) ui.sessionUsername.textContent = authenticated ? session.profile.username : 'LOCKED';
+        if (ui.sessionId) ui.sessionId.textContent = authenticated ? session.profile.accountId : '—';
+        if (ui.sessionCreated) ui.sessionCreated.textContent = authenticated ? safeDate(session.profile.createdAt) : '—';
+        if (!authenticated) {
+          if (ui.deletePanel) ui.deletePanel.hidden = true;
+          if (ui.deleteForm) ui.deleteForm.reset();
+        }
+      };
+
+      const authenticate = async (username, passwordText) => {
+        if (!validUsername(username)) throw new Error('Username must be 3–24 letters, numbers, underscores, or hyphens.');
+        const usernameHash = await hashHex(normalizeUsername(username));
+        const record = await getRecord(usernameHash);
+        if (!record) throw new Error('No matching local account exists in this browser profile.');
+        const passwordBytes = decodePassword(passwordText);
+        try {
+          const profile = await decryptRecord(record, passwordBytes, username);
+          return { profile, record };
+        } finally {
+          passwordBytes.fill(0);
+        }
+      };
+
+      const showGate = (tab = 'login', message = '') => {
+        session = null;
+        renderSession();
+        setAccessTab(tab);
+        setMessage(ui.gateMessage, message);
+      };
+
+      const generatePassword = () => {
+        clearPendingPassword();
+        pendingPasswordBytes = randomBytes(32);
+        const password = `${PASSWORD_PREFIX}${toBase64Url(pendingPasswordBytes)}`;
+        ui.generatedPassword.value = password;
+        ui.passwordBox.hidden = false;
+        ui.passwordSaved.checked = false;
+        ui.createSubmit.disabled = true;
+        pendingPasswordTimer = window.setTimeout(() => {
+          clearPendingPassword();
+          setMessage(ui.gateMessage, 'Unactivated generated password expired from memory. Generate a new one.', 'error');
+        }, PENDING_PASSWORD_LIFETIME);
+        setMessage(ui.gateMessage, 'Secure 256-bit password generated locally. Save it before creating the account.', 'success');
+      };
+
+      const copyText = async value => {
+        try {
+          await navigator.clipboard.writeText(value);
+          return true;
+        } catch {
+          const helper = document.createElement('textarea');
+          helper.value = value;
+          helper.setAttribute('readonly', '');
+          helper.style.position = 'fixed';
+          helper.style.opacity = '0';
+          document.body.appendChild(helper);
+          helper.select();
+          const copied = document.execCommand('copy');
+          helper.remove();
+          return copied;
+        }
+      };
+
+      ui.loginTab?.addEventListener('click', () => setAccessTab('login'));
+      ui.createTab?.addEventListener('click', () => setAccessTab('create'));
+
+      ui.loginToggle?.addEventListener('click', () => {
+        const reveal = ui.loginPassword.type === 'password';
+        ui.loginPassword.type = reveal ? 'text' : 'password';
+        ui.loginToggle.textContent = reveal ? 'Hide' : 'Show';
+        ui.loginToggle.setAttribute('aria-pressed', String(reveal));
+      });
+
+      ui.loginForm?.addEventListener('submit', async event => {
+        event.preventDefault();
+        ui.loginSubmit.disabled = true;
+        setMessage(ui.gateMessage, 'Decrypting isolated account container…');
+        try {
+          if (failedLogins) await new Promise(resolve => window.setTimeout(resolve, Math.min(3000, failedLogins * 550)));
+          session = await authenticate(ui.loginUsername.value, ui.loginPassword.value);
+          failedLogins = 0;
+          ui.loginForm.reset();
+          ui.loginPassword.type = 'password';
+          ui.loginToggle.textContent = 'Show';
+          ui.loginToggle.setAttribute('aria-pressed', 'false');
+          renderSession();
+          setMessage(ui.manageMessage, 'Local authentication successful. Password discarded from the form and not retained.', 'success');
+        } catch (error) {
+          failedLogins += 1;
+          const message = error?.name === 'OperationError' ? 'Incorrect password or damaged encrypted account.' : (error?.message || 'Local login failed.');
+          setMessage(ui.gateMessage, message, 'error');
+          ui.loginPassword.value = '';
+          ui.loginPassword.focus();
+        } finally {
+          ui.loginSubmit.disabled = false;
+        }
+      });
+
+      ui.generatePassword?.addEventListener('click', generatePassword);
+      ui.regeneratePassword?.addEventListener('click', generatePassword);
+      ui.passwordSaved?.addEventListener('change', () => {
+        ui.createSubmit.disabled = !(ui.passwordSaved.checked && pendingPasswordBytes);
+      });
+      ui.copyPassword?.addEventListener('click', async () => {
+        const copied = await copyText(ui.generatedPassword.value);
+        setMessage(ui.gateMessage, copied ? 'Password copied to the system clipboard. Store it securely.' : 'Clipboard access was blocked. Select and copy the password manually.', copied ? 'success' : 'error');
+      });
+
+      ui.createForm?.addEventListener('submit', async event => {
+        event.preventDefault();
+        const username = displayUsername(ui.createUsername.value);
+        if (!validUsername(username)) return setMessage(ui.gateMessage, 'Username must be 3–24 letters, numbers, underscores, or hyphens.', 'error');
+        if (!pendingPasswordBytes || !ui.passwordSaved.checked) return setMessage(ui.gateMessage, 'Generate and save the password before creating the account.', 'error');
+        ui.createSubmit.disabled = true;
+        setMessage(ui.gateMessage, 'Encrypting isolated local account container…');
+        let secretCopy = null;
+        try {
+          secretCopy = pendingPasswordBytes.slice();
+          const created = await createRecord(username, secretCopy);
+          try { await navigator.storage?.persist?.(); } catch { /* persistence requests are best-effort */ }
+          session = created;
+          clearPendingPassword();
+          ui.createForm.reset();
+          renderSession();
+          setMessage(ui.manageMessage, 'Account created and authenticated. The generated password is not stored by the site.', 'success');
+        } catch (error) {
+          setMessage(ui.gateMessage, error?.message || 'Could not create the encrypted local account.', 'error');
+          ui.createSubmit.disabled = !(ui.passwordSaved.checked && pendingPasswordBytes);
+        } finally {
+          secretCopy?.fill(0);
+        }
+      });
+
+      ui.chip?.addEventListener('click', event => {
+        if (!session) {
+          event.preventDefault();
+          showGate('login');
+        }
+      });
+
+      ui.logout?.addEventListener('click', () => {
+        setMessage(ui.manageMessage);
+        showGate('login', 'Logged out. The decrypted session was discarded.');
+      });
+
+      ui.deleteStart?.addEventListener('click', () => {
+        if (!session) return;
+        ui.deletePanel.hidden = false;
+        ui.deleteForm.reset();
+        ui.deleteUsername.focus();
+        setMessage(ui.manageMessage, 'Re-enter the exact username and password to authorize permanent deletion.', 'error');
+      });
+
+      ui.deleteCancel?.addEventListener('click', () => {
+        ui.deletePanel.hidden = true;
+        ui.deleteForm.reset();
+        setMessage(ui.manageMessage, 'Account deletion cancelled.');
+      });
+
+      ui.deleteForm?.addEventListener('submit', async event => {
+        event.preventDefault();
+        if (!session) return;
+        const expected = session.profile.username;
+        if (displayUsername(ui.deleteUsername.value) !== expected) {
+          return setMessage(ui.manageMessage, 'Username does not exactly match the active account.', 'error');
+        }
+        setMessage(ui.manageMessage, 'Verifying password and deleting encrypted account…');
+        try {
+          const verified = await authenticate(ui.deleteUsername.value, ui.deletePassword.value);
+          if (verified.record.usernameHash !== session.record.usernameHash) throw new Error('Deletion identity validation failed.');
+          await removeRecord(session.record.usernameHash);
+          session = null;
+          ui.deleteForm.reset();
+          ui.deletePanel.hidden = true;
+          showGate('create', 'Account permanently deleted from this browser profile.');
+        } catch (error) {
+          const message = error?.name === 'OperationError' ? 'Incorrect password. Account was not deleted.' : (error?.message || 'Account deletion failed.');
+          setMessage(ui.manageMessage, message, 'error');
+          ui.deletePassword.value = '';
+        }
+      });
+
+      window.addEventListener('pagehide', () => {
+        session = null;
+        clearPendingPassword();
+      });
+
+      const eraseLegacySystem = () => {
+        try { localStorage.removeItem(OLD_FALLBACK_KEY); } catch { /* storage may be disabled */ }
+        try { indexedDB.deleteDatabase(OLD_DB_NAME); } catch { /* IndexedDB may be disabled */ }
+      };
+
+      const initialize = async () => {
+        eraseLegacySystem();
+        renderSession();
+        if (!window.crypto?.subtle || !window.crypto?.getRandomValues || !window.indexedDB) {
+          [ui.loginSubmit, ui.generatePassword, ui.createSubmit].forEach(button => { if (button) button.disabled = true; });
+          setMessage(ui.gateMessage, 'This browser does not provide the Web Crypto and IndexedDB features required for secure local accounts.', 'error');
+          return;
+        }
+        try {
+          const total = await countRecords();
+          if (total > 0) {
+            setAccessTab('login');
+            setMessage(ui.gateMessage, `${total} encrypted local account${total === 1 ? '' : 's'} detected in this browser profile.`, 'success');
+          } else {
+            setAccessTab('create');
+            setMessage(ui.gateMessage, 'No local account exists yet. Choose a username and generate a password.');
+          }
+        } catch (error) {
+          [ui.loginSubmit, ui.generatePassword, ui.createSubmit].forEach(button => { if (button) button.disabled = true; });
+          setMessage(ui.gateMessage, error?.message || 'Encrypted local storage is unavailable.', 'error');
+        }
+      };
+
+      initialize();
+    })();
+  </script>
+
+
 
 </body>
 </html>
