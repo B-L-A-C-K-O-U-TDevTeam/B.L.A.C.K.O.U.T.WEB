@@ -3,24 +3,38 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="B.L.A.C.K.O.U.T. is a single-player tactical FPS blending 1970s Cold War aesthetics, retro-futuristic science fiction, and survival horror.">
+
+  <meta
+    name="description"
+    content="B.L.A.C.K.O.U.T. is a single-player tactical FPS combining 1970s Cold War paranoia, retro-futuristic science fiction, and survival horror."
+  >
+
   <meta name="theme-color" content="#11120e">
+
   <title>B.L.A.C.K.O.U.T. — Classified Project Dossier</title>
 
   <style>
     :root {
       --black: #11120e;
+      --black-soft: #1b1c16;
       --paper: #d7cdb2;
       --paper-light: #eee6d0;
+      --paper-dark: #b6aa89;
       --ink: #181914;
       --ink-soft: #4e4e40;
+      --olive: #46503a;
       --olive-dark: #2b3325;
       --red: #872d26;
       --red-dark: #5d1e1a;
-      --rule: rgba(24, 25, 20, .28);
+      --rule: rgba(24, 25, 20, 0.28);
       --max: 1160px;
       --mono: "Courier New", Courier, monospace;
-      --condensed: "Arial Narrow", "Roboto Condensed", "Segoe UI", Arial, sans-serif;
+      --condensed:
+        "Arial Narrow",
+        "Roboto Condensed",
+        "Segoe UI",
+        Arial,
+        sans-serif;
     }
 
     * {
@@ -29,23 +43,27 @@
 
     html {
       scroll-behavior: smooth;
-      scroll-padding-top: 112px;
+      scroll-padding-top: 120px;
     }
 
     body {
       margin: 0;
       color: var(--paper-light);
       background:
-        radial-gradient(circle at 12% 8%, rgba(100, 108, 77, .12), transparent 27rem),
+        radial-gradient(
+          circle at 12% 8%,
+          rgba(100, 108, 77, 0.12),
+          transparent 27rem
+        ),
         repeating-linear-gradient(
           90deg,
           transparent 0 79px,
-          rgba(255, 255, 255, .018) 79px 80px
+          rgba(255, 255, 255, 0.018) 79px 80px
         ),
         repeating-linear-gradient(
           0deg,
           transparent 0 79px,
-          rgba(255, 255, 255, .018) 79px 80px
+          rgba(255, 255, 255, 0.018) 79px 80px
         ),
         var(--black);
       font-family: var(--condensed);
@@ -59,16 +77,31 @@
       inset: 0;
       z-index: 50;
       pointer-events: none;
-      opacity: .035;
+      opacity: 0.035;
       background-image:
-        radial-gradient(circle at 15% 20%, #fff 0 1px, transparent 1.5px),
-        radial-gradient(circle at 72% 63%, #fff 0 1px, transparent 1.5px);
+        radial-gradient(
+          circle at 15% 20%,
+          #fff 0 1px,
+          transparent 1.5px
+        ),
+        radial-gradient(
+          circle at 72% 63%,
+          #fff 0 1px,
+          transparent 1.5px
+        );
       background-size: 163px 181px, 211px 237px;
     }
 
     a {
       color: inherit;
       text-decoration: none;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
     }
 
     .skip-link {
@@ -80,7 +113,7 @@
       color: var(--ink);
       background: var(--paper-light);
       border: 2px solid var(--ink);
-      font: 700 .75rem var(--mono);
+      font: 700 0.75rem var(--mono);
       text-transform: uppercase;
     }
 
@@ -96,11 +129,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 0 10px;
       color: #f0dfd3;
       background: var(--red-dark);
-      border-bottom: 1px solid rgba(255, 255, 255, .2);
-      font: 700 .64rem var(--mono);
-      letter-spacing: .2em;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      font: 700 0.64rem var(--mono);
+      letter-spacing: 0.2em;
+      text-align: center;
       text-transform: uppercase;
     }
 
@@ -109,8 +144,8 @@
       inset: 28px 0 auto;
       z-index: 35;
       color: var(--paper-light);
-      background: rgba(17, 18, 14, .94);
-      border-bottom: 1px solid rgba(215, 205, 178, .22);
+      background: rgba(17, 18, 14, 0.94);
+      border-bottom: 1px solid rgba(215, 205, 178, 0.22);
       backdrop-filter: blur(12px);
     }
 
@@ -127,8 +162,8 @@
     .brand {
       flex: 0 0 auto;
       font-weight: 950;
-      font-size: .9rem;
-      letter-spacing: .22em;
+      font-size: 0.9rem;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
     }
 
@@ -152,21 +187,21 @@
       padding: 8px 9px;
       color: #bdb79f;
       border: 1px solid transparent;
-      font: 700 .61rem var(--mono);
-      letter-spacing: .12em;
+      font: 700 0.61rem var(--mono);
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       white-space: nowrap;
       transition:
-        color .2s ease,
-        border-color .2s ease,
-        background .2s ease;
+        color 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
     }
 
     .nav-links a:hover,
     .nav-links a:focus-visible {
       color: var(--paper-light);
-      background: rgba(215, 205, 178, .06);
-      border-color: rgba(215, 205, 178, .25);
+      background: rgba(215, 205, 178, 0.06);
+      border-color: rgba(215, 205, 178, 0.25);
       outline: none;
     }
 
@@ -185,21 +220,21 @@
       background:
         linear-gradient(
           90deg,
-          rgba(65, 53, 30, .055),
+          rgba(65, 53, 30, 0.055),
           transparent 14%,
           transparent 86%,
-          rgba(65, 53, 30, .055)
+          rgba(65, 53, 30, 0.055)
         ),
         repeating-linear-gradient(
           0deg,
-          rgba(46, 42, 29, .018) 0 1px,
+          rgba(46, 42, 29, 0.018) 0 1px,
           transparent 1px 4px
         ),
         var(--paper);
       border: 1px solid #8e846a;
       box-shadow:
-        0 24px 70px rgba(0, 0, 0, .42),
-        inset 0 0 65px rgba(79, 65, 34, .11);
+        0 24px 70px rgba(0, 0, 0, 0.42),
+        inset 0 0 65px rgba(79, 65, 34, 0.11);
     }
 
     .dossier-page::before,
@@ -212,7 +247,7 @@
 
     .dossier-page::before {
       inset: 10px;
-      border: 1px solid rgba(24, 25, 20, .18);
+      border: 1px solid rgba(24, 25, 20, 0.18);
     }
 
     .dossier-page::after {
@@ -220,10 +255,10 @@
       left: 48px;
       width: 90px;
       height: 20px;
-      opacity: .16;
+      opacity: 0.16;
       transform: rotate(-2deg);
-      background: rgba(255, 249, 218, .85);
-      box-shadow: 0 1px 2px rgba(0, 0, 0, .18);
+      background: rgba(255, 249, 218, 0.85);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
     }
 
     .cover {
@@ -249,12 +284,12 @@
       gap: 18px;
       padding-bottom: 13px;
       border-bottom: 3px double var(--ink);
-      font-size: .68rem;
+      font-size: 0.68rem;
       font-weight: 700;
-      letter-spacing: .14em;
+      letter-spacing: 0.14em;
     }
 
-    .file-header .clearance {
+    .clearance {
       padding: 4px 8px;
       color: var(--paper-light);
       background: var(--red);
@@ -263,7 +298,7 @@
 
     .cover-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.45fr) minmax(260px, .55fr);
+      grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.55fr);
       gap: clamp(34px, 7vw, 90px);
       align-items: center;
       padding: clamp(48px, 9vw, 116px) 0 52px;
@@ -272,24 +307,17 @@
     .overline {
       margin-bottom: 15px;
       color: var(--red-dark);
-      font: 700 .72rem var(--mono);
-      letter-spacing: .2em;
+      font: 700 0.72rem var(--mono);
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-    }
-
-    h1,
-    h2,
-    h3,
-    p {
-      margin-top: 0;
     }
 
     h1 {
       max-width: 820px;
       margin-bottom: 24px;
       font-size: clamp(3rem, 9vw, 7.5rem);
-      line-height: .86;
-      letter-spacing: -.055em;
+      line-height: 0.86;
+      letter-spacing: -0.055em;
       text-transform: uppercase;
     }
 
@@ -315,7 +343,7 @@
       flex-direction: column;
       justify-content: space-between;
       border: 2px solid var(--ink);
-      background: rgba(238, 230, 208, .35);
+      background: rgba(238, 230, 208, 0.35);
     }
 
     .stamp-box::before {
@@ -327,16 +355,16 @@
       color: var(--red);
       border: 5px double var(--red);
       font: 900 clamp(1.35rem, 3vw, 2.15rem) var(--condensed);
-      letter-spacing: .08em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       transform: translate(-50%, -50%) rotate(-10deg);
-      opacity: .88;
+      opacity: 0.88;
     }
 
     .seal-title {
       font-weight: 900;
       font-size: 1.2rem;
-      letter-spacing: .08em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
@@ -350,8 +378,8 @@
     .stamp-box dt,
     .fact-sheet dt {
       color: var(--ink-soft);
-      font: 700 .61rem var(--mono);
-      letter-spacing: .12em;
+      font: 700 0.61rem var(--mono);
+      letter-spacing: 0.12em;
       text-transform: uppercase;
     }
 
@@ -378,13 +406,13 @@
       color: var(--paper-light);
       background: var(--ink);
       border: 2px solid var(--ink);
-      font: 700 .66rem var(--mono);
-      letter-spacing: .12em;
+      font: 700 0.66rem var(--mono);
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       transition:
-        transform .2s ease,
-        color .2s ease,
-        background .2s ease;
+        transform 0.2s ease,
+        color 0.2s ease,
+        background 0.2s ease;
     }
 
     .document-button.secondary {
@@ -408,9 +436,9 @@
       padding-top: 14px;
       border-top: 1px solid var(--ink);
       color: var(--ink-soft);
-      font-size: .64rem;
+      font-size: 0.64rem;
       font-weight: 700;
-      letter-spacing: .12em;
+      letter-spacing: 0.12em;
     }
 
     .page-heading {
@@ -425,15 +453,15 @@
 
     .file-number {
       color: var(--red-dark);
-      font-size: .68rem;
+      font-size: 0.68rem;
       font-weight: 700;
-      letter-spacing: .12em;
+      letter-spacing: 0.12em;
     }
 
     .page-heading h2 {
       margin: 0;
-      font: 950 clamp(2rem, 5vw, 4.4rem)/.95 var(--condensed);
-      letter-spacing: -.035em;
+      font: 950 clamp(2rem, 5vw, 4.4rem) / 0.95 var(--condensed);
+      letter-spacing: -0.035em;
       text-transform: uppercase;
     }
 
@@ -441,50 +469,46 @@
       max-width: 680px;
       margin: 13px 0 0;
       color: var(--ink-soft);
-      font: 400 .8rem/1.6 var(--mono);
+      font: 400 0.8rem/1.6 var(--mono);
       text-transform: none;
     }
 
-    .briefing-grid {
+    .briefing-grid,
+    .story-synopsis {
       display: grid;
-      grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr);
+      grid-template-columns: minmax(0, 1.35fr) minmax(270px, 0.65fr);
       gap: clamp(34px, 7vw, 84px);
       align-items: start;
     }
 
     .lead-copy {
       font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(1.15rem, 2.25vw, 1.55rem);
-      line-height: 1.62;
+      font-size: clamp(1.1rem, 2.1vw, 1.45rem);
+      line-height: 1.65;
     }
 
     .lead-copy p:first-child::first-letter {
       float: left;
-      margin: .1em .12em 0 0;
+      margin: 0.1em 0.12em 0 0;
       color: var(--red-dark);
-      font: 700 3.2em/.72 Georgia, serif;
+      font: 700 3.2em/0.72 Georgia, serif;
     }
 
-    .redacted-line {
-      display: inline-block;
-      width: 7.8em;
-      height: .82em;
-      vertical-align: -.08em;
-      background: var(--ink);
-    }
-
-    .fact-sheet {
+    .fact-sheet,
+    .biology-note {
       padding: 24px;
       border: 2px solid var(--ink);
-      background: rgba(238, 230, 208, .32);
+      background: rgba(238, 230, 208, 0.32);
     }
 
-    .fact-sheet .label {
-      margin-bottom: 18px;
+    .fact-sheet .label,
+    .biology-note h3 {
+      margin: 0 0 18px;
       padding-bottom: 9px;
+      color: var(--red-dark);
       border-bottom: 1px solid var(--ink);
-      font: 800 .72rem var(--mono);
-      letter-spacing: .14em;
+      font: 800 0.72rem var(--mono);
+      letter-spacing: 0.14em;
       text-transform: uppercase;
     }
 
@@ -505,10 +529,10 @@
       padding: 25px 22px;
       border-right: 2px solid var(--ink);
       border-bottom: 2px solid var(--ink);
-      background: rgba(238, 230, 208, .16);
+      background: rgba(238, 230, 208, 0.16);
       transition:
-        color .22s ease,
-        background .22s ease;
+        color 0.22s ease,
+        background 0.22s ease;
     }
 
     .feature-card:hover {
@@ -518,65 +542,91 @@
 
     .feature-index {
       color: var(--red-dark);
-      font: 800 .68rem var(--mono);
-      letter-spacing: .16em;
+      font: 800 0.68rem var(--mono);
+      letter-spacing: 0.16em;
     }
 
     .feature-card h3 {
-      margin: 45px 0 11px;
+      margin: 42px 0 11px;
       font-size: 1rem;
       line-height: 1.2;
-      letter-spacing: .06em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
     }
 
     .feature-card p {
       margin: 0;
       color: var(--ink-soft);
-      font: 400 .78rem/1.55 var(--mono);
+      font: 400 0.78rem/1.55 var(--mono);
     }
 
     .feature-card:hover p {
       color: #cbc7b6;
     }
 
-    .incident-log {
-      position: relative;
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+    .story-synopsis {
+      margin-bottom: 46px;
     }
 
-    .incident-log::before {
-      content: "";
+    .story-copy {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1rem, 1.7vw, 1.18rem);
+      line-height: 1.76;
+    }
+
+    .biology-note ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .biology-note li {
+      position: relative;
+      padding: 11px 0 11px 19px;
+      border-bottom: 1px dotted var(--rule);
+      font: 700 0.72rem/1.55 var(--mono);
+      text-transform: uppercase;
+    }
+
+    .biology-note li::before {
+      content: "■";
       position: absolute;
       left: 0;
-      right: 0;
-      top: 20px;
-      height: 2px;
-      background: var(--ink);
+      color: var(--red-dark);
+      font-size: 0.55rem;
+    }
+
+    .incident-log {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
     }
 
     .incident-entry {
       position: relative;
-      padding: 52px 28px 0 0;
+      min-height: 215px;
+      padding: 26px 23px 22px;
+      border: 1px solid var(--ink);
+      border-top: 6px solid var(--ink);
+      background: rgba(238, 230, 208, 0.2);
     }
 
     .incident-entry::before {
       content: "";
       position: absolute;
-      top: 13px;
-      left: 0;
-      width: 13px;
-      height: 13px;
-      background: var(--paper);
-      border: 4px solid var(--red-dark);
+      top: -9px;
+      right: 18px;
+      width: 11px;
+      height: 11px;
+      background: var(--red-dark);
+      border: 3px solid var(--paper);
       border-radius: 50%;
     }
 
     .phase {
       color: var(--red-dark);
-      font: 800 .66rem var(--mono);
-      letter-spacing: .14em;
+      font: 800 0.66rem var(--mono);
+      letter-spacing: 0.14em;
       text-transform: uppercase;
     }
 
@@ -588,7 +638,79 @@
 
     .incident-entry p {
       color: var(--ink-soft);
-      font: 400 .8rem/1.62 var(--mono);
+      font: 400 0.8rem/1.62 var(--mono);
+    }
+
+    .log-stack {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .research-log {
+      padding: 27px;
+      border: 2px solid var(--ink);
+      background:
+        repeating-linear-gradient(
+          0deg,
+          transparent 0 27px,
+          rgba(24, 25, 20, 0.08) 27px 28px
+        ),
+        rgba(238, 230, 208, 0.28);
+    }
+
+    .research-log:last-child {
+      grid-column: 1 / -1;
+    }
+
+    .log-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--ink);
+      font-family: var(--mono);
+      text-transform: uppercase;
+    }
+
+    .log-number {
+      color: var(--red-dark);
+      font-size: 0.76rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+    }
+
+    .log-status {
+      color: var(--ink-soft);
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-align: right;
+    }
+
+    .research-log blockquote {
+      margin: 0;
+      color: #28291f;
+      font: 400 1rem/1.73 Georgia, "Times New Roman", serif;
+    }
+
+    .research-log blockquote::before {
+      content: "TRANSCRIPT // ";
+      color: var(--red-dark);
+      font: 800 0.62rem var(--mono);
+      letter-spacing: 0.1em;
+    }
+
+    .log-outcome {
+      margin: 20px 0 0;
+      padding: 10px 12px;
+      color: var(--paper-light);
+      background: var(--red-dark);
+      font: 700 0.62rem/1.5 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .operations-grid {
@@ -602,8 +724,8 @@
       padding: 9px 12px;
       color: var(--paper-light);
       background: var(--ink);
-      font: 800 .72rem var(--mono);
-      letter-spacing: .14em;
+      font: 800 0.72rem var(--mono);
+      letter-spacing: 0.14em;
       text-transform: uppercase;
     }
 
@@ -624,15 +746,15 @@
       padding: 15px 4px;
       border-bottom: 1px solid var(--rule);
       font-weight: 850;
-      letter-spacing: .04em;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
     }
 
     .location-list span,
     .pillar-list span {
       color: var(--red-dark);
-      font: 700 .61rem var(--mono);
-      letter-spacing: .08em;
+      font: 700 0.61rem var(--mono);
+      letter-spacing: 0.08em;
       white-space: nowrap;
     }
 
@@ -643,11 +765,11 @@
         repeating-linear-gradient(
           0deg,
           transparent 0 3px,
-          rgba(255, 255, 255, .025) 3px 4px
+          rgba(255, 255, 255, 0.025) 3px 4px
         ),
         var(--olive-dark);
       border: 5px double var(--ink);
-      box-shadow: inset 0 0 65px rgba(0, 0, 0, .5);
+      box-shadow: inset 0 0 65px rgba(0, 0, 0, 0.5);
     }
 
     .console-heading {
@@ -656,13 +778,13 @@
       gap: 18px;
       padding-bottom: 12px;
       color: #aaa992;
-      border-bottom: 1px solid rgba(216, 214, 194, .3);
-      font-size: .66rem;
+      border-bottom: 1px solid rgba(216, 214, 194, 0.3);
+      font-size: 0.66rem;
       font-weight: 700;
-      letter-spacing: .14em;
+      letter-spacing: 0.14em;
     }
 
-    .console-heading .live::before {
+    .live::before {
       content: "";
       display: inline-block;
       width: 7px;
@@ -670,7 +792,7 @@
       margin-right: 7px;
       background: #b44b3d;
       border-radius: 50%;
-      box-shadow: 0 0 10px rgba(180, 75, 61, .8);
+      box-shadow: 0 0 10px rgba(180, 75, 61, 0.8);
       animation: pulse 1s steps(1, end) infinite;
     }
 
@@ -686,23 +808,23 @@
       padding: 22px 10px 17px;
       text-align: center;
       background: #12150f;
-      border: 1px solid rgba(216, 214, 194, .28);
-      box-shadow: inset 0 0 20px rgba(0, 0, 0, .7);
+      border: 1px solid rgba(216, 214, 194, 0.28);
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.7);
     }
 
     .time-unit strong {
       display: block;
       color: #e4dfc6;
-      font: 700 clamp(2rem, 6vw, 5rem)/1 var(--mono);
-      letter-spacing: -.08em;
+      font: 700 clamp(2rem, 6vw, 5rem) / 1 var(--mono);
+      letter-spacing: -0.08em;
     }
 
     .time-unit span {
       display: block;
       margin-top: 10px;
       color: #888976;
-      font: 700 .61rem var(--mono);
-      letter-spacing: .15em;
+      font: 700 0.61rem var(--mono);
+      letter-spacing: 0.15em;
       text-transform: uppercase;
     }
 
@@ -711,8 +833,8 @@
       justify-content: space-between;
       gap: 24px;
       color: #aaa992;
-      font-size: .65rem;
-      letter-spacing: .1em;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
     }
 
     .release-note b {
@@ -729,15 +851,15 @@
       min-height: 155px;
       padding: 22px;
       border: 2px solid var(--ink);
-      background: rgba(238, 230, 208, .18);
+      background: rgba(238, 230, 208, 0.18);
     }
 
     .status-card span {
       display: block;
       margin-bottom: 30px;
       color: var(--red-dark);
-      font: 800 .63rem var(--mono);
-      letter-spacing: .14em;
+      font: 800 0.63rem var(--mono);
+      letter-spacing: 0.14em;
       text-transform: uppercase;
     }
 
@@ -753,8 +875,8 @@
       margin: 34px 0 0;
       padding: 20px 22px;
       border-left: 6px solid var(--red-dark);
-      background: rgba(238, 230, 208, .24);
-      font: 400 .86rem/1.7 var(--mono);
+      background: rgba(238, 230, 208, 0.24);
+      font: 400 0.86rem/1.7 var(--mono);
     }
 
     .site-footer {
@@ -765,13 +887,13 @@
       justify-content: space-between;
       gap: 30px;
       color: #8f8c79;
-      border-top: 1px solid rgba(215, 205, 178, .2);
-      font: 400 .68rem/1.7 var(--mono);
+      border-top: 1px solid rgba(215, 205, 178, 0.2);
+      font: 400 0.68rem/1.7 var(--mono);
     }
 
     .site-footer strong {
       color: var(--paper-light);
-      letter-spacing: .12em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
     }
 
@@ -784,8 +906,8 @@
       opacity: 0;
       transform: translateY(18px);
       transition:
-        opacity .55s ease,
-        transform .55s ease;
+        opacity 0.55s ease,
+        transform 0.55s ease;
     }
 
     .reveal.visible {
@@ -795,13 +917,14 @@
 
     @keyframes pulse {
       50% {
-        opacity: .35;
+        opacity: 0.35;
       }
     }
 
     @media (max-width: 930px) {
       .cover-grid,
       .briefing-grid,
+      .story-synopsis,
       .operations-grid {
         grid-template-columns: 1fr;
       }
@@ -812,19 +935,6 @@
 
       .incident-log {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        row-gap: 34px;
-      }
-
-      .incident-log::before {
-        display: none;
-      }
-
-      .incident-entry {
-        padding-top: 38px;
-      }
-
-      .incident-entry::before {
-        top: 0;
       }
 
       .status-grid {
@@ -834,13 +944,13 @@
 
     @media (max-width: 720px) {
       html {
-        scroll-padding-top: 136px;
+        scroll-padding-top: 140px;
       }
 
       .classification-bar {
         height: 24px;
-        font-size: .52rem;
-        letter-spacing: .12em;
+        font-size: 0.52rem;
+        letter-spacing: 0.1em;
       }
 
       .site-header {
@@ -856,10 +966,6 @@
       .brand {
         display: block;
         margin-bottom: 5px;
-      }
-
-      .nav-links {
-        width: 100%;
       }
 
       main {
@@ -883,8 +989,13 @@
       }
 
       .features-grid,
-      .incident-log {
+      .incident-log,
+      .log-stack {
         grid-template-columns: 1fr;
+      }
+
+      .research-log:last-child {
+        grid-column: auto;
       }
 
       .countdown {
@@ -909,6 +1020,10 @@
       .countdown {
         gap: 7px;
       }
+
+      .time-unit {
+        padding: 18px 6px 14px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -920,7 +1035,7 @@
       *::before,
       *::after {
         animation: none !important;
-        transition-duration: .01ms !important;
+        transition-duration: 0.01ms !important;
       }
 
       .reveal {
@@ -932,7 +1047,9 @@
 </head>
 
 <body id="top">
-  <a class="skip-link" href="#main-content">Skip to dossier</a>
+  <a class="skip-link" href="#main-content">
+    Skip to dossier
+  </a>
 
   <div class="classification-bar">
     Top Secret // B.L.A.C.K.O.U.T. Unit // Eyes Only
@@ -948,6 +1065,7 @@
         <a href="#briefing">Briefing</a>
         <a href="#features">Features</a>
         <a href="#story">Story</a>
+        <a href="#logs">Logs</a>
         <a href="#operations">Operations</a>
         <a href="#release">Release</a>
         <a href="#status">Status</a>
@@ -976,7 +1094,7 @@
           <p class="cover-subtitle">
             A single-player tactical first-person shooter where
             1970s Cold War paranoia collides with retro-futuristic
-            science fiction and survival horror.
+            science fiction, biological terror, and survival horror.
           </p>
 
           <div class="document-actions">
@@ -984,19 +1102,29 @@
               Open the file
             </a>
 
-            <a class="document-button secondary" href="#release">
+            <a
+              class="document-button secondary"
+              href="#release"
+            >
               View release clock
             </a>
           </div>
         </div>
 
         <aside class="stamp-box">
-          <div class="seal-title">B.L.A.C.K.O.U.T. Unit</div>
+          <div class="seal-title">
+            B.L.A.C.K.O.U.T. Unit
+          </div>
 
           <dl>
             <div>
               <dt>Document type</dt>
               <dd>Operational dossier</dd>
+            </div>
+
+            <div>
+              <dt>Threat designation</dt>
+              <dd>Morticaius</dd>
             </div>
 
             <div>
@@ -1018,16 +1146,21 @@
       </div>
     </section>
 
-    <section class="dossier-page reveal" id="briefing">
+    <section
+      class="dossier-page reveal"
+      id="briefing"
+    >
       <header class="page-heading">
-        <div class="file-number">FILE 01 / 06</div>
+        <div class="file-number">
+          FILE 01 / 07
+        </div>
 
         <div>
           <h2>Situation Report</h2>
 
           <p class="heading-note">
-            Summary of the containment crisis, player role,
-            and primary mission mandate.
+            Summary of the Morticaius outbreak and the
+            B.L.A.C.K.O.U.T. Unit's primary directive.
           </p>
         </div>
       </header>
@@ -1035,53 +1168,106 @@
       <div class="briefing-grid">
         <div class="lead-copy">
           <p>
-            Following the discovery of an ancient civilization beneath
-            the ocean, an unknown biological organism known as Morticaius
-            escapes containment and begins transforming living creatures
-            into adaptive predators.
+            During the height of the 1970s Cold War, an expedition
+            discovers the remains of an ancient civilization beneath
+            the ocean surrounding the corpse of an unidentified
+            lifeform.
           </p>
 
           <p>
-            You are the newest member of the elite B.L.A.C.K.O.U.T. Unit.
-            Working alongside story-driven AI squadmates, you must contain
-            the outbreak, rescue survivors, recover critical research, and
-            uncover the truth behind what was found beneath the sea.
+            The specimen is recovered and transported to a secure
+            government laboratory. Researchers discover that its body
+            is being consumed, mutated, and biologically rebuilt by an
+            unknown disease temporarily designated Morticaius.
           </p>
 
           <p>
-            Every deployment pushes the unit deeper into a world of
-            <span class="redacted-line" aria-label="redacted"></span>
-            Cold War secrecy, collapsing facilities, and biological threats
-            capable of rebuilding themselves from only a handful of
-            surviving cells.
+            Microscopic Morticaius colonies spread through ventilation
+            systems, drainage pipes, laboratory equipment, contaminated
+            surfaces, animals, and isolated personnel. Emergency
+            lockdowns fail until only Lab 19 remains operational.
+          </p>
+
+          <p>
+            The United States establishes the B.L.A.C.K.O.U.T. Unit:
+            a small, underfunded team of elite operatives ordered to
+            eliminate infected threats, rescue survivors, recover
+            research, and develop a cure.
+          </p>
+
+          <p>
+            You are the unit's newest operative. Alongside story-driven
+            AI squadmates, you are deployed to Lab 19 after its captured
+            human specimen breaches containment and all communication
+            with the facility collapses.
           </p>
         </div>
 
         <aside class="fact-sheet">
-          <div class="label">Project Identification</div>
+          <div class="label">
+            Project Identification
+          </div>
 
           <dl>
-            <div><dt>Format</dt><dd>Single player</dd></div>
-            <div><dt>Perspective</dt><dd>First person</dd></div>
-            <div><dt>Genre</dt><dd>Tactical horror FPS</dd></div>
-            <div><dt>Era</dt><dd>1970s Cold War</dd></div>
-            <div><dt>Threat</dt><dd>Morticaius organism</dd></div>
-            <div><dt>Support</dt><dd>AI squad companions</dd></div>
+            <div>
+              <dt>Format</dt>
+              <dd>Single player</dd>
+            </div>
+
+            <div>
+              <dt>Perspective</dt>
+              <dd>First person</dd>
+            </div>
+
+            <div>
+              <dt>Genre</dt>
+              <dd>Tactical horror FPS</dd>
+            </div>
+
+            <div>
+              <dt>Era</dt>
+              <dd>1970s Cold War</dd>
+            </div>
+
+            <div>
+              <dt>Threat</dt>
+              <dd>Morticaius disease</dd>
+            </div>
+
+            <div>
+              <dt>Last facility</dt>
+              <dd>Lab 19</dd>
+            </div>
+
+            <div>
+              <dt>Directive</dt>
+              <dd>Contain, rescue, cure</dd>
+            </div>
+
+            <div>
+              <dt>Support</dt>
+              <dd>AI squad companions</dd>
+            </div>
           </dl>
         </aside>
       </div>
     </section>
 
-    <section class="dossier-page reveal" id="features">
+    <section
+      class="dossier-page reveal"
+      id="features"
+    >
       <header class="page-heading">
-        <div class="file-number">FILE 02 / 06</div>
+        <div class="file-number">
+          FILE 02 / 07
+        </div>
 
         <div>
-          <h2>Core Features</h2>
+          <h2>Gameplay Systems</h2>
 
           <p class="heading-note">
-            The experience rewards preparation, controlled engagements,
-            squad coordination, and resource discipline.
+            Every system reinforces tactical decision-making,
+            investigation, survival, and the unit's limited resources.
           </p>
         </div>
       </header>
@@ -1089,64 +1275,71 @@
       <div class="features-grid">
         <article class="feature-card">
           <div class="feature-index">F-01</div>
-          <h3>Methodical Tactical Combat</h3>
+          <h3>Mission-Based Campaign</h3>
           <p>
-            Deliberate first-person gunplay built around positioning,
-            realistic weapon handling, planning, and controlled engagements.
+            Deploy on story-driven operations to contain outbreaks,
+            rescue survivors, recover research, and eliminate
+            high-value Morticaius targets.
           </p>
         </article>
 
         <article class="feature-card">
           <div class="feature-index">F-02</div>
-          <h3>AI Squad Companions</h3>
+          <h3>Unit Funding System</h3>
           <p>
-            Story-driven allies support coordinated assaults, containment
-            operations, research recovery, and survivor rescue missions.
+            Begin with minimal funding and outdated equipment.
+            Successful operations unlock weapons, vehicles,
+            facilities, technology, and additional support.
           </p>
         </article>
 
         <article class="feature-card">
           <div class="feature-index">F-03</div>
-          <h3>Cold War Science Fiction</h3>
+          <h3>Research Log System</h3>
           <p>
-            Authentic 1970s military influence is fused with experimental
-            equipment and grounded retro-futuristic technology.
+            Recover documents, recordings, and experiment logs
+            revealing Morticaius biology, the underwater
+            civilization, and the outbreak's true origin.
           </p>
         </article>
 
         <article class="feature-card">
           <div class="feature-index">F-04</div>
-          <h3>Adaptive Biological Threats</h3>
+          <h3>AI Squad Companions</h3>
           <p>
-            Morticaius creates evolving predators with regeneration rules,
-            tactical weak points, and changing combat behaviors.
+            Fight beside story-driven operatives with unique
+            personalities, dialogue, campaign development,
+            and specialized tactical roles.
           </p>
         </article>
 
         <article class="feature-card">
           <div class="feature-index">F-05</div>
-          <h3>Story-Driven Missions</h3>
+          <h3>Morticaius Biology</h3>
           <p>
-            Operations unfold across secure laboratories, military bases,
-            quarantined towns, and ancient underwater ruins.
+            Every enemy follows established cellular rules,
+            circulating living tissue throughout its body
+            to survive, regenerate, and rebuild.
           </p>
         </article>
 
         <article class="feature-card">
           <div class="feature-index">F-06</div>
-          <h3>Research Progression</h3>
+          <h3>Adaptive Evolution</h3>
           <p>
-            Recover classified research to understand the infection,
-            expose the buried truth, and advance the campaign.
+            New mutations develop different body structures,
+            behaviors, strengths, and weaknesses as the
+            infection spreads.
           </p>
         </article>
 
         <article class="feature-card">
           <div class="feature-index">F-07</div>
-          <h3>Funding and Equipment</h3>
+          <h3>Realistic Tactical Combat</h3>
           <p>
-            Successful missions provide funding for weapons, facilities,
-            squad equipment, and experimental technology.
+            Slow, deliberate gunplay emphasizes positioning,
+            communication, ammunition conservation, and survival
+            over constant action.
           </p>
         </article>
 
@@ -1154,75 +1347,382 @@
           <div class="feature-index">F-08</div>
           <h3>Resource Management</h3>
           <p>
-            Balance ammunition, medical supplies, squad readiness,
-            and mission risk before committing to each deployment.
+            Manage limited ammunition, medical supplies,
+            explosives, equipment, squad readiness,
+            and operational risk.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-index">F-09</div>
+          <h3>Investigation &amp; Exploration</h3>
+          <p>
+            Search laboratories, quarantined towns, military
+            installations, secret facilities, and underwater
+            ruins for evidence and optional discoveries.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-index">F-10</div>
+          <h3>Objective Variety</h3>
+          <p>
+            Complete containment, rescue, specimen recovery,
+            escort, intelligence gathering, facility reactivation,
+            and extermination objectives.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-index">F-11</div>
+          <h3>Retro-Futuristic Technology</h3>
+          <p>
+            Use classified scientific advancements fused with
+            authentic 1970s military weapons, vehicles,
+            equipment, and experimental technology.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-index">F-12</div>
+          <h3>Environmental Storytelling</h3>
+          <p>
+            Discover the outbreak through abandoned equipment,
+            failed experiments, emergency broadcasts,
+            ruined facilities, and survivor accounts.
           </p>
         </article>
       </div>
     </section>
 
-    <section class="dossier-page reveal" id="story">
+    <section
+      class="dossier-page reveal"
+      id="story"
+    >
       <header class="page-heading">
-        <div class="file-number">FILE 03 / 06</div>
+        <div class="file-number">
+          FILE 03 / 07
+        </div>
 
         <div>
           <h2>Incident History</h2>
 
           <p class="heading-note">
-            A discovery beneath the ocean becomes humanity's greatest
-            biological containment crisis.
+            A discovery beneath the ocean becomes humanity's
+            greatest biological containment crisis.
           </p>
         </div>
       </header>
 
+      <div class="story-synopsis">
+        <div class="story-copy">
+          <p>
+            During the height of the 1970s Cold War, an expedition
+            discovers the remains of an ancient underwater civilization
+            surrounding the corpse of an unidentified lifeform. The
+            specimen is recovered and transported to a secure government
+            laboratory, where scientists realize it is being consumed
+            and mutated by an unknown biological disease they temporarily
+            designate Morticaius.
+          </p>
+
+          <p>
+            Every Morticaius cell functions as skin, blood, and nerve
+            tissue simultaneously. A single cell can survive independently,
+            enter a living subject, consume it from within, and rebuild
+            the organism until nothing of the original host remains.
+          </p>
+
+          <p>
+            Researchers initially believe the mature creature depends
+            on a normal heart. They later discover that nearly its entire
+            interior is a living circulatory organ. This internal heart
+            mass contracts like a sponge to move billions of living cells
+            while a thick outer layer of muscle protects it.
+          </p>
+
+          <p>
+            Because the head contains less circulatory heart tissue,
+            damaging the head is generally less effective than causing
+            catastrophic damage to the creature's internal body.
+          </p>
+
+          <p>
+            After twelve captive specimens are destroyed, three surviving
+            cells infect a sheep and regenerate a complete organism within
+            one day. The discovery proves that apparent death does not
+            guarantee containment.
+          </p>
+
+          <p>
+            Microscopic colonies remain hidden inside ventilation shafts,
+            drainage pipes, laboratory equipment, and contaminated surfaces.
+            They consume animals, biological waste, and isolated personnel,
+            silently rebuilding until multiple laboratories are overrun.
+          </p>
+
+          <p>
+            Only Lab 19 continues transmitting. Its researchers report the
+            capture of a severely mutated human moments before the specimen
+            breaches containment. Communication collapses, and the newly
+            formed B.L.A.C.K.O.U.T. Unit is sent into its first operation.
+          </p>
+        </div>
+
+        <aside class="biology-note">
+          <h3>Confirmed Biology</h3>
+
+          <ul>
+            <li>
+              Cells perform skin, blood, and neural functions
+            </li>
+
+            <li>
+              One surviving cell may remain independently alive
+            </li>
+
+            <li>
+              Living hosts are consumed and biologically replaced
+            </li>
+
+            <li>
+              Most of the interior acts as a circulatory heart mass
+            </li>
+
+            <li>
+              Protective muscle surrounds the internal heart tissue
+            </li>
+
+            <li>
+              The head contains less vulnerable circulatory tissue
+            </li>
+
+            <li>
+              Heavy internal-body damage is generally most effective
+            </li>
+
+            <li>
+              Three cells survived the destruction of twelve specimens
+            </li>
+
+            <li>
+              Full host conversion may occur within twenty-four hours
+            </li>
+          </ul>
+        </aside>
+      </div>
+
       <div class="incident-log">
         <article class="incident-entry">
           <div class="phase">Phase 01</div>
-          <h3>The Discovery</h3>
+          <h3>The Underwater City</h3>
           <p>
-            An expedition locates the remains of an ancient underwater
-            civilization and recovers an unidentified lifeform.
+            An expedition discovers an underwater civilization
+            surrounding the corpse of an unknown being.
           </p>
         </article>
 
         <article class="incident-entry">
           <div class="phase">Phase 02</div>
-          <h3>Containment Failure</h3>
+          <h3>Specimen Recovery</h3>
           <p>
-            The Morticaius organism escapes study, consumes living hosts,
-            and spreads through secured research facilities.
+            The body is transported to a government laboratory,
+            where a disease is found consuming and mutating it.
           </p>
         </article>
 
         <article class="incident-entry">
           <div class="phase">Phase 03</div>
-          <h3>Unit Activation</h3>
+          <h3>Morticaius Named</h3>
           <p>
-            The B.L.A.C.K.O.U.T. Unit deploys to stabilize affected zones,
-            save survivors, and secure vital evidence.
+            Researchers learn that every cell is multifunctional,
+            independently alive, and capable of replacing a host.
           </p>
         </article>
 
         <article class="incident-entry">
           <div class="phase">Phase 04</div>
-          <h3>Return to the Depths</h3>
+          <h3>False Death</h3>
           <p>
-            The campaign leads back beneath the sea, where the origin
-            of the organism and the lost civilization await.
+            Three cells survive the destruction of twelve specimens
+            and rebuild through a sheep in only one day.
+          </p>
+        </article>
+
+        <article class="incident-entry">
+          <div class="phase">Phase 05</div>
+          <h3>Laboratory Collapse</h3>
+          <p>
+            Hidden colonies overrun locked-down facilities
+            from within until only Lab 19 remains intact.
+          </p>
+        </article>
+
+        <article class="incident-entry">
+          <div class="phase">Phase 06</div>
+          <h3>Blackout Activated</h3>
+          <p>
+            A captured infected human breaches Lab 19,
+            forcing the newly founded unit into its first deployment.
           </p>
         </article>
       </div>
     </section>
 
-    <section class="dossier-page reveal" id="operations">
+    <section
+      class="dossier-page reveal"
+      id="logs"
+    >
       <header class="page-heading">
-        <div class="file-number">FILE 04 / 06</div>
+        <div class="file-number">
+          FILE 04 / 07
+        </div>
+
+        <div>
+          <h2>Recovered Research Logs</h2>
+
+          <p class="heading-note">
+            Selected transcripts recovered from the Morticaius
+            research program and the final transmissions from Lab 19.
+          </p>
+        </div>
+      </header>
+
+      <div class="log-stack">
+        <article class="research-log">
+          <header class="log-header">
+            <span class="log-number">LOG 01</span>
+
+            <span class="log-status">
+              Origin Archive<br>
+              Recovered
+            </span>
+          </header>
+
+          <blockquote>
+            We found it in the depths of the ocean. It was some
+            unknown being surrounded by what was almost an entire
+            city built underwater. Once we brought the body back
+            to our laboratories, we discovered that it was being
+            consumed and mutated by some kind of disease.
+          </blockquote>
+        </article>
+
+        <article class="research-log">
+          <header class="log-header">
+            <span class="log-number">LOG 07</span>
+
+            <span class="log-status">
+              Cellular Study<br>
+              Restricted
+            </span>
+          </header>
+
+          <blockquote>
+            Their bodies are made of cells that function not only
+            as skin, but as neurons and blood cells. One cell on
+            its own could be its own living being. They are a disease.
+            I will call them Morticaius for now. Morticaius replicate
+            inside a subject, eating it and becoming it afterward.
+            Mature organisms become predators and consume anything
+            they can reach. At this stage they develop muscle and
+            what appears to be a heart to circulate the cells.
+            We believe destroying this heart kills the organism
+            because the cells cannot return to their independent
+            state quickly enough.
+          </blockquote>
+        </article>
+
+        <article class="research-log">
+          <header class="log-header">
+            <span class="log-number">LOG 08</span>
+
+            <span class="log-status">
+              Survival Trial<br>
+              Critical
+            </span>
+          </header>
+
+          <blockquote>
+            What I said before about Morticaius dying is not always
+            the case. Out of twelve captive specimens we destroyed,
+            three cells survived. We placed a sheep inside the chamber
+            with those cells. It took only one day for the animal to
+            become fully Morticaius. Apparent death does not guarantee
+            containment.
+          </blockquote>
+
+          <p class="log-outcome">
+            Protocol amended: all remains must be treated
+            as living contamination.
+          </p>
+        </article>
+
+        <article class="research-log">
+          <header class="log-header">
+            <span class="log-number">LOG 09</span>
+
+            <span class="log-status">
+              Lockdown Record<br>
+              Emergency
+            </span>
+          </header>
+
+          <blockquote>
+            I did everything right, yet it still got out. All
+            laboratories have been under lockdown for weeks, but
+            the specimens still broke free. Only Lab 19 remains
+            intact. The higher-ups are discussing the creation
+            of a unit to correct my mistake. They call it the
+            B.L.A.C.K.O.U.T. Unit—a small team of the most skilled
+            operatives the United States can assemble.
+          </blockquote>
+        </article>
+
+        <article class="research-log">
+          <header class="log-header">
+            <span class="log-number">LOG 12</span>
+
+            <span class="log-status">
+              Final Transmission<br>
+              Lab 19
+            </span>
+          </header>
+
+          <blockquote>
+            B.L.A.C.K.O.U.T. has been founded. Their directive is
+            to neutralize the threats, save the living, and develop
+            a cure. They have little funding now, but that should
+            change if they can prove the unit is worth supporting.
+            Most importantly, we captured one. It is human—or it was.
+            Its arms are so swollen that it almost looks as if it
+            has no body at all. What happened to them is terrible.
+            We plan to terminate it here in the laboratory and study
+            what remains.
+          </blockquote>
+
+          <p class="log-outcome">
+            Transmission terminated shortly before the
+            captured subject breached containment.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section
+      class="dossier-page reveal"
+      id="operations"
+    >
+      <header class="page-heading">
+        <div class="file-number">
+          FILE 05 / 07
+        </div>
 
         <div>
           <h2>Operations Profile</h2>
 
           <p class="heading-note">
-            Mission environments and gameplay priorities defining
+            Mission locations and operational priorities defining
             the B.L.A.C.K.O.U.T. campaign.
           </p>
         </div>
@@ -1230,40 +1730,93 @@
 
       <div class="operations-grid">
         <div>
-          <h3 class="subfile-title">Deployment Environments</h3>
+          <h3 class="subfile-title">
+            Deployment Environments
+          </h3>
 
           <ul class="location-list">
-            <li>Research laboratories <span>Restricted</span></li>
-            <li>Military installations <span>Hostile</span></li>
-            <li>Quarantined towns <span>Unstable</span></li>
-            <li>Underwater ruins <span>Unknown</span></li>
+            <li>
+              Research laboratories
+              <span>Restricted</span>
+            </li>
+
+            <li>
+              Military installations
+              <span>Hostile</span>
+            </li>
+
+            <li>
+              Quarantined towns
+              <span>Unstable</span>
+            </li>
+
+            <li>
+              Secret government facilities
+              <span>Classified</span>
+            </li>
+
+            <li>
+              Underwater ruins
+              <span>Unknown</span>
+            </li>
           </ul>
         </div>
 
         <div>
-          <h3 class="subfile-title">Gameplay Priorities</h3>
+          <h3 class="subfile-title">
+            Operational Priorities
+          </h3>
 
           <ul class="pillar-list">
-            <li>Tactical combat <span>Primary</span></li>
-            <li>Squad coordination <span>Critical</span></li>
-            <li>Survival horror <span>Constant</span></li>
-            <li>Research recovery <span>Required</span></li>
-            <li>Resource discipline <span>Essential</span></li>
+            <li>
+              Tactical combat
+              <span>Primary</span>
+            </li>
+
+            <li>
+              Squad coordination
+              <span>Critical</span>
+            </li>
+
+            <li>
+              Survivor rescue
+              <span>Priority</span>
+            </li>
+
+            <li>
+              Research recovery
+              <span>Required</span>
+            </li>
+
+            <li>
+              Resource discipline
+              <span>Essential</span>
+            </li>
+
+            <li>
+              Cure development
+              <span>Strategic</span>
+            </li>
           </ul>
         </div>
       </div>
     </section>
 
-    <section class="dossier-page reveal" id="release">
+    <section
+      class="dossier-page reveal"
+      id="release"
+    >
       <header class="page-heading">
-        <div class="file-number">FILE 05 / 06</div>
+        <div class="file-number">
+          FILE 06 / 07
+        </div>
 
         <div>
           <h2>Release Window</h2>
 
           <p class="heading-note">
             Current projected target: December 15, 2028.
-            The date may change as production advances.
+            This date may change as production advances.
           </p>
         </div>
       </header>
@@ -1277,7 +1830,10 @@
           <span class="live">Real-Time Feed</span>
         </div>
 
-        <div class="countdown">
+        <div
+          class="countdown"
+          aria-label="Time remaining until the estimated release date"
+        >
           <div class="time-unit">
             <strong id="countdown-days">000</strong>
             <span>Days</span>
@@ -1303,7 +1859,9 @@
           <span>
             Target date:
             <b>
-              <time datetime="2028-12-15">December 15, 2028</time>
+              <time datetime="2028-12-15">
+                December 15, 2028
+              </time>
             </b>
           </span>
 
@@ -1314,16 +1872,21 @@
       </div>
     </section>
 
-    <section class="dossier-page reveal" id="status">
+    <section
+      class="dossier-page reveal"
+      id="status"
+    >
       <header class="page-heading">
-        <div class="file-number">FILE 06 / 06</div>
+        <div class="file-number">
+          FILE 07 / 07
+        </div>
 
         <div>
           <h2>Project Status</h2>
 
           <p class="heading-note">
-            The project is under active development by
-            BlackoutLabsEntertainment.
+            B.L.A.C.K.O.U.T. is under active development
+            by BlackoutLabsEntertainment.
           </p>
         </div>
       </header>
@@ -1347,10 +1910,11 @@
 
       <p class="status-copy">
         Current development work focuses on story and worldbuilding,
-        core mechanics, enemy behavior, AI squad systems, mission structure,
-        environments, and the tactical combat foundation. Information in
-        this dossier represents the current project direction and may
-        evolve during production.
+        core mechanics, Morticaius behavior, AI squad systems,
+        mission structure, environments, funding progression,
+        investigation systems, and the tactical combat foundation.
+        Information in this dossier represents the current project
+        direction and may evolve during production.
       </p>
     </section>
   </main>
@@ -1399,7 +1963,8 @@
           });
 
           if (status) {
-            status.textContent = "Status: Date unavailable";
+            status.textContent =
+              "Status: Date unavailable";
           }
 
           return;
